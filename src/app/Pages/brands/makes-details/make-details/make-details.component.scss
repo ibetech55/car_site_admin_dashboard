@@ -1,0 +1,40 @@
+.make-details {
+  &__content {
+    display: flex;
+    height: 250px;
+  }
+
+  &__info {
+    position: relative;
+    app-button {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &__logo {
+    position: relative;
+
+    margin-left: 2rem;
+    &-img {
+      background-color: var(--surface-500);
+      width: 200px;
+      height: 200px;
+    }
+    app-button {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &__td-actions{
+    display: flex;
+    :first-child {
+      margin-right: 0.5rem;
+  }
+  }
+}
+
+

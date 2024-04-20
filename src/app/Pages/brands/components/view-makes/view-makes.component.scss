@@ -1,0 +1,12 @@
+.view-makes {
+    &__actions {
+        display: flex;
+        :first-child {
+            margin-right: 0.5rem;
+        }
+    }
+    &__btn{
+        text-align: end;
+        margin-top: 1rem;
+    }
+}

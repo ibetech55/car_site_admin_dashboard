@@ -1,0 +1,105 @@
+<app-loading [loading]="loading"></app-loading>
+<app-page-header text="Create Makes"></app-page-header>
+<div class="create-make">
+  <div class="create-make__header-btn">
+    <app-button
+      label="Add Make"
+      color="primary"
+      (click)="AddNewRow()"
+      icon="bx bx-plus"
+    ></app-button>
+
+    <app-button
+      label="Upload Spreadsheet"
+      color="success"
+      [isLink]="true"
+      routePath="/brands/create_multiple_makes"
+      icon="bx bx-spreadsheet"
+    ></app-button>
+  </div>
+  <form [formGroup]="makeFormGroup" (ngSubmit)="handleSubmit()">
+    <span class="medium-text error-text"> {{ error$ | async }} </span>
+    <div formArrayName="makeForms">
+      <div
+        *ngFor="let item of makeForms.controls; let i = index"
+        [formGroupName]="i"
+        class="create-make__content"
+      >
+        <p-card>
+          <div class="create-make__content-card">
+            <div class="create-make__content-card-inputs">
+              <app-input
+                label="Make name"
+                name="makeName"
+                [error]="item.value.errorMakeName"
+              >
+                <input
+                  pInputText
+                  id="makeName"
+                  aria-describedby="username-help"
+                  class="p-inputtext-sm"
+                  formControlName="makeName"
+                  [ngClass]="{ errorBorder: item.value.errorMakeNameBorder }"
+                />
+              </app-input>
+
+              <app-input
+                label="Origin"
+                name="origin"
+                [error]="item.value.errorOrigin"
+              >
+                <input
+                  pInputText
+                  id="origin"
+                  aria-describedby="username-help"
+                  class="p-inputtext-sm"
+                  formControlName="origin"
+                  [ngClass]="{ errorBorder: item.value.errorOriginBorder }"
+                />
+              </app-input>
+              <div class="create-make__upload">
+                <div class="create-make__upload-btns">
+                  <app-button
+                    label="Upload Logo"
+                    [isUpload]="true"
+                    (onFileChange)="onUpload($event, i)"
+                  ></app-button>
+                  <app-button
+                    label="Remove Logo"
+                    color="danger"
+                    type="button"
+                    *ngIf="item.value.file"
+                    (click)="removeLogo(i, item.value.previewImage.id)"
+                  ></app-button>
+                </div>
+
+                <div class="create-make__upload-image" *ngIf="item.value.file">
+                  <img
+                    [src]="item.value.previewImage.url"
+                    [alt]="item.value.file.name"
+                    [id]="item.value.previewImage.id"
+                  />
+                </div>
+                <span class="medium-text">{{ item.value.file.name }}</span>
+              </div>
+            </div>
+
+            <div class="create-make__actions">
+              <app-button
+                label="Remove"
+                color="danger"
+                (click)="Removeitem(i)"
+              ></app-button>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <div class="align-right create-make__form-btns">
+      <app-button label="Clear" color="danger" (click)="clearForms()">
+      </app-button>
+      <app-button label="Save" type="submit"> </app-button>
+    </div>
+  </form>
+</div>

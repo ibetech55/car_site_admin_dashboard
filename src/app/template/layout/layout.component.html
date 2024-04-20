@@ -1,0 +1,39 @@
+<div class="layout">
+  <div class="layout__sidebar">
+    <div class="logo-details">
+      <i class="bx bxl-c-plus-plus icon logo-icon"></i>
+      <h2 class="logo_name">CodingLab</h2>
+    </div>
+    <ul class="nav-list" *ngFor="let item of menuItems">
+      <li
+        class="nav-list-parent-item"
+        (click)="clickMenu('#' + item.id + '-outer', '#' + item.id + '-inner')"
+      >
+        <i class="{{ item.icon }} list-icon"></i>
+        <span class="links_name">{{ item.label }}</span>
+        <i class="menu-toggle-icon pi pi-angle-down down-icon"></i>
+      </li>
+      <div class="menuOuterWrapper" id="{{ item.id }}-outer">
+        <div class="menuMeasuringWrapper" id="{{ item.id }}-inner">
+          <ul class="dropdown">
+            <li *ngFor="let itemChildren of item.children">
+              <a [routerLink]="itemChildren.route">{{
+                itemChildren.label
+              }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ul>
+  </div>
+  <section class="layout__body">
+    <div class="layout__body-header">
+      <span (click)="handleLayout()" class="layout__body-header-btn">
+        <i class="bx bx-menu header-icon"></i>
+      </span>
+    </div>
+    <div class="layout__body-content">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</div>

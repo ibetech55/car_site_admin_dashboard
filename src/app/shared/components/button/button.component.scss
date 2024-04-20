@@ -1,0 +1,19 @@
+.app-button {
+  box-shadow: var(--box-shadow);
+
+  font-weight: bold;
+  span {
+    font-weight: bold;
+  }
+}
+
+.upload-btn {
+  input {
+    display: none;
+  }
+  &__file-name {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 14px;
+  }
+}

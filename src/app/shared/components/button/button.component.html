@@ -1,0 +1,41 @@
+<p-button
+  class="app-button"
+  [severity]="color"
+  [raised]="true"
+  [type]="type"
+  [size]="size"
+  [icon]="icon"
+  [iconPos]="iconPos"
+  *ngIf="!isLink && !isUpload"
+  [label]="label"
+>
+</p-button>
+
+<a [routerLink]="routePath" *ngIf="isLink && !isUpload">
+  <p-button
+    class="app-button"
+    [severity]="color"
+    [raised]="true"
+    [size]="size"
+    [icon]="icon"
+    [iconPos]="iconPos"
+    [label]="label"
+  >
+  </p-button>
+</a>
+
+<div *ngIf="isUpload" class="upload-btn">
+  <input type="file" (change)="handleFileChange($event)" id="fileInput" />
+  <p-button
+    class="app-button"
+    [severity]="color"
+    [raised]="true"
+    [size]="size"
+    [icon]="icon"
+    [iconPos]="iconPos"
+    (click)="openFilePicker()"
+    [label]="label"
+  >
+  </p-button>
+  <span class="upload-btn__file-name" *ngIf="fileName">{{ fileName }}</span>
+</div>

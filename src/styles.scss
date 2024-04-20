@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/theme/appTheme/theme.scss";
+@import "primeicons/primeicons.css";
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  &:hover{
+    color: #000;
+    text-decoration: underline;
+  }
+}
+
+input {
+  display: block;
+  width: 100%;
+}
+
+td{
+  font-size: 14px;
+}
+th{
+  font-size: 15px;
+}
+
+.align-right{
+  text-align: right;
+}
+
+.medium-text {
+  font-size: 14px;
+}
+
+span.p-button-label, span.p-button-icon{
+  font-weight: bold; 
+}
+
+.error-text {
+  color: red;
+}
+
+.errorBorder {
+  border: 1px solid red;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.dark-label, th {
+  color:#000;
+}
+
+
+

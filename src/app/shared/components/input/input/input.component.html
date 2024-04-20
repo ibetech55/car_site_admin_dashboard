@@ -1,0 +1,11 @@
+<div class="app-input" *ngIf="type === 'input'">
+  <label [for]="name">{{ label }}</label>
+  <ng-content></ng-content>
+  <small class="error" id="username-help">{{ error }}</small>
+</div>
+
+<!-- <div class="app-input" *ngIf="type === 'checkbox'">
+  <label [for]="name">{{ label }}</label>
+  <ng-content></ng-content>
+  <small class="error" id="username-help">rtt</small>
+</div> -->

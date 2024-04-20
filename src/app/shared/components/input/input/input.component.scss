@@ -1,0 +1,14 @@
+.app-input {
+    label, input, small {
+        display: block;
+        width: 100%;
+    }
+    label {
+        font-weight: bold;
+        font-size: 14px;
+        padding-bottom: 0.2rem;
+    }
+    small.error {
+        color: red
+    }
+}

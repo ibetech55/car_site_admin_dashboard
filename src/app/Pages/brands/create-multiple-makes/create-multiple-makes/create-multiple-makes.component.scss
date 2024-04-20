@@ -1,0 +1,10 @@
+.create-multiple-makes {
+  &__action-btns {
+    text-align: right;
+    app-button {
+      &:first-child {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
