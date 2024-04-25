@@ -24,10 +24,13 @@ export class MakeDetailsComponent {
   makeData$!: Observable<IGetMake>;
   modelData$!: Observable<IGetModelByMakeId[]>;
   editDialog: boolean = false;
+  editData!:IGetMake;
   @Output() visibilityChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   openEditModal(){
     this.editDialog = true;
+    this.visibilityChange.emit(this.editDialog);
+
   }
 
   closeEditModal(){
@@ -39,6 +42,7 @@ export class MakeDetailsComponent {
     this._store.dispatch(makeActions.getMakeById({ id: this.id }));
     this.makeData$ = this._store.select(makeSelector.makeData);
     this._store.dispatch(modelActions.getModelByMakeId({ makeId: this.id }));
-    this.modelData$ = this._store.select(modelSelector.modelByMakeData)
+    this.modelData$ = this._store.select(modelSelector.modelByMakeData);
+    this.makeData$.subscribe(data=>this.editData = data)
   }
 }

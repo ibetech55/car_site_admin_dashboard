@@ -5,10 +5,14 @@
   [style]="{ width: width }"
   [draggable]="false"
   [resizable]="false"
-  (onHide)="onHide.emit()"
   [dismissableMask]="true"
+  (onHide)="onHide.emit()"
 >
   <div>
     <ng-content></ng-content>
+  </div>
+  <div class="dialog-actions">
+    <app-button [label]="confirmButtonLabel" (click)="onSubmit.emit()"></app-button>
+    <app-button [label]="cancelButtonLabel" color="danger" (click)="onHide.emit()"></app-button>
   </div>
 </p-dialog>

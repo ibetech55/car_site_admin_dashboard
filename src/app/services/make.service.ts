@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { IGetMake, IGetMakePagination } from '../Data/Brand/Makes/GetMakes';
+import { Observable } from 'rxjs';
+import { IGetMake, IGetMakePagination, IGetMakesList } from '../Data/Brand/Makes/GetMakes';
 import {
   ISaveMakes,
   ISaveMakesRequestData,
 } from '../Data/Brand/Makes/SaveMakes';
+import { IEditMake } from '../Data/Brand/Makes/EditMake';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,19 @@ export class MakeService {
   getMakeById(id: string): Observable<IGetMake> {
     return this._httpClient.get<IGetMake>(
       `http://localhost:5003/brand_api/make/${id}`
+    );
+  }
+
+  editMake(id: string, values: IEditMake): Observable<boolean> {
+    return this._httpClient.put<boolean>(
+      `http://localhost:5003/brand_api/make/${id}`,
+      values
+    );
+  }
+
+  getMakesList(): Observable<IGetMakesList[]> {
+    return this._httpClient.get<IGetMakesList[]>(
+      'http://localhost:5003/brand_api/make/carList'
     );
   }
 }

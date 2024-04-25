@@ -9,8 +9,13 @@ export interface IGetMake {
 }
 
 export interface IGetMakePagination {
-    data:IGetMake[],
-    total: number,
-    page: number,
-    limit: number
+  data: IGetMake[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface IGetMakesList {
+  id: string;
+  makeName: string;
 }

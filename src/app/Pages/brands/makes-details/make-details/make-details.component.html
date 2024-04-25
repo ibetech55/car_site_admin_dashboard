@@ -8,7 +8,7 @@
           {{ data.makeName }}
         </p>
         <p>
-          <span class="dark-label bold-text">Active:</span>
+          <span class="dark-label bold-text">Status:</span>
           {{ data.active | active }}
         </p>
         <p>
@@ -92,32 +92,9 @@
         </ng-template>
       </p-table>
     </p-card>
+    <div class="make-details__delete-btn">
+      <app-button label="Delete Make" color="danger"></app-button>
+    </div>
   </div>
 </div>
-<app-dialog
-  [visible]="editDialog"
-  title="Edit Make"
-  (onHide)="closeEditModal()"
->
-  <form>
-    <app-input label="Make name" name="makeName">
-      <input
-        pInputText
-        id="makeName"
-        aria-describedby="username-help"
-        class="p-inputtext-sm"
-      />
-    </app-input>
-    <app-input label="Origin" name="origin">
-      <input
-        pInputText
-        id="origin"
-        aria-describedby="username-help"
-        class="p-inputtext-sm"
-      />
-    </app-input>
-    <app-input label="Status" name="status">
-      <p-checkbox [binary]="true" inputId="status"></p-checkbox>
-    </app-input>
-  </form>
-</app-dialog>
+<app-edit-make-dialog [showDialog]="editDialog" (dialogClosed)="closeEditModal()" [id]="id"></app-edit-make-dialog>

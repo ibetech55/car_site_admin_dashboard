@@ -1,0 +1,35 @@
+<app-loading [loading]="loading"></app-loading>
+<app-dialog
+  [visible]="showDialog"
+  title="Edit Make"
+  (onHide)="closeDialog()"
+  (onSubmit)="confirmModal()"
+>
+  <form [formGroup]="editMakeFormGroup">
+    <app-input label="Make name" name="makeName">
+      <input
+        pInputText
+        id="makeName"
+        aria-describedby="username-help"
+        class="p-inputtext-sm form-input-margin-b"
+        formControlName="makeName"
+      />
+    </app-input>
+    <app-input label="Origin" name="origin">
+      <input
+        pInputText
+        id="origin"
+        aria-describedby="username-help"
+        class="p-inputtext-sm form-input-margin-b"
+        formControlName="origin"
+      />
+    </app-input>
+    <app-input label="Status" name="active" [isCheckBox]="true">
+      <p-checkbox
+        [binary]="true"
+        inputId="active"
+        formControlName="active"
+      ></p-checkbox>
+    </app-input>
+  </form>
+</app-dialog>

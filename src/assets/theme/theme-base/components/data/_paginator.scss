@@ -5,6 +5,7 @@
     border-width: $paginatorBorderWidth;
     padding: $paginatorPadding;
     border-radius: $borderRadius;
+    font-size: 14px;
 
     .p-paginator-first,
     .p-paginator-prev,
@@ -70,11 +71,12 @@
             background-color: $paginatorElementBg;
             border: $paginatorElementBorder;
             color: $paginatorElementIconColor;
-            min-width: $paginatorElementWidth;
-            height: $paginatorElementHeight;
+            min-width: 1.5rem;
+            height: 1.5rem;
             margin: $paginatorElementMargin;
             transition: $listItemTransition;
             border-radius: $paginatorElementBorderRadius;
+            font-size: 14px;
 
             &.p-highlight {
                 background: $highlightBg;

@@ -1,0 +1,12 @@
+.view-models {
+  &__btn {
+    margin-top: 1rem;
+    text-align: end;
+  }
+  &__actions {
+    display: flex;
+    :first-child {
+      margin-right: 0.5rem;
+    }
+  }
+}

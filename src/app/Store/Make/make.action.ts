@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { IGetMake, IGetMakePagination } from '../../Data/Brand/Makes/GetMakes';
+import { IGetMake, IGetMakePagination, IGetMakesList } from '../../Data/Brand/Makes/GetMakes';
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
+import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 
 export const LOAD_MAKES = '[View Makes Page] load makes';
 export const LOAD_BLOG_SUCCESS = '[blog page] load blog success';
@@ -12,6 +13,11 @@ export const REMOVE_SAVE_MAKES_ERROR =
 export const GET_MAKE_BY_ID = '[makes_details page] GET_MAKE_BY_ID';
 export const GET_MAKE_BY_ID_SUCCESS =
   '[makes_details page] GET_MAKE_BY_ID_SUCCESS';
+  export const EDIT_MAKE = '[View Makes Page] EDIT_MAKE';
+  export const EDIT_MAKE_SUCCESS = '[View Makes Page] EDIT_MAKE_SUCCESS';
+  export const GET_MAKES_LIST = '[Create Model Page] GET_MAKES_LIST';
+  export const GET_MAKES_LIST_SUCCESS = '[Create Model Page] GET_MAKES_LIST_SUCCESS';
+
 
 const loadMakes = createAction(LOAD_MAKES);
 const loadMakessuccess = createAction(
@@ -38,6 +44,23 @@ export const getMakeByIdSuccess = createAction(
   props<{ makeData: IGetMake }>()
 );
 
+export const editMake = createAction(
+  EDIT_MAKE,
+  props<{ id: string, values:IEditMake }>()
+);
+export const editMakeSuccess = createAction(
+  EDIT_MAKE_SUCCESS,
+  props<{ response: boolean }>()
+);
+
+export const getMakesList = createAction(
+  GET_MAKES_LIST
+);
+export const getMakesListSuccess = createAction(
+  GET_MAKES_LIST_SUCCESS,
+  props<{ data: IGetMakesList[] }>()
+);
+
 export const makeActions = {
   loadMakes,
   loadMakessuccess,
@@ -47,4 +70,8 @@ export const makeActions = {
   removeMakesError,
   getMakeById,
   getMakeByIdSuccess,
+  editMake,
+  editMakeSuccess,
+  getMakesList,
+  getMakesListSuccess
 };

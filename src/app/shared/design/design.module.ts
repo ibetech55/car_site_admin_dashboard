@@ -8,9 +8,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
-
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
-  imports: [CheckboxModule, CommonModule, ButtonModule, TableModule, CardModule, InputTextModule, ReactiveFormsModule, FileUploadModule, DialogModule],
-  exports: [CheckboxModule, ButtonModule, TableModule, CardModule, InputTextModule, FileUploadModule, DialogModule],
+  imports: [DropdownModule, CheckboxModule, CommonModule, ButtonModule, TableModule, CardModule, InputTextModule, ReactiveFormsModule, FileUploadModule, DialogModule],
+  exports: [DropdownModule, CheckboxModule, ButtonModule, TableModule, CardModule, InputTextModule, FileUploadModule, DialogModule],
 })
 export class DesignModule {}

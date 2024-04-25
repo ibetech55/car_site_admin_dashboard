@@ -8,9 +8,13 @@ import { MakeService } from '../../services/make.service';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { MakeDetailsComponent } from './makes-details/make-details/make-details.component';
 import { CreateMakeComponent } from './create-make/create-make/create-make.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateMultipleMakesComponent } from './create-multiple-makes/create-multiple-makes/create-multiple-makes.component';
+import { EditMakeDialogComponent } from './makes-details/make-details/components/edit-make-dialog/edit-make-dialog.component';
+import { ViewModelsComponent } from './view-models/view-models.component';
+import { CreateModelComponent } from './create-model/create-model.component';
+import { CreateMultipleModelsComponent } from './create-multiple-models/create-multiple-models.component';
+import { ModelCategoriesComponent } from './model-categories/model-categories.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +22,11 @@ import { CreateMultipleMakesComponent } from './create-multiple-makes/create-mul
     MakeDetailsComponent,
     CreateMakeComponent,
     CreateMultipleMakesComponent,
+    EditMakeDialogComponent,
+    ViewModelsComponent,
+    CreateModelComponent,
+    CreateMultipleModelsComponent,
+    ModelCategoriesComponent,
   ],
   providers: [MakeService],
   imports: [
@@ -26,7 +35,8 @@ import { CreateMultipleMakesComponent } from './create-multiple-makes/create-mul
     DesignModule,
     ComponentsModule,
     PipesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class BrandsModule { }

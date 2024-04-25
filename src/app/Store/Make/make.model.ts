@@ -1,4 +1,4 @@
-import { IGetMake, IGetMakePagination } from '../../Data/Brand/Makes/GetMakes';
+import { IGetMake, IGetMakePagination, IGetMakesList } from '../../Data/Brand/Makes/GetMakes';
 
 export interface IMakeModel {
   makes: IGetMakePagination;
@@ -6,4 +6,5 @@ export interface IMakeModel {
   makesSaved: boolean;
   saveMakesError: string
   makeData:IGetMake;
+  makeList:IGetMakesList[];
 }

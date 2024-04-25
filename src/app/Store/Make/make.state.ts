@@ -19,4 +19,5 @@ export const MakeState: IMakeModel = {
     createdAt: '',
     updatedAt: ''
   },
+  makeList: []
 };

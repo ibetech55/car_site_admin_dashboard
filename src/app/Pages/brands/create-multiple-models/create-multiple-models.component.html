@@ -1,0 +1,30 @@
+<div class="create-multiple-models">
+  <app-page-header text="Create Models Spreadsheet/CSV"></app-page-header>
+
+  <p-card>
+    <form>
+      <div>
+        <p class="medium-text">Select a Spreadsheet or CSV file to upload.</p>
+        <p class="medium-text">
+          Files must contain the following columns in the following order:
+        </p>
+        <p class="medium-text">Ex - [model_name, make_name, model_category]</p>
+      </div>
+      <app-button
+        label="Upload File"
+        [isUpload]="true"
+        (onFileChange)="onFileChange($event)"
+        [fileName]="fileName"
+      ></app-button>
+      <div class="create-multiple-models__action-btns">
+        <app-button
+          type="button"
+          label="Clear"
+          color="danger"
+          (click)="clearForm()"
+        ></app-button>
+        <app-button type="submit" label="Save"></app-button>
+      </div>
+    </form>
+  </p-card>
+</div>

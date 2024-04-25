@@ -65,7 +65,7 @@ export class LayoutComponent {
         },
         {
           label: 'View Models',
-          route: '/models',
+          route: '/brands/view_models',
         },
         {
           label: 'Create Make',
@@ -73,7 +73,11 @@ export class LayoutComponent {
         },
         {
           label: 'Create Model',
-          route: '/create_model',
+          route: '/brands/create_model',
+        },
+        {
+          label: 'Model Categories',
+          route: '/brands/model_categories',
         },
       ],
       icon: 'bx bx-purchase-tag',
