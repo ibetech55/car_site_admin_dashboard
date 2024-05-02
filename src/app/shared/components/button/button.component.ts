@@ -23,7 +23,7 @@ export class ButtonComponent {
   @Input() size: 'small' | 'large' | undefined = 'small';
   @Input() isLink: boolean = false;
   @Input() routePath!: string;
-  @Input() handleClick!: (event?: Event) => void;
+  @Input() handleClick!: any
   @Input() type: string = 'button';
   @Input() isUpload: boolean = false;
   @Output() onFileChange: EventEmitter<File> = new EventEmitter();
@@ -31,6 +31,7 @@ export class ButtonComponent {
   @Input() fileName!: string;
   @Input() icon!: string;
   @Input() iconPos!: ButtonIconPosition;
+
 
   handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;

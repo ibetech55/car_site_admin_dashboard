@@ -57,6 +57,27 @@
                   [ngClass]="{ errorBorder: item.value.errorOriginBorder }"
                 />
               </app-input>
+
+              <app-input label="Company" name="company">
+                <input
+                  pInputText
+                  id="origin"
+                  aria-describedby="username-help"
+                  class="p-inputtext-sm"
+                  formControlName="company"
+                />
+              </app-input>
+
+              <app-input label="Year Founded" name="yearFounded">
+                <input
+                  pInputText
+                  id="yearFounded"
+                  aria-describedby="username-help"
+                  class="p-inputtext-sm"
+                  formControlName="yearFounded"
+                />
+              </app-input>
+
               <div class="create-make__upload">
                 <div class="create-make__upload-btns">
                   <app-button

@@ -9,4 +9,5 @@ export const ModelState: IModelModel = {
         page: 0,
         limit: 0
     },
+    errorsMultipleModels: undefined
 };

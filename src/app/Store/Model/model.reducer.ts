@@ -35,5 +35,42 @@ export const modelReducer = createReducer(
       modelsData: action.data,
       loading: false,
     };
-  })
+  }),
+  on(modelActions.createModels, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+    };
+  }),
+  on(modelActions.createModelsSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+    };
+  }),
+  on(modelActions.createMultipleModels, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+    };
+  }),
+  on(
+    modelActions.createMultipleModelsSuccess,
+    (currentState: IModelModel, action) => {
+      return {
+        ...currentState,
+        loading: false,
+      };
+    }
+  ),
+  on(
+    modelActions.createMultipleModelsFail,
+    (currentState: IModelModel, action) => {
+      return {
+        ...currentState,
+        loading: false,
+        errorsMultipleModels: action.errors,
+      };
+    }
+  )
 );

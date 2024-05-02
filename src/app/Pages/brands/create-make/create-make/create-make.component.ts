@@ -11,6 +11,8 @@ import { Observable, delay, first, forkJoin, last, map, take, tap } from 'rxjs';
 interface ICreateMakeForm {
   makeName: string;
   origin: string;
+  yearFounded: number;
+  company: string;
   file: File;
   errorMakeName: string;
   errorMakeNameBorder: boolean;
@@ -55,6 +57,8 @@ export class CreateMakeComponent {
     return this._builder.group({
       makeName: this._builder.control('', Validators.required),
       origin: this._builder.control('', Validators.required),
+      company: this._builder.control(''),
+      yearFounded: this._builder.control(''),
       file: this._builder.control(''),
       errorMakeName: this._builder.control(''),
       errorMakeNameBorder: this._builder.control(false),
@@ -89,12 +93,13 @@ export class CreateMakeComponent {
 
     if (makeFormGroup.valid) {
       this.loading = true;
-
       const requestData: ISaveMakes[] = values.map((x: ICreateMakeForm) => ({
         makeName: x.makeName,
         origin: x.origin,
         makeImage: x.file ? x.file : undefined,
         imageId: x.file ? x.previewImage.id : undefined,
+        company: x.company ? x.company : undefined,
+        yearFounded: x.yearFounded ? x.yearFounded : undefined
       }));
 
       this._store.dispatch(makeActions.saveMakes({ values: requestData }));

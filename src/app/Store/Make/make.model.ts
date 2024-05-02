@@ -7,4 +7,6 @@ export interface IMakeModel {
   saveMakesError: string
   makeData:IGetMake;
   makeList:IGetMakesList[];
+  deleteMakeResponse:boolean;
+  verifyMakesResponse:boolean;
 }

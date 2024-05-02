@@ -1,17 +1,12 @@
 .create-model {
   &__inputs {
-    &-r1 {
-      width: 30%;
-      margin-bottom: 1rem;
-    }
-    &-r2 {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 50% 50%;
-      :first-child {
-        margin-right: 1rem;
-      }
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  &__content {
+    margin-bottom: 2rem;
   }
 
   &__action {

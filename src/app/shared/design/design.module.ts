@@ -9,8 +9,35 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+
 @NgModule({
-  imports: [DropdownModule, CheckboxModule, CommonModule, ButtonModule, TableModule, CardModule, InputTextModule, ReactiveFormsModule, FileUploadModule, DialogModule],
-  exports: [DropdownModule, CheckboxModule, ButtonModule, TableModule, CardModule, InputTextModule, FileUploadModule, DialogModule],
+  imports: [
+    ToastModule,
+    ConfirmDialogModule,
+    DropdownModule,
+    CheckboxModule,
+    CommonModule,
+    ButtonModule,
+    TableModule,
+    CardModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    DialogModule,
+  ],
+  exports: [
+    ToastModule,
+    ConfirmDialogModule,
+    DropdownModule,
+    CheckboxModule,
+    ButtonModule,
+    TableModule,
+    CardModule,
+    InputTextModule,
+    FileUploadModule,
+    DialogModule,
+  ],
 })
 export class DesignModule {}

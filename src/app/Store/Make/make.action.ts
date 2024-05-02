@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { IGetMake, IGetMakePagination, IGetMakesList } from '../../Data/Brand/Makes/GetMakes';
+import {
+  IGetMake,
+  IGetMakePagination,
+  IGetMakesList,
+} from '../../Data/Brand/Makes/GetMakes';
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 
@@ -13,18 +17,21 @@ export const REMOVE_SAVE_MAKES_ERROR =
 export const GET_MAKE_BY_ID = '[makes_details page] GET_MAKE_BY_ID';
 export const GET_MAKE_BY_ID_SUCCESS =
   '[makes_details page] GET_MAKE_BY_ID_SUCCESS';
-  export const EDIT_MAKE = '[View Makes Page] EDIT_MAKE';
-  export const EDIT_MAKE_SUCCESS = '[View Makes Page] EDIT_MAKE_SUCCESS';
-  export const GET_MAKES_LIST = '[Create Model Page] GET_MAKES_LIST';
-  export const GET_MAKES_LIST_SUCCESS = '[Create Model Page] GET_MAKES_LIST_SUCCESS';
-
+export const EDIT_MAKE = '[View Makes Page] EDIT_MAKE';
+export const EDIT_MAKE_SUCCESS = '[View Makes Page] EDIT_MAKE_SUCCESS';
+export const GET_MAKES_LIST = '[Create Model Page] GET_MAKES_LIST';
+export const GET_MAKES_LIST_SUCCESS =
+  '[Create Model Page] GET_MAKES_LIST_SUCCESS';
+export const DELETE_MAKE = '[View Makes Page] DELETE_MAKE';
+export const DELETE_MAKE_SUCCESS = '[View Makes Page] DELETE_MAKE_SUCCESS';
+export const VERIFY_MAKES = '[View Makes Page] VERIFY_MAKES';
+export const VERIFY_MAKES_SUCCESS = '[View Makes Page] VERIFY_MAKES_SUCCESS';
 
 const loadMakes = createAction(LOAD_MAKES);
 const loadMakessuccess = createAction(
   LOAD_BLOG_SUCCESS,
   props<{ makes: IGetMakePagination }>()
 );
-
 const saveMakes = createAction(SAVE_MAKES, props<{ values: ISaveMakes[] }>());
 const saveMakesSuccess = createAction(
   SAVE_MAKES_SUCCESS,
@@ -46,19 +53,30 @@ export const getMakeByIdSuccess = createAction(
 
 export const editMake = createAction(
   EDIT_MAKE,
-  props<{ id: string, values:IEditMake }>()
+  props<{ id: string; values: IEditMake }>()
 );
 export const editMakeSuccess = createAction(
   EDIT_MAKE_SUCCESS,
   props<{ response: boolean }>()
 );
 
-export const getMakesList = createAction(
-  GET_MAKES_LIST
-);
+export const getMakesList = createAction(GET_MAKES_LIST);
 export const getMakesListSuccess = createAction(
   GET_MAKES_LIST_SUCCESS,
   props<{ data: IGetMakesList[] }>()
+);
+export const deleteMake = createAction(DELETE_MAKE, props<{ id: string }>());
+export const deleteMakeSuccess = createAction(
+  DELETE_MAKE_SUCCESS,
+  props<{ data: boolean }>()
+);
+export const verifyMakes = createAction(
+  VERIFY_MAKES,
+  props<{ ids: string[]; requestType: string }>()
+);
+export const verifyMakesSuccess = createAction(
+  VERIFY_MAKES_SUCCESS,
+  props<{ data: boolean }>()
 );
 
 export const makeActions = {
@@ -73,5 +91,9 @@ export const makeActions = {
   editMake,
   editMakeSuccess,
   getMakesList,
-  getMakesListSuccess
+  getMakesListSuccess,
+  deleteMake,
+  deleteMakeSuccess,
+  verifyMakes,
+  verifyMakesSuccess,
 };

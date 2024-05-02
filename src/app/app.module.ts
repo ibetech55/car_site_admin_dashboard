@@ -17,6 +17,7 @@ import { MakeEffects } from './Store/Make/make.effect';
 import { PipesModule } from './shared/pipes/pipes.module';
 import { MakeService } from './services/make.service';
 import { ModelEffects } from './Store/Model/model.effect';
+import { ModelCategoryEffects } from './Store/ModelCategory/model.category.effect';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { ModelEffects } from './Store/Model/model.effect';
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([MakeEffects, ModelEffects]),
+    EffectsModule.forRoot([MakeEffects, ModelEffects, ModelCategoryEffects]),
     PipesModule
   ],
   providers: [MakeService],

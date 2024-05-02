@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs';
-import { GET_MODELS, GET_MODELS_MAKES, modelActions } from './model.action';
+import { catchError, map, of, switchMap } from 'rxjs';
+import { CREATE_MODELS, CREATE_MULTIPLE_MODELS, GET_MODELS, GET_MODELS_MAKES, modelActions } from './model.action';
 import { ModelService } from '../../services/model/model.service';
+import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
 
 @Injectable()
 export class ModelEffects {
@@ -28,6 +29,35 @@ export class ModelEffects {
           map((data) => {
             return modelActions.getModelsSuccess({ data });
           })
+        );
+      })
+    )
+  );
+
+  _saveModels = createEffect(() =>
+    this.action$.pipe(
+      ofType(CREATE_MODELS),
+      switchMap((action:{values:ICreateModel[]}) => {
+        return this._modelService.saveModels(action.values).pipe(
+          map((data) => {
+            return modelActions.createModelsSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _saveMultipleModels = createEffect(() =>
+    this.action$.pipe(
+      ofType(CREATE_MULTIPLE_MODELS),
+      switchMap((action:{file:File}) => {
+        return this._modelService.saveMultipleModels(action.file).pipe(
+          map((data) => {
+            return modelActions.createMultipleModelsSuccess({ data });
+          }),
+          catchError(({ error }) =>
+            of(modelActions.createMultipleModelsFail({ errors: error.message }))
+          )
         );
       })
     )

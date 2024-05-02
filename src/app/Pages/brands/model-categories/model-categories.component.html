@@ -1,8 +1,10 @@
+<app-loading [loading]="loading"></app-loading>
 <div class="model-categories">
   <app-page-header text="Model Categories"></app-page-header>
   <p-card>
+    <p class="error-text medium-text">{{ errorText }}</p>
     <app-page-header text="Create Category"></app-page-header>
-    <form>
+    <form (ngSubmit)="handleSubmit()">
       <div class="model-categories__form-r1">
         <app-input label="Category Name">
           <input
@@ -10,6 +12,7 @@
             id="categoryName"
             aria-describedby="username-help"
             class="p-inputtext-sm"
+            [formControl]="_type"
           />
         </app-input>
       </div>
@@ -20,10 +23,10 @@
     </form>
   </p-card>
   <app-horizontal-line />
-  <p-card class="model-categories__table">
+  <p-card class="model-categories__table" *ngIf="modelCategoriesData$ | async as modelCategoriesData">
     <app-page-header text="Categories"></app-page-header>
     <p-table
-      [value]="categoryData"
+      [value]="modelCategoriesData"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
@@ -44,10 +47,11 @@
       </ng-template>
       <ng-template pTemplate="body" let-data>
         <tr>
-          <td>{{ data.categoryName }}</td>
-          <td>{{ data.active }}</td>
-          <td>{{ data.createdAt }}</td>
-          <td>{{ data.updatedAt }}</td>
+          <td>{{ data.type }}</td>
+          <td>{{ data.active | active }}</td>
+          <td>{{ data.createdAt | formatDate }}</td>
+          <td *ngIf="data.updatedAt">{{ data.updatedAt | formatDate  }}</td>
+          <td *ngIf="!data.updatedAt">-</td>
           <td class="view-models__actions">
             <app-button color="danger" label="Delete" size="small"></app-button>
           </td>

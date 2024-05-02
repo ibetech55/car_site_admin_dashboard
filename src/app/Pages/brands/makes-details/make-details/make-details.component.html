@@ -14,6 +14,22 @@
         <p>
           <span class="dark-label bold-text">Origin:</span> {{ data.origin }}
         </p>
+        <p *ngIf="data.company">
+          <span class="dark-label bold-text">Company: </span>
+          {{ data.company }}
+        </p>
+        <p *ngIf="!data.company">
+          <span class="dark-label bold-text">Company: </span>
+          -
+        </p>
+        <p *ngIf="data.yearFounded">
+          <span class="dark-label bold-text">Year Founded: </span>
+          {{ data.yearFounded }}
+        </p>
+        <p *ngIf="!data.yearFounded">
+          <span class="dark-label bold-text">Year Founded: </span>
+          -
+        </p>
         <p>
           <span class="dark-label bold-text">Date Created:</span>
           {{ data.createdAt | formatDate }}
@@ -93,8 +109,17 @@
       </p-table>
     </p-card>
     <div class="make-details__delete-btn">
-      <app-button label="Delete Make" color="danger"></app-button>
+      <app-button
+        label="Delete Make"
+        color="danger"
+        (click)="openDeleteDialog($event, data)"
+      ></app-button>
     </div>
   </div>
 </div>
-<app-edit-make-dialog [showDialog]="editDialog" (dialogClosed)="closeEditModal()" [id]="id"></app-edit-make-dialog>
+<app-edit-make-dialog
+  [showDialog]="editDialog"
+  (dialogClosed)="closeEditModal()"
+  [id]="id"
+></app-edit-make-dialog>
+<p-confirmDialog></p-confirmDialog>

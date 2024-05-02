@@ -3,11 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, catchError, of, switchMap } from 'rxjs';
 import { MakeService } from '../../services/make.service';
 import {
+  DELETE_MAKE,
   EDIT_MAKE,
   GET_MAKES_LIST,
   GET_MAKE_BY_ID,
   LOAD_MAKES,
   SAVE_MAKES,
+  VERIFY_MAKES,
   makeActions,
 } from './make.action';
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
@@ -88,6 +90,32 @@ export class MakeEffects {
           catchError(({ error }) =>
             of(makeActions.saveMakesFail({ errorText: error.message }))
           )
+        );
+      })
+    )
+  );
+
+  _deleteMake = createEffect(() =>
+    this.action$.pipe(
+      ofType(DELETE_MAKE),
+      switchMap((action:{id:string}) => {
+        return this._makeService.deleteMake(action.id).pipe(
+          map((data) => {
+            return makeActions.deleteMakeSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _verifyMakesSuccess = createEffect(() =>
+    this.action$.pipe(
+      ofType(VERIFY_MAKES),
+      switchMap((action:{ids:string[], requestType:string}) => {
+        return this._makeService.verifyMakes(action.ids, action.requestType).pipe(
+          map((data) => {
+            return makeActions.verifyMakesSuccess({ data });
+          })
         );
       })
     )

@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IGetMake, IGetMakePagination, IGetMakesList } from '../Data/Brand/Makes/GetMakes';
+import {
+  IGetMake,
+  IGetMakePagination,
+  IGetMakesList,
+} from '../Data/Brand/Makes/GetMakes';
 import {
   ISaveMakes,
   ISaveMakesRequestData,
@@ -42,6 +46,8 @@ export class MakeService {
         makeName: x.makeName,
         origin: x.origin,
         imageId: x.imageId ? x.imageId : undefined,
+        company: x.company ? x.company : undefined,
+        yearFounded: x.yearFounded ? x.yearFounded : undefined
       };
     });
     formData.append('data', JSON.stringify(mappedValues));
@@ -67,6 +73,19 @@ export class MakeService {
   getMakesList(): Observable<IGetMakesList[]> {
     return this._httpClient.get<IGetMakesList[]>(
       'http://localhost:5003/brand_api/make/carList'
+    );
+  }
+
+  deleteMake(id: string): Observable<boolean> {
+    return this._httpClient.delete<boolean>(
+      `http://localhost:5003/brand_api/make/${id}`
+    );
+  }
+
+  verifyMakes(ids: string[], requestType: string): Observable<boolean> {
+    return this._httpClient.patch<boolean>(
+      `http://localhost:5003/brand_api/make/verifyMake/${requestType}`,
+      { ids: ids }
     );
   }
 }

@@ -17,7 +17,11 @@ export const MakeState: IMakeModel = {
     makeLogo: '',
     active: false,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
+    yearFounded: 0,
+    company: ''
   },
-  makeList: []
+  makeList: [],
+  deleteMakeResponse: false,
+  verifyMakesResponse: false
 };

@@ -4,6 +4,8 @@ export interface IGetMake {
   origin: string;
   makeLogo: string;
   active: boolean;
+  yearFounded: number;
+  company: string;
   createdAt: string | Date;
   updatedAt: string | Date;
 }

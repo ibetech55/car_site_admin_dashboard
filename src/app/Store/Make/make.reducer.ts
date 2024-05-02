@@ -87,5 +87,33 @@ export const makeReducer = createReducer(
       loading: false,
       makeList: action.data
     };
+  }),
+  on(makeActions.deleteMake, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      loading: true,
+      deleteMakeResponse: false
+    };
+  }),
+  on(makeActions.deleteMakeSuccess, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      deleteMakeResponse: true
+    };
+  }),
+  on(makeActions.verifyMakes, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      loading: true,
+      verifyMakesResponse: false
+    };
+  }),
+  on(makeActions.verifyMakesSuccess, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      verifyMakesResponse: true,
+    };
   })
 );

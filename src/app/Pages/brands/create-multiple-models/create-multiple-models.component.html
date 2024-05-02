@@ -1,8 +1,15 @@
+<app-loading [loading]="loading"></app-loading>
 <div class="create-multiple-models">
   <app-page-header text="Create Models Spreadsheet/CSV"></app-page-header>
 
   <p-card>
-    <form>
+    <p class="error-text medium-text">{{ errors.columnError }}</p>
+    <p class="error-text medium-text">{{ errors.modelError }}</p>
+    <p class="error-text medium-text">{{ errors.makeError }}</p>
+    <p class="error-text medium-text">{{ errors.modelCategoryError }}</p>
+    <p class="error-text medium-text">{{ errorText }}</p>
+
+    <form (ngSubmit)="handleSubmit()">
       <div>
         <p class="medium-text">Select a Spreadsheet or CSV file to upload.</p>
         <p class="medium-text">

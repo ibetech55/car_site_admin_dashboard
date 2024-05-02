@@ -1,7 +1,13 @@
+<app-loading [loading]="loading"></app-loading>
 <div class="create-model">
   <app-page-header text="Create Models"></app-page-header>
   <div class="create-model__action-top">
-    <app-button label="Add Model" color="primary" icon="bx bx-plus"></app-button>
+    <app-button
+      label="Add Model"
+      color="primary"
+      icon="bx bx-plus"
+      (click)="AddNewRow()"
+    ></app-button>
     <app-button
       label="Upload Spreadsheet"
       color="success"
@@ -11,53 +17,73 @@
     ></app-button>
   </div>
 
-  <form>
-    <p-card>
-      <div class="create-model__inputs">
-        <div class="create-model__inputs-r1">
-          <app-input label="Model name" name="modelName">
-            <input
-              pInputText
-              id="modelName"
-              aria-describedby="username-help"
-              class="p-inputtext-sm"
-            />
-          </app-input>
-        </div>
-        <div class="create-model__inputs-r2">
-          <app-input label="Select Make" name="makeId">
-            <p-dropdown
-              name="make"
-              [options]="makes"
-              [(ngModel)]="selectedMake"
-              optionLabel="name"
-              optionValue="code"
-              [showClear]="true"
-              [editable]="false"
-              placeholder="Select a Make"
-            ></p-dropdown>
-          </app-input>
-          <app-input label="Model Category" name="modelCategoryId">
-            <p-dropdown
-              name="modelCategoryId"
-              [options]="makes"
-              [(ngModel)]="selectedMake"
-              optionLabel="name"
-              optionValue="code"
-              [showClear]="true"
-              [editable]="false"
-              placeholder="Select a Model Category"
-            ></p-dropdown>
-          </app-input>
-        </div>
-      </div>
-      <div class="align-right create-model__remove-btn">
-        <app-button label="Remove" color="danger"> </app-button>
-      </div>
-    </p-card>
+  <form [formGroup]="modelFormGroup" (ngSubmit)="handleSubmit()">
+    <div formArrayName="modelForms">
+      <div
+        *ngFor="let item of modelForms.controls; let i = index"
+        [formGroupName]="i"
+        class="create-model__content"
+      >
+        <p-card>
+          <div class="create-model__inputs">
+            <app-input label="Model name" name="modelName">
+              <input
+                pInputText
+                id="modelName"
+                aria-describedby="username-help"
+                class="p-inputtext-sm"
+                formControlName="modelName"
+              />
+            </app-input>
 
-    <div class="align-right create-model__form-btns create-model__action-bottom">
-      <app-button label="Clear" color="danger"> </app-button>
+            <app-input label="Year Founded" name="yearFounded">
+              <input
+                pInputText
+                id="yearFounded"
+                aria-describedby="username-help"
+                class="p-inputtext-sm"
+                formControlName="yearFounded"
+              />
+            </app-input>
+
+            <app-input label="Select Make" name="makeId">
+              <p-dropdown
+                name="make"
+                [options]="makes"
+                optionLabel="name"
+                optionValue="code"
+                [showClear]="true"
+                [editable]="false"
+                placeholder="Select a Make"
+                formControlName="makeId"
+              ></p-dropdown>
+            </app-input>
+            <app-input label="Model Category" name="modelCategoryId">
+              <p-dropdown
+                name="modelCategoryId"
+                [options]="modelCategories"
+                optionLabel="name"
+                optionValue="code"
+                [showClear]="true"
+                [editable]="false"
+                placeholder="Select a Model Category"
+                formControlName="modelCategoryId"
+              ></p-dropdown>
+            </app-input>
+          </div>
+          <div class="align-right create-model__remove-btn">
+            <app-button label="Remove" color="danger" (click)="Removeitem(i)">
+            </app-button>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <div
+      class="align-right create-model__form-btns create-model__action-bottom"
+    >
+      <app-button label="Clear" color="danger" (click)="clearForms()">
+      </app-button>
       <app-button label="Save" type="submit"> </app-button>
     </div>
   </form>

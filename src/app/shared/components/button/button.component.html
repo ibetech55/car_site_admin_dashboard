@@ -25,7 +25,7 @@
 </a>
 
 <div *ngIf="isUpload" class="upload-btn">
-  <input type="file" (change)="handleFileChange($event)" id="fileInput" />
+  <input type="file" (change)="handleFileChange($event)" id="fileInput" onclick="this.value=null"  />
   <p-button
     class="app-button"
     [severity]="color"
