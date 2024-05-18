@@ -1,45 +1,31 @@
 .make-details {
-  &__content {
-    display: flex;
-    height: 250px;
-  }
-
   &__info {
-    position: relative;
-    app-button {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   &__logo {
-    position: relative;
-
-    margin-left: 2rem;
+    margin-top: 1rem;
     &-img {
       background-color: var(--surface-500);
       width: 200px;
       height: 200px;
     }
-    app-button {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
   }
 
-  &__td-actions{
+  &__logo-img {
+    margin-bottom: 1rem;
+  }
+
+  &__td-actions {
     display: flex;
     :first-child {
       margin-right: 0.5rem;
-  }
+    }
   }
 
-  &__delete-btn{
+  &__delete-btn {
     margin-top: 1rem;
     text-align: end;
   }
 }
-
-

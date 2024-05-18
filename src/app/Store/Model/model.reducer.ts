@@ -60,6 +60,7 @@ export const modelReducer = createReducer(
       return {
         ...currentState,
         loading: false,
+        createMultipleModelsResponse: true,
       };
     }
   ),
@@ -70,7 +71,69 @@ export const modelReducer = createReducer(
         ...currentState,
         loading: false,
         errorsMultipleModels: action.errors,
+        createMultipleModelsResponse: false,
       };
     }
-  )
+  ),
+  on(modelActions.verifyModels, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+      verifyModelsResponse: false,
+    };
+  }),
+  on(modelActions.verifyModelsSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      verifyModelsResponse: true,
+    };
+  }),
+  on(modelActions.getModelById, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+      modelData: {
+        id: '',
+        modelName: '',
+        makeId: '',
+        active: false,
+        createdAt: '',
+        updatedAt: '',
+        yearFounded: 0,
+        make: {
+          makeName: '',
+        },
+      },
+    };
+  }),
+  on(modelActions.getModelByIdSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      modelData: action.data,
+    };
+  }),
+  on(modelActions.editModel, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+      editModelResponse: false,
+    };
+  }),
+  on(modelActions.editModelSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      editModelResponse: action.data,
+    };
+  }),
+  on(modelActions.editModelFail, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      editModelResponse: false,
+      editModelError: action.error,
+    };
+  })
 );

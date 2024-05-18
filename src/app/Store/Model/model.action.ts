@@ -1,9 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  IGetModelById,
   IGetModelByMakeId,
   IGetModelPagination,
 } from '../../Data/Brand/Model/GetModel';
-import { ICreateModel, IMultipleModelErrors } from '../../Data/Brand/Model/CreateModel';
+import {
+  ICreateModel,
+  IMultipleModelErrors,
+} from '../../Data/Brand/Model/CreateModel';
+import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 
 export const GET_MODELS_MAKES = '[Makes Details Page] GET_MODELS_MAKES';
 export const GET_MODELS_MAKES_SUCCESS =
@@ -20,8 +25,18 @@ export const CREATE_MULTIPLE_MODELS =
   '[Create Models Spreadsheet/CSV Page] CREATE_MULTIPLE_MODELS';
 export const CREATE_MULTIPLE_MODELS_SUCCESS =
   '[Create Models Spreadsheet/CSV page] CREATE_MULTIPLE_MODELS_SUCCESS';
-  export const CREATE_MULTIPLE_MODELS_FAIL =
+export const CREATE_MULTIPLE_MODELS_FAIL =
   '[Create Models Spreadsheet/CSV page] CREATE_MULTIPLE_MODELS_FAIL';
+
+export const VERIFY_MODELS = '[View Models Page] VERIFY_MODELS';
+export const VERIFY_MODELS_SUCCESS = '[View Models page] VERIFY_MODELS_SUCCESS';
+
+export const GET_MODEL_BY_ID = '[Model Details Page] GET_MODEL_BY_ID';
+export const GET_MODEL_BY_ID_SUCCESS = '[Model Details page] GET_MODEL_BY_ID_SUCCESS';
+
+export const EDIT_MODEL = '[Model Details Page] EDIT_MODEL';
+export const EDIT_MODEL_SUCCESS = '[Model Details page] EDIT_MODEL_SUCCESS';
+export const EDIT_MODEL_FAIL = '[Model Details page] EDIT_MODEL_FAIL';
 
 const getModelByMakeId = createAction(
   GET_MODELS_MAKES,
@@ -64,6 +79,36 @@ const createMultipleModelsFail = createAction(
   CREATE_MULTIPLE_MODELS_FAIL,
   props<{ errors: IMultipleModelErrors }>()
 );
+export const verifyModels = createAction(
+  VERIFY_MODELS,
+  props<{ ids: string[]; requestType: string }>()
+);
+export const verifyModelsSuccess = createAction(
+  VERIFY_MODELS_SUCCESS,
+  props<{ data: boolean }>()
+);
+
+export const getModelById = createAction(
+  GET_MODEL_BY_ID,
+  props<{ id: string }>()
+);
+export const getModelByIdSuccess = createAction(
+  GET_MODEL_BY_ID_SUCCESS,
+  props<{ data: IGetModelById }>()
+);
+
+export const editModel = createAction(
+  EDIT_MODEL,
+  props<{ id: string, values:IEditModel }>()
+);
+export const editModelSuccess = createAction(
+  EDIT_MODEL_SUCCESS,
+  props<{ data: boolean }>()
+);
+export const editModelFail = createAction(
+  EDIT_MODEL_FAIL,
+  props<{ error: string }>()
+);
 
 export const modelActions = {
   getModelByMakeId,
@@ -74,5 +119,12 @@ export const modelActions = {
   createModels,
   createMultipleModels,
   createMultipleModelsSuccess,
-  createMultipleModelsFail
+  createMultipleModelsFail,
+  verifyModels,
+  verifyModelsSuccess,
+  getModelById,
+  getModelByIdSuccess,
+  editModel,
+  editModelSuccess,
+  editModelFail
 };

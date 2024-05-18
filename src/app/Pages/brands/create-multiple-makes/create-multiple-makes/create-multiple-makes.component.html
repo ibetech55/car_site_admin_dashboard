@@ -1,10 +1,13 @@
 <app-page-header text="Create Makes Spreadsheet/CSV"></app-page-header>
 <div class="create-multiple-makes">
   <p-card>
-    <form>
+    <form (ngSubmit)="handleSubmit()">
+      <p class="error-text medium-text">{{ errorText }}</p>
       <div>
         <p class="medium-text">Select a Spreadsheet or CSV file to upload.</p>
-        <p class="medium-text">Files must contain the following columns in the following order:</p>
+        <p class="medium-text">
+          Files must contain the following columns in the following order:
+        </p>
         <p class="medium-text">Ex - [make_name, origin]</p>
       </div>
       <app-button
@@ -14,9 +17,16 @@
         [fileName]="fileName"
       ></app-button>
       <div class="create-multiple-makes__action-btns">
-        <app-button type="button" label="Clear" color="danger" (click)="clearForm()"></app-button>
+        <app-button
+          type="button"
+          label="Clear"
+          color="danger"
+          (click)="clearForm()"
+        ></app-button>
         <app-button type="submit" label="Save"></app-button>
       </div>
     </form>
   </p-card>
 </div>
+
+<p-toast></p-toast>

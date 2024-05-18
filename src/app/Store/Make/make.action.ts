@@ -26,6 +26,12 @@ export const DELETE_MAKE = '[View Makes Page] DELETE_MAKE';
 export const DELETE_MAKE_SUCCESS = '[View Makes Page] DELETE_MAKE_SUCCESS';
 export const VERIFY_MAKES = '[View Makes Page] VERIFY_MAKES';
 export const VERIFY_MAKES_SUCCESS = '[View Makes Page] VERIFY_MAKES_SUCCESS';
+export const CREATE_MULTIPLE_MAKES =
+  '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES';
+export const CREATE_MULTIPLE_MAKES_SUCCESS =
+  '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES_SUCCESS';
+  export const CREATE_MULTIPLE_MAKES_ERROR =
+  '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES_ERROR';
 
 const loadMakes = createAction(LOAD_MAKES);
 const loadMakessuccess = createAction(
@@ -79,6 +85,21 @@ export const verifyMakesSuccess = createAction(
   props<{ data: boolean }>()
 );
 
+export const createMultipleMakes = createAction(
+  CREATE_MULTIPLE_MAKES,
+  props<{ file: File }>()
+);
+
+export const createMultipleMakesSuccess = createAction(
+  CREATE_MULTIPLE_MAKES_SUCCESS,
+  props<{ data: boolean }>()
+);
+
+export const createMultipleMakesError = createAction(
+  CREATE_MULTIPLE_MAKES_ERROR,
+  props<{ error: string }>()
+);
+
 export const makeActions = {
   loadMakes,
   loadMakessuccess,
@@ -96,4 +117,7 @@ export const makeActions = {
   deleteMakeSuccess,
   verifyMakes,
   verifyMakesSuccess,
+  createMultipleMakes,
+  createMultipleMakesSuccess,
+  createMultipleMakesError
 };

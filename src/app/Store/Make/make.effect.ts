@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, of, switchMap } from 'rxjs';
+import { map, catchError, of, switchMap, exhaustMap } from 'rxjs';
 import { MakeService } from '../../services/make.service';
 import {
+  CREATE_MULTIPLE_MAKES,
   DELETE_MAKE,
   EDIT_MAKE,
   GET_MAKES_LIST,
@@ -14,6 +15,7 @@ import {
 } from './make.action';
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
+import { CREATE_MODELS_SUCCESS } from '../Model/model.action';
 
 @Injectable()
 export class MakeEffects {
@@ -108,7 +110,7 @@ export class MakeEffects {
     )
   );
 
-  _verifyMakesSuccess = createEffect(() =>
+  _verifyMakes = createEffect(() =>
     this.action$.pipe(
       ofType(VERIFY_MAKES),
       switchMap((action:{ids:string[], requestType:string}) => {
@@ -116,6 +118,22 @@ export class MakeEffects {
           map((data) => {
             return makeActions.verifyMakesSuccess({ data });
           })
+        );
+      })
+    )
+  );
+
+  _multipleMakes = createEffect(() =>
+    this.action$.pipe(
+      ofType(CREATE_MULTIPLE_MAKES),
+      switchMap((action:{file:File}) => {
+        return this._makeService.createMultipleMakes(action.file).pipe(
+          map((data) => {
+            return makeActions.createMultipleMakesSuccess({ data });
+          }),
+          catchError(({ error }) =>
+            of(makeActions.createMultipleMakesError({ error: error.message }))
+          )
         );
       })
     )

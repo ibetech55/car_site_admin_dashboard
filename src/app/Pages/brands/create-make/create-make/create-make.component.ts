@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImagePreview } from '../../../../../utils/ImagePreview';
 import { Store } from '@ngrx/store';
@@ -6,7 +6,25 @@ import { IAppState } from '../../../../Store/app.state';
 import { makeActions } from '../../../../Store/Make/make.action';
 import { ISaveMakes } from '../../../../Data/Brand/Makes/SaveMakes';
 import { makeSelector } from '../../../../Store/Make/make.selector';
-import { Observable, delay, first, forkJoin, last, map, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  delay,
+  first,
+  forkJoin,
+  last,
+  map,
+  of,
+  take,
+  tap,
+} from 'rxjs';
+import { LocationService } from '../../../../services/location/location.service';
+import { MessageService } from 'primeng/api';
+interface ISelect {
+  name: string;
+  code: string;
+}
 
 interface ICreateMakeForm {
   makeName: string;
@@ -27,19 +45,25 @@ interface ICreateMakeForm {
   selector: 'app-create-make',
   templateUrl: './create-make.component.html',
   styleUrl: './create-make.component.scss',
+  providers: [MessageService],
 })
 export class CreateMakeComponent {
   formItems!: FormArray;
   formName: string = 'makeForms';
-  error$!: Observable<string>;
-  makesSaved$!: Observable<boolean>;
+  error$ = new BehaviorSubject<string>('');
+  makesSavedSub!: Subscription;
+  errorSub!: Subscription;
   loading: boolean = false;
+  countriesList$!: Observable<ISelect[]>;
 
   constructor(
     private _store: Store<IAppState>,
     private _builder: FormBuilder,
     private _element: ElementRef<HTMLDivElement>,
-    private _imagePreview: ImagePreview
+    private _imagePreview: ImagePreview,
+    private _locationService: LocationService,
+    private _messageService: MessageService,
+    private _renderer: Renderer2
   ) {}
   makeFormGroup = this._builder.group({
     makeForms: this._builder.array<ICreateMakeForm[]>([]),
@@ -72,6 +96,8 @@ export class CreateMakeComponent {
   }
 
   handleSubmit() {
+    this.loading = true;
+
     const values = this.makeFormGroup.get(this.formName)?.value;
     const makeFormGroup = this.makeFormGroup.get(this.formName) as FormArray;
 
@@ -86,52 +112,66 @@ export class CreateMakeComponent {
       if (!x.origin) {
         formValues[i].errorOrigin = 'Please, give an Origin';
         formValues[i].errorOriginBorder = true;
+        const elem = this._element.nativeElement.querySelector(
+          `#originselect${i}`
+        );
+        this._renderer.setStyle(elem, 'borderColor', 'red');
       }
 
       makeFormGroup?.setValue(formValues);
     });
 
     if (makeFormGroup.valid) {
-      this.loading = true;
       const requestData: ISaveMakes[] = values.map((x: ICreateMakeForm) => ({
         makeName: x.makeName,
         origin: x.origin,
         makeImage: x.file ? x.file : undefined,
         imageId: x.file ? x.previewImage.id : undefined,
         company: x.company ? x.company : undefined,
-        yearFounded: x.yearFounded ? x.yearFounded : undefined
+        yearFounded: x.yearFounded ? x.yearFounded : undefined,
       }));
 
       this._store.dispatch(makeActions.saveMakes({ values: requestData }));
 
-      this.makesSaved$ = this._store.select(makeSelector.makesSaved);
-      this.makesSaved$.pipe(delay(1000)).subscribe((x) => {
-        if (x) {
-          this.clearForms();
-        } else {
-          this.error$ = this._store.select(makeSelector.saveMakesError);
-
-          this.error$
-            .pipe(map((x) => x.match(/\[(.*?)\]/)))
-            .subscribe((y: any) => {
-              const arr = JSON.parse(y[0]);
-              values.map((x: ICreateMakeForm, i: number) => {
-                const formValues: ICreateMakeForm[] = makeFormGroup.value;
-                formValues[i].errorMakeName = '';
-                formValues[i].errorOrigin = '';
-                formValues[i].errorMakeNameBorder = false;
-                formValues[i].errorOriginBorder = false;
-
-                if (arr.includes(x.makeName)) {
-                  formValues[i].errorMakeNameBorder = true;
-                }
-                makeFormGroup?.setValue(formValues);
-              });
+      this.makesSavedSub = this._store
+        .select(makeSelector.makesSaved)
+        .subscribe((x) => {
+          if (x) {
+            this.clearForms();
+            this._messageService.add({
+              severity: 'info',
+              summary: 'Confirmed',
+              detail: 'Data saved successfully',
             });
-        }
-        this.loading = false;
-      });
+            this.clearForms();
+            this.makesSavedSub.unsubscribe();
+          }
+        });
+
+      this.errorSub = this._store
+        .select(makeSelector.saveMakesError)
+        .pipe(map((x) => x.match(/\[(.*?)\]/)))
+        .subscribe((y: any) => {
+          if (y) {
+            this.error$.next(y.input);
+            const arr = JSON.parse(y[0]);
+            values.map((x: ICreateMakeForm, i: number) => {
+              const formValues: ICreateMakeForm[] = makeFormGroup.value;
+              formValues[i].errorMakeName = '';
+              formValues[i].errorOrigin = '';
+              formValues[i].errorMakeNameBorder = false;
+              formValues[i].errorOriginBorder = false;
+
+              if (arr.includes(x.makeName)) {
+                formValues[i].errorMakeNameBorder = true;
+              }
+              makeFormGroup?.setValue(formValues);
+            });
+            this.errorSub.unsubscribe();
+          }
+        });
     }
+    this.loading = false;
   }
 
   Removeitem(index: number) {
@@ -156,6 +196,7 @@ export class CreateMakeComponent {
   clearForms() {
     this.makeFormGroup.get(this.formName)?.reset();
     this.formItems.clear();
+    this.error$.next('');
     this._store.dispatch(makeActions.removeMakesError());
     this.AddNewRow();
   }
@@ -174,7 +215,28 @@ export class CreateMakeComponent {
     makeFormGroup?.setValue(formValues);
   }
 
+  getCountries() {
+    this.countriesList$ = this._locationService.getCountriesList().pipe(
+      map((data) => {
+        return data.map((x) => ({
+          name: x.name,
+          code: x.name,
+        }));
+      })
+    );
+  }
+
   ngOnInit(): void {
     this.AddNewRow();
+    this.getCountries();
+  }
+
+  ngOnDestroy() {
+    if (this.errorSub) {
+      this.errorSub.unsubscribe();
+    }
+    if (this.makesSavedSub) {
+      this.makesSavedSub.unsubscribe();
+    }
   }
 }

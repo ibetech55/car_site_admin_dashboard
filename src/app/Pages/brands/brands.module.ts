@@ -15,6 +15,8 @@ import { ViewModelsComponent } from './view-models/view-models.component';
 import { CreateModelComponent } from './create-model/create-model.component';
 import { CreateMultipleModelsComponent } from './create-multiple-models/create-multiple-models.component';
 import { ModelCategoriesComponent } from './model-categories/model-categories.component';
+import { ModelDetailsComponent } from './model-details/model-details.component';
+import { EditModelModalComponent } from './model-details/components/edit-model-modal/edit-model-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ModelCategoriesComponent } from './model-categories/model-categories.co
     CreateModelComponent,
     CreateMultipleModelsComponent,
     ModelCategoriesComponent,
+    ModelDetailsComponent,
+    EditModelModalComponent
   ],
   providers: [MakeService],
   imports: [

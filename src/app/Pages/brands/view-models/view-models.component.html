@@ -1,6 +1,17 @@
 
+
 <app-page-header text="View Models"></app-page-header>
 <div *ngIf="modelsData$ | async as modelsData">
+  <div class="form-btns-mb view-models__activate-actions">
+    <app-button
+      label="Activate Models"
+      (click)="openStatusDialog($event, 'activate')"
+    ></app-button>
+    <app-button
+      label="Deactivate Models"
+      (click)="openStatusDialog($event, 'deactivate')"
+    ></app-button>
+  </div>
   <div *ngIf="modelsData.data" class="view-models">
     <p-card>
       <p-table
@@ -25,31 +36,19 @@
         </ng-template>
         <ng-template pTemplate="body" let-data>
           <tr>
-            <td><a [routerLink]="'/brands/make/' + data.id">{{ data.modelName }}</a></td>
+            <td><a [routerLink]="'/brands/model/' + data.id">{{ data.modelName }}</a></td>
             <td>{{ data.make.makeName }}</td>
             <td>{{ data.active | active }}</td>
             <td>{{ data.createdAt | formatDate }}</td>
             <td class="view-models__actions">
-              <app-button
-              color="success"
-              label="Activate"
-              size="small"
-              [handleClick]="deleteModel.bind(this, data.id)"
-              *ngIf="!data.active"
-            ></app-button>
-            <app-button
-            color="secondary"
-            label="Deactivate"
-            size="small"
-            [handleClick]="deleteModel.bind(this, data.id)"
-            *ngIf="data.active"
-          ></app-button>
-              <app-button
-                color="danger"
-                label="Delete"
-                size="small"
-                [handleClick]="deleteModel.bind(this, data.id)"
-              ></app-button>
+              <p-checkbox
+                [ngModel]="checkId(data.id)"
+                [binary]="true"
+                inputId="binary"
+                (click)="
+                  handleCheckbox({ id: data.id, modelName: data.modelName })
+                "
+              ></p-checkbox>
             </td>
           </tr>
         </ng-template>
@@ -60,4 +59,7 @@
     </div>
   </div>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
 

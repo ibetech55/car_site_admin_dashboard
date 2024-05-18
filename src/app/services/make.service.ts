@@ -47,7 +47,7 @@ export class MakeService {
         origin: x.origin,
         imageId: x.imageId ? x.imageId : undefined,
         company: x.company ? x.company : undefined,
-        yearFounded: x.yearFounded ? x.yearFounded : undefined
+        yearFounded: x.yearFounded ? x.yearFounded : undefined,
       };
     });
     formData.append('data', JSON.stringify(mappedValues));
@@ -86,6 +86,15 @@ export class MakeService {
     return this._httpClient.patch<boolean>(
       `http://localhost:5003/brand_api/make/verifyMake/${requestType}`,
       { ids: ids }
+    );
+  }
+
+  createMultipleMakes(file: File): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('fileData', file);
+    return this._httpClient.post<boolean>(
+      `http://localhost:5003/brand_api/make/multiples`,
+      formData
     );
   }
 }

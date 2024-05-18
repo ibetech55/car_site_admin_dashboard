@@ -44,20 +44,45 @@
               </app-input>
 
               <app-input
+                *ngIf="
+                  countriesList$ | async as countriesList;
+                  else nocountrylist
+                "
                 label="Origin"
                 name="origin"
                 [error]="item.value.errorOrigin"
               >
-                <input
-                  pInputText
-                  id="origin"
-                  aria-describedby="username-help"
-                  class="p-inputtext-sm"
+                <p-dropdown
+                  name="make"
+                  [id]="'originselect' + i.toString()"
+                  [options]="countriesList"
+                  optionLabel="name"
+                  optionValue="code"
+                  [showClear]="true"
+                  [editable]="false"
                   formControlName="origin"
-                  [ngClass]="{ errorBorder: item.value.errorOriginBorder }"
-                />
+                  [editable]="true"
+                ></p-dropdown>
               </app-input>
-
+              <ng-template #nocountrylist>
+                <app-input
+                  label="Origin"
+                  name="origin"
+                  [error]="item.value.errorOrigin"
+                >
+                  <p-dropdown
+                    [ngStyle]="{ errorBorder: item.value.errorOriginBorder }"
+                    name="make"
+                    [options]="[]"
+                    optionLabel="name"
+                    optionValue="code"
+                    [showClear]="true"
+                    [editable]="false"
+                    formControlName="origin"
+                    [editable]="true"
+                  ></p-dropdown>
+                </app-input>
+              </ng-template>
               <app-input label="Company" name="company">
                 <input
                   pInputText
@@ -68,6 +93,7 @@
                 />
               </app-input>
 
+          
               <app-input label="Year Founded" name="yearFounded">
                 <input
                   pInputText
@@ -124,3 +150,5 @@
     </div>
   </form>
 </div>
+
+<p-toast></p-toast>

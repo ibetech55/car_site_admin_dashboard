@@ -46,10 +46,10 @@
               />
             </app-input>
 
-            <app-input label="Select Make" name="makeId">
+            <app-input label="Select Make" name="makeId" *ngIf="modelList$ | async as modelList">
               <p-dropdown
                 name="make"
-                [options]="makes"
+                [options]="modelList"
                 optionLabel="name"
                 optionValue="code"
                 [showClear]="true"
@@ -58,7 +58,7 @@
                 formControlName="makeId"
               ></p-dropdown>
             </app-input>
-            <app-input label="Model Category" name="modelCategoryId">
+            <app-input label="Model Category" name="modelCategoryId" *ngIf="modelCategories$ | async as modelCategories">
               <p-dropdown
                 name="modelCategoryId"
                 [options]="modelCategories"

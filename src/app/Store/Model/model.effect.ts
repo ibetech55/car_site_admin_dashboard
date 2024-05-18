@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
-import { CREATE_MODELS, CREATE_MULTIPLE_MODELS, GET_MODELS, GET_MODELS_MAKES, modelActions } from './model.action';
+import {
+  CREATE_MODELS,
+  CREATE_MULTIPLE_MODELS,
+  EDIT_MODEL,
+  GET_MODELS,
+  GET_MODELS_MAKES,
+  GET_MODEL_BY_ID,
+  VERIFY_MODELS,
+  modelActions,
+} from './model.action';
 import { ModelService } from '../../services/model/model.service';
 import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
+import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 
 @Injectable()
 export class ModelEffects {
@@ -11,7 +21,7 @@ export class ModelEffects {
   _getModelsByMakeId = createEffect(() =>
     this.action$.pipe(
       ofType(GET_MODELS_MAKES),
-      switchMap((action:{makeId:string}) => {
+      switchMap((action: { makeId: string }) => {
         return this._modelService.getModelsByMakeId(action.makeId).pipe(
           map((data) => {
             return modelActions.getModelByMakeIdSuccess({ data });
@@ -37,7 +47,7 @@ export class ModelEffects {
   _saveModels = createEffect(() =>
     this.action$.pipe(
       ofType(CREATE_MODELS),
-      switchMap((action:{values:ICreateModel[]}) => {
+      switchMap((action: { values: ICreateModel[] }) => {
         return this._modelService.saveModels(action.values).pipe(
           map((data) => {
             return modelActions.createModelsSuccess({ data });
@@ -50,7 +60,7 @@ export class ModelEffects {
   _saveMultipleModels = createEffect(() =>
     this.action$.pipe(
       ofType(CREATE_MULTIPLE_MODELS),
-      switchMap((action:{file:File}) => {
+      switchMap((action: { file: File }) => {
         return this._modelService.saveMultipleModels(action.file).pipe(
           map((data) => {
             return modelActions.createMultipleModelsSuccess({ data });
@@ -63,8 +73,47 @@ export class ModelEffects {
     )
   );
 
+  _verifyModels = createEffect(() =>
+    this.action$.pipe(
+      ofType(VERIFY_MODELS),
+      switchMap((action: { ids: string[]; requestType: string }) => {
+        return this._modelService
+          .verifyModels(action.ids, action.requestType)
+          .pipe(
+            map((data) => {
+              return modelActions.verifyModelsSuccess({ data });
+            })
+          );
+      })
+    )
+  );
 
+  _getModelById = createEffect(() =>
+    this.action$.pipe(
+      ofType(GET_MODEL_BY_ID),
+      switchMap((action: { id: string }) => {
+        return this._modelService.getModelById(action.id).pipe(
+          map((data) => {
+            return modelActions.getModelByIdSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _editModel = createEffect(() =>
+    this.action$.pipe(
+      ofType(EDIT_MODEL),
+      switchMap((action: { id: string; values: IEditModel }) => {
+        return this._modelService.editModel(action.id, action.values).pipe(
+          map((data) => {
+            return modelActions.editModelSuccess({ data });
+          }),
+          catchError(({ error }) =>
+            of(modelActions.editModelFail({ error: error.message }))
+          )
+        );
+      })
+    )
+  );
 }
-
-
-

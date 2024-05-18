@@ -23,3 +23,16 @@ export interface IGetModelPagination {
   page: number;
   limit: number;
 }
+
+export interface IGetModelById {
+  id: string;
+  modelName: string;
+  makeId: string;
+  active: boolean;
+  make: {
+    makeName: string;
+  };
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  yearFounded: number;
+}

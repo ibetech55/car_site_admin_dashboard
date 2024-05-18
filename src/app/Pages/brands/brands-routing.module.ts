@@ -8,6 +8,7 @@ import { ViewModelsComponent } from './view-models/view-models.component';
 import { CreateModelComponent } from './create-model/create-model.component';
 import { CreateMultipleModelsComponent } from './create-multiple-models/create-multiple-models.component';
 import { ModelCategoriesComponent } from './model-categories/model-categories.component';
+import { ModelDetailsComponent } from './model-details/model-details.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'model_categories',
     component: ModelCategoriesComponent,
+  },
+  {
+    path: 'model/:id',
+    component: ModelDetailsComponent,
   },
 ];
 

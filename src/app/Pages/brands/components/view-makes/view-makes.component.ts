@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, delay } from 'rxjs';
+import { Observable, Subscription, delay } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../../Store/app.state';
 import { makeActions } from '../../../../Store/Make/make.action';
@@ -33,6 +33,7 @@ export class ViewMakesComponent {
   loading: boolean = false;
   idsData: IIdsData[] = [];
   checked: boolean = false;
+  verifyMakesResponseSub!: Subscription;
 
   deleteMake(id: string) {
     this._store.dispatch(makeActions.deleteMake({ id }));
@@ -54,9 +55,8 @@ export class ViewMakesComponent {
         rejectButtonStyleClass: 'p-button-text',
         accept: () => {
           this._store.dispatch(makeActions.verifyMakes({ ids, requestType }));
-          this._store
+          this.verifyMakesResponseSub = this._store
             .select(makeSelector.verifyMakesResponse)
-            .pipe(delay(2000))
             .subscribe((x) => {
               if (x) {
                 this.messageService.add({
@@ -67,12 +67,13 @@ export class ViewMakesComponent {
                 this.idsData = [];
                 this._store.dispatch(makeActions.loadMakes());
                 this.loading = false;
+                this.verifyMakesResponseSub.unsubscribe();
               }
             });
         },
-        reject:()=>{
+        reject: () => {
           this.loading = false;
-        }
+        },
       });
     }
   }
@@ -91,5 +92,9 @@ export class ViewMakesComponent {
   ngOnInit() {
     this._store.dispatch(makeActions.loadMakes());
     this.brandsData$ = this._store.select(makeSelector.makesData);
+  }
+
+  ngOnDestroy() {
+    this.verifyMakesResponseSub?.unsubscribe();
   }
 }

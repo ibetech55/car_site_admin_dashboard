@@ -23,5 +23,7 @@ export const MakeState: IMakeModel = {
   },
   makeList: [],
   deleteMakeResponse: false,
-  verifyMakesResponse: false
+  verifyMakesResponse: false,
+  createMultipleMakesResponse: false,
+  createMultipleMakesError: ''
 };

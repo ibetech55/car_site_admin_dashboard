@@ -1,40 +1,41 @@
 <app-loading [loading]="loading"></app-loading>
 <app-dialog
   [visible]="showDialog"
-  title="Edit Make"
+  title="Edit Model"
   (onHide)="closeDialog()"
   (onSubmit)="confirmModal()"
 >
-  <form [formGroup]="editMakeFormGroup">
-    <app-input label="Make name" name="makeName">
+  <p class="error-text medium-text" *ngIf="editError$ | async as editError">{{ editError }}</p>
+  <form [formGroup]="editModelFormGroup">
+    <app-input label="Model name" name="modelName">
       <input
         pInputText
-        id="makeName"
+        id="modelName"
         aria-describedby="username-help"
         class="p-inputtext-sm form-input-margin-b"
-        formControlName="makeName"
+        formControlName="modelName"
       />
     </app-input>
     <div
-      *ngIf="countriesList$ | async as countriesList; else nocountrylist"
+      *ngIf="makesList$ | async as makesList; else nomakeslsit"
       [ngStyle]="{ marginBottom: '1rem' }"
     >
-      <app-input label="Origin" name="origin">
+      <app-input label="Makes" name="make">
         <p-dropdown
           name="make"
-          [options]="countriesList"
+          [options]="makesList"
           optionLabel="name"
           optionValue="code"
           [showClear]="true"
           [editable]="false"
-          formControlName="origin"
+          formControlName="makeId"
           [editable]="true"
         ></p-dropdown>
       </app-input>
     </div>
-    <ng-template #nocountrylist>
+    <ng-template #nomakeslsit>
       <div [ngStyle]="{ marginBottom: '1rem' }">
-        <app-input label="Origin" name="origin">
+        <app-input label="Makes" name="make">
           <p-dropdown
             name="make"
             [options]="[]"
@@ -42,23 +43,12 @@
             optionValue="code"
             [showClear]="true"
             [editable]="false"
-            formControlName="origin"
+            formControlName="makeId"
             [editable]="true"
           ></p-dropdown>
         </app-input>
       </div>
     </ng-template>
-
-    <app-input label="Company" name="company">
-      <input
-        pInputText
-        id="company"
-        aria-describedby="username-help"
-        class="p-inputtext-sm form-input-margin-b"
-        formControlName="company"
-        className="form-input-margin-b"
-      />
-    </app-input>
 
     <app-input label="Year Founded" name="yearFounded">
       <input

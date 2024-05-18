@@ -9,4 +9,6 @@ export interface IMakeModel {
   makeList:IGetMakesList[];
   deleteMakeResponse:boolean;
   verifyMakesResponse:boolean;
+  createMultipleMakesResponse: boolean;
+  createMultipleMakesError: string;
 }

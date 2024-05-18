@@ -3,7 +3,7 @@ import { IAppState } from '../../../Store/app.state';
 import { Store } from '@ngrx/store';
 import { makeActions } from '../../../Store/Make/make.action';
 import { makeSelector } from '../../../Store/Make/make.selector';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IGetMakesList } from '../../../Data/Brand/Makes/GetMakes';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -14,7 +14,8 @@ import { modelCategoryActions } from '../../../Store/ModelCategory/model.categor
 import { modelCategorySelector } from '../../../Store/ModelCategory/model.category.selector';
 import { IGetModelCategoryList } from '../../../Data/Brand/ModelCategory/GetModelCategory';
 import { modelActions } from '../../../Store/Model/model.action';
-interface Make {
+import { modelSelector } from '../../../Store/Model/model.selector';
+interface ISelect {
   name: string;
   code: string;
 }
@@ -29,8 +30,8 @@ export class CreateModelComponent {
     private _builder: FormBuilder
   ) {}
 
-  makes: Make[] | undefined = [];
-  modelCategories: Make[] | undefined = [];
+  modelList$: Observable<ISelect[]> = new Observable<ISelect[]>();
+  modelCategories$: Observable<ISelect[]> = new Observable<ISelect[]>();
   loading: boolean = false;
   formItems!: FormArray;
   formName: string = 'modelForms';
@@ -79,31 +80,37 @@ export class CreateModelComponent {
         modelName: x.modelName,
         makeId: x.makeId,
         modelCategoryId: x.modelCategoryId,
-        yearFounded: x.yearFounded
+        yearFounded: x.yearFounded,
       }));
       this._store.dispatch(modelActions.createModels({ values: data }));
-      this.loading = false
+      this.loading = false;
     }
   }
 
   getMakes() {
     this._store.dispatch(makeActions.getMakesList());
-    this._store.select(makeSelector.makeList).subscribe((data) => {
-      this.makes = data.map((x: IGetMakesList) => {
-        return { name: x.makeName, code: x.id };
-      });
-    });
+    this.modelList$ = this._store.select(makeSelector.makeList).pipe(
+      map((data) => {
+        return data.map((x) => ({
+          name: x.makeName,
+          code: x.id,
+        }));
+      })
+    );
   }
 
   getModelCategories() {
     this._store.dispatch(modelCategoryActions.getModelCategoryList());
-    this._store
+    this.modelCategories$ = this._store
       .select(modelCategorySelector.modelCategoryListData)
-      .subscribe((data) => {
-        this.modelCategories = data.map((x: IGetModelCategoryList) => {
-          return { name: x.type, code: x.id };
-        });
-      });
+      .pipe(
+        map((data) =>
+          data.map((x) => ({
+            name: x.type,
+            code: x.id,
+          }))
+        )
+      );
   }
   ngOnInit() {
     this.getMakes();

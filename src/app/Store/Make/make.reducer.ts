@@ -85,35 +85,61 @@ export const makeReducer = createReducer(
     return {
       ...currentState,
       loading: false,
-      makeList: action.data
+      makeList: action.data,
     };
   }),
   on(makeActions.deleteMake, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: true,
-      deleteMakeResponse: false
+      deleteMakeResponse: false,
     };
   }),
   on(makeActions.deleteMakeSuccess, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: false,
-      deleteMakeResponse: true
+      deleteMakeResponse: true,
     };
   }),
   on(makeActions.verifyMakes, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: true,
-      verifyMakesResponse: false
+      verifyMakesResponse: false,
     };
   }),
   on(makeActions.verifyMakesSuccess, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: false,
-      verifyMakesResponse: true,
+      verifyMakesResponse: action.data,
     };
-  })
+  }),
+  on(makeActions.createMultipleMakes, (currentState: IMakeModel) => {
+    return {
+      ...currentState,
+      loading: true,
+      createMultipleMakesResponse: false,
+    };
+  }),
+  on(makeActions.createMultipleMakesSuccess, (currentState: IMakeModel) => {
+    return {
+      ...currentState,
+      loading: false,
+      createMultipleMakesResponse: true,
+      createMultipleMakesError:''
+    };
+  }),
+  on(
+    makeActions.createMultipleMakesError,
+    (currentState: IMakeModel, action) => {
+      return {
+        ...currentState,
+        loading: false,
+        createMultipleMakesResponse: false,
+        createMultipleMakesError: action.error,
+      };
+    }
+  )
 );
