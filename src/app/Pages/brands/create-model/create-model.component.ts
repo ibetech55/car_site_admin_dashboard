@@ -27,69 +27,15 @@ interface ISelect {
 export class CreateModelComponent {
   constructor(
     private _store: Store<IAppState>,
-    private _builder: FormBuilder
   ) {}
 
-  modelList$: Observable<ISelect[]> = new Observable<ISelect[]>();
+  makeList$: Observable<ISelect[]> = new Observable<ISelect[]>();
   modelCategories$: Observable<ISelect[]> = new Observable<ISelect[]>();
   loading: boolean = false;
-  formItems!: FormArray;
-  formName: string = 'modelForms';
-  modelFormGroup = this._builder.group({
-    modelForms: this._builder.array<ICreateModelForm[]>([]),
-  });
-
-  AddNewRow() {
-    this.formItems = this.modelFormGroup.get(this.formName) as FormArray;
-    this.formItems.push(this.GenerateRow());
-  }
-
-  GenerateRow(): FormGroup {
-    return this._builder.group({
-      modelName: this._builder.control('', Validators.required),
-      makeId: this._builder.control('', Validators.required),
-      modelCategoryId: this._builder.control('', Validators.required),
-      yearFounded: this._builder.control(''),
-    });
-  }
-
-  get modelForms() {
-    return this.modelFormGroup.get(this.formName) as FormArray;
-  }
-
-  Removeitem(index: number) {
-    if (this.formItems.length > 1) {
-      this.formItems = this.modelFormGroup.get(this.formName) as FormArray;
-      this.formItems.removeAt(index);
-    }
-  }
-
-  clearForms() {
-    this.modelFormGroup.get(this.formName)?.reset();
-    this.formItems.clear();
-    this.AddNewRow();
-  }
-
-  handleSubmit() {
-    this.loading = true;
-
-    const modelFormGroup = this.modelFormGroup.get(this.formName) as FormArray;
-    const modelFormData = modelFormGroup.getRawValue();
-    if (modelFormGroup.valid) {
-      const data: ICreateModel[] = modelFormData.map((x: ICreateModelForm) => ({
-        modelName: x.modelName,
-        makeId: x.makeId,
-        modelCategoryId: x.modelCategoryId,
-        yearFounded: x.yearFounded,
-      }));
-      this._store.dispatch(modelActions.createModels({ values: data }));
-      this.loading = false;
-    }
-  }
 
   getMakes() {
     this._store.dispatch(makeActions.getMakesList());
-    this.modelList$ = this._store.select(makeSelector.makeList).pipe(
+    this.makeList$ = this._store.select(makeSelector.makeList).pipe(
       map((data) => {
         return data.map((x) => ({
           name: x.makeName,
@@ -115,6 +61,5 @@ export class CreateModelComponent {
   ngOnInit() {
     this.getMakes();
     this.getModelCategories();
-    this.AddNewRow();
   }
 }

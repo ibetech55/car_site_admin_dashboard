@@ -1,0 +1,30 @@
+.create-model-form {
+    &__inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-gap: 20px;
+    }
+  
+    &__content {
+      margin-bottom: 2rem;
+    }
+  
+    &__action {
+      &-top {
+        margin-bottom: 1rem;
+        :first-child {
+          margin-right: 0.5rem;
+        }
+      }
+      &-bottom {
+        margin-top: 1rem;
+        :first-child {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+    &__remove-btn {
+      margin-top: 1rem;
+    }
+  }
+  

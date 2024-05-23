@@ -1,7 +1,6 @@
-<app-loading [loading]="loading"></app-loading>
-<app-page-header text="Create Makes"></app-page-header>
-<div class="create-make">
-  <div class="create-make__header-btn">
+
+<div class="create-make-form">
+  <div class="create-make-form__header-btn">
     <app-button
       label="Add Make"
       color="primary"
@@ -23,11 +22,11 @@
       <div
         *ngFor="let item of makeForms.controls; let i = index"
         [formGroupName]="i"
-        class="create-make__content"
+        class="create-make-form__content"
       >
         <p-card>
-          <div class="create-make__content-card">
-            <div class="create-make__content-card-inputs">
+          <div class="create-make-form__content-card">
+            <div class="create-make-form__content-card-inputs">
               <app-input
                 label="Make name"
                 name="makeName"
@@ -104,8 +103,8 @@
                 />
               </app-input>
 
-              <div class="create-make__upload">
-                <div class="create-make__upload-btns">
+              <div class="create-make-form__upload">
+                <div class="create-make-form__upload-btns">
                   <app-button
                     label="Upload Logo"
                     [isUpload]="true"
@@ -120,7 +119,7 @@
                   ></app-button>
                 </div>
 
-                <div class="create-make__upload-image" *ngIf="item.value.file">
+                <div class="create-make-form__upload-image" *ngIf="item.value.file">
                   <img
                     [src]="item.value.previewImage.url"
                     [alt]="item.value.file.name"
@@ -131,7 +130,7 @@
               </div>
             </div>
 
-            <div class="create-make__actions">
+            <div class="create-make-form__actions">
               <app-button
                 label="Remove"
                 color="danger"
@@ -143,7 +142,7 @@
       </div>
     </div>
 
-    <div class="align-right create-make__form-btns">
+    <div class="align-right create-make-form__form-btns">
       <app-button label="Clear" color="danger" (click)="clearForms()">
       </app-button>
       <app-button label="Save" type="submit"> </app-button>
@@ -151,4 +150,3 @@
   </form>
 </div>
 
-<p-toast></p-toast>

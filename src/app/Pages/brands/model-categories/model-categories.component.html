@@ -1,62 +1,8 @@
 <app-loading [loading]="loading"></app-loading>
-<div class="model-categories">
-  <app-page-header text="Model Categories"></app-page-header>
-  <p-card>
-    <p class="error-text medium-text">{{ errorText }}</p>
-    <app-page-header text="Create Category"></app-page-header>
-    <form (ngSubmit)="handleSubmit()">
-      <div class="model-categories__form-r1">
-        <app-input label="Category Name">
-          <input
-            pInputText
-            id="categoryName"
-            aria-describedby="username-help"
-            class="p-inputtext-sm"
-            [formControl]="_type"
-          />
-        </app-input>
-      </div>
 
-      <div class="form-btns-mt">
-        <app-button label="Save" type="submit"></app-button>
-      </div>
-    </form>
-  </p-card>
+<div class="create-model-categories">
+  <app-page-header text="Model Categories"></app-page-header>
+  <app-create-model-categories-form (onLoading)="onLoading($event)" [getModelCategoriesData]="getModelCategoriesData.bind(this)"></app-create-model-categories-form>
   <app-horizontal-line />
-  <p-card class="model-categories__table" *ngIf="modelCategoriesData$ | async as modelCategoriesData">
-    <app-page-header text="Categories"></app-page-header>
-    <p-table
-      [value]="modelCategoriesData"
-      [paginator]="true"
-      [rows]="5"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[5, 10, 20]"
-      dataKey="id"
-      styleClass="p-datatable-sm"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 25%">Category Name</th>
-          <th style="width: 25%">Status</th>
-          <th style="width: 25%">Created At</th>
-          <th style="width: 25%">Last Update</th>
-          <th style="width: 25%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-data>
-        <tr>
-          <td>{{ data.type }}</td>
-          <td>{{ data.active | active }}</td>
-          <td>{{ data.createdAt | formatDate }}</td>
-          <td *ngIf="data.updatedAt">{{ data.updatedAt | formatDate  }}</td>
-          <td *ngIf="!data.updatedAt">-</td>
-          <td class="view-models__actions">
-            <app-button color="danger" label="Delete" size="small"></app-button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
+  <app-model-categories-table [modelCategoriesData$]="modelCategoriesData$"></app-model-categories-table>
 </div>

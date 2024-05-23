@@ -14,47 +14,22 @@ import { IGetModelCategory } from '../../../Data/Brand/ModelCategory/GetModelCat
 })
 export class ModelCategoriesComponent {
   constructor(
-    private _builder: FormBuilder,
     private _store: Store<IAppState>
   ) {}
-  modelCategoriesData$!:Observable<IGetModelCategory[]>;
-  errorText!: string;
-  categoryData = [
-    {
-      categoryName: 'Minivan',
-      active: 'Active',
-      createdAt: '12/12/2023',
-      updatedAt: '-',
-    },
-  ];
-  _type = this._builder.control('', Validators.required);
-  loading: boolean = false;
-
-  handleSubmit() {
-    if (this._type.valid) {
-      this.loading = true
-      this._store.dispatch(
-        modelCategoryActions.createModelCategory({
-          values: { type: this._type.getRawValue() as string },
-        })
-      );
-      this.clearForm();
-    } else {
-      this.errorText = 'Please type a Category Name';
-    }
-    this.loading = false;
+  modelCategoriesData$!: Observable<IGetModelCategory[]>;
+  loading:boolean = false
+  
+  onLoading(value:boolean){
+    this.loading = value;
   }
 
-  clearForm() {
-    this.errorText = '';
-    this._type.reset();
+  getModelCategoriesData() {
+    this._store.dispatch(modelCategoryActions.getModelCategories());
+    this.modelCategoriesData$ = this._store.select(
+      modelCategorySelector.modelCategoriesData
+    );
   }
-
-  getModelCategoriesData(){
-    this._store.dispatch(modelCategoryActions.getModelCategories())
-    this.modelCategoriesData$ = this._store.select(modelCategorySelector.modelCategoriesData)
-  }
-  ngOnInit(){
-    this.getModelCategoriesData()
+  ngOnInit() {
+    this.getModelCategoriesData();
   }
 }

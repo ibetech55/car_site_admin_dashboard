@@ -1,10 +1,6 @@
-<app-loading [loading]="loading"></app-loading>
-
-<app-page-header text="View Makes"></app-page-header>
-
 <div *ngIf="brandsData$ | async as brandsData">
-  <div *ngIf="brandsData.data" class="view-makes">
-    <div class="form-btns-mb view-makes__activate-actions">
+  <div *ngIf="brandsData.data" class="view-makes-table">
+    <div class="form-btns-mb view-makes-table__activate-actions">
       <app-button
         label="Activate Makes"
         (click)="openStatusDialog($event, 'activate')"
@@ -45,7 +41,7 @@
             <td>{{ data.origin }}</td>
             <td>{{ data.active | active }}</td>
             <td>{{ data.createdAt | formatDate }}</td>
-            <td class="view-makes__actions">
+            <td class="view-makes-table__actions">
               <p-checkbox
                 [ngModel]="checkId(data.id)"
                 [binary]="true"
@@ -59,7 +55,7 @@
         </ng-template>
       </p-table>
     </p-card>
-    <div class="view-makes__btn">
+    <div class="view-makes-table__btn">
       <app-button
         color="success"
         label="Export to Spreadsheet"
@@ -68,5 +64,4 @@
     </div>
   </div>
 </div>
-<p-confirmDialog></p-confirmDialog>
-<p-toast></p-toast>
+

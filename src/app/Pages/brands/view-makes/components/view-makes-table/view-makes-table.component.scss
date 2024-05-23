@@ -1,0 +1,18 @@
+.view-makes-table {
+    &__actions {
+      display: flex;
+      app-button {
+        margin-right: 0.5rem;
+      }
+    }
+    &__btn {
+      text-align: end;
+      margin-top: 1rem;
+    }
+    &__activate-actions {
+      :first-child {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  

@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
 import { Observable, Subscription, delay } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../Store/app.state';
-import { makeActions } from '../../../../Store/Make/make.action';
-import { makeSelector } from '../../../../Store/Make/make.selector';
+import { IAppState } from '../../../Store/app.state';
+import { makeActions } from '../../../Store/Make/make.action';
+import { makeSelector } from '../../../Store/Make/make.selector';
 import {
   IGetMake,
   IGetMakePagination,
-} from '../../../../Data/Brand/Makes/GetMakes';
-import { ActivePipe } from '../../../../shared/pipes/active.pipe/active.pipe';
-import { FormatDatePipe } from '../../../../shared/pipes/format.date/format.date.pipe';
+} from '../../../Data/Brand/Makes/GetMakes';
+import { ActivePipe } from '../../../shared/pipes/active.pipe/active.pipe';
+import { FormatDatePipe } from '../../../shared/pipes/format.date/format.date.pipe';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
 interface IIdsData {
   id: String;
   makeName: string;
 }
+
 @Component({
   selector: 'app-view-makes',
   templateUrl: './view-makes.component.html',
   styleUrl: './view-makes.component.scss',
-  providers: [ActivePipe, FormatDatePipe, ConfirmationService, MessageService],
+  providers:[MessageService, ConfirmationService]
 })
 export class ViewMakesComponent {
   constructor(
@@ -28,16 +28,12 @@ export class ViewMakesComponent {
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {}
+  idsData: IIdsData[] = [];
 
   brandsData$!: Observable<IGetMakePagination>;
   loading: boolean = false;
-  idsData: IIdsData[] = [];
   checked: boolean = false;
   verifyMakesResponseSub!: Subscription;
-
-  deleteMake(id: string) {
-    this._store.dispatch(makeActions.deleteMake({ id }));
-  }
 
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
@@ -77,18 +73,7 @@ export class ViewMakesComponent {
       });
     }
   }
-  handleCheckbox(data: IIdsData) {
-    if (!this.idsData.some((item) => item.id === data.id)) {
-      this.idsData.push(data);
-    } else {
-      const index = this.idsData.findIndex((item) => item.id === data.id);
-      this.idsData.splice(index, 1);
-    }
-  }
 
-  checkId(id: string) {
-    return this.idsData.some((item) => item.id === id);
-  }
   ngOnInit() {
     this._store.dispatch(makeActions.loadMakes());
     this.brandsData$ = this._store.select(makeSelector.makesData);

@@ -1,19 +1,24 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../Store/app.state';
-import { makeActions } from '../../../../Store/Make/make.action';
-import { makeSelector } from '../../../../Store/Make/make.selector';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { CONSTANTS } from '../../../../../Constants';
+import { makeActions } from '../../../../../Store/Make/make.action';
+import { makeSelector } from '../../../../../Store/Make/make.selector';
+import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
-import { CONSTANTS } from '../../../../Constants';
+import { IAppState } from '../../../../../Store/app.state';
 
 @Component({
-  selector: 'app-create-multiple-makes',
-  templateUrl: './create-multiple-makes.component.html',
-  styleUrl: './create-multiple-makes.component.scss',
+  selector: 'app-create-multiple-makes-form',
+  templateUrl: './create-multiple-makes-form.component.html',
+  styleUrl: './create-multiple-makes-form.component.scss',
   providers: [MessageService],
 })
-export class CreateMultipleMakesComponent {
+export class CreateMultipleMakesFormComponent {
+  constructor(
+    private _store: Store<IAppState>,
+    private messageService: MessageService
+  ) {}
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   fileName!: string;
   fileSelected?: File;
   createMultipleMakesResponse: boolean = false;
@@ -21,23 +26,12 @@ export class CreateMultipleMakesComponent {
   private createMakesResponseSubscription!: Subscription;
   private createMakesErrorSubscription!: Subscription;
 
-  constructor(
-    private _store: Store<IAppState>,
-    private messageService: MessageService
-  ) {}
-  onFileChange(file: File) {
-    this.fileName = file.name;
-    this.fileSelected = file;
-  }
-
-  deleteError() {
-    setTimeout(() => {
-      this.errorText = '';
-    }, 5000);
-  }
-
   handleSubmit() {
-    if (this.fileSelected  && this.fileSelected.type === CONSTANTS.XLSX_FILE_EXT) {
+    this.loadingChange.emit(true);
+    if (
+      this.fileSelected &&
+      this.fileSelected.type === CONSTANTS.XLSX_FILE_EXT
+    ) {
       this._store.dispatch(
         makeActions.createMultipleMakes({ file: this.fileSelected })
       );
@@ -68,11 +62,24 @@ export class CreateMultipleMakesComponent {
       this.errorText = 'Please select a .xlsx file';
       this.deleteError();
     }
+    this.loadingChange.emit(false);
   }
 
   clearForm() {
     this.fileName = '';
     this.fileSelected = undefined;
-    this.deleteError()
+    this.deleteError();
   }
+
+  deleteError() {
+    setTimeout(() => {
+      this.errorText = '';
+    }, 5000);
+  }
+
+  onFileChange(file: File) {
+    this.fileName = file.name;
+    this.fileSelected = file;
+  }
+
 }

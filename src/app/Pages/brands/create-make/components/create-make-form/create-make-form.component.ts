@@ -1,31 +1,15 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ImagePreview } from '../../../../../utils/ImagePreview';
 import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../Store/app.state';
-import { makeActions } from '../../../../Store/Make/make.action';
-import { ISaveMakes } from '../../../../Data/Brand/Makes/SaveMakes';
-import { makeSelector } from '../../../../Store/Make/make.selector';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  delay,
-  first,
-  forkJoin,
-  last,
-  map,
-  of,
-  take,
-  tap,
-} from 'rxjs';
-import { LocationService } from '../../../../services/location/location.service';
 import { MessageService } from 'primeng/api';
-interface ISelect {
-  name: string;
-  code: string;
-}
-
+import { BehaviorSubject, Subscription, Observable, map } from 'rxjs';
+import { ImagePreview } from '../../../../../../utils/ImagePreview';
+import { ISaveMakes } from '../../../../../Data/Brand/Makes/SaveMakes';
+import { ISelect } from '../../../../../Data/Common';
+import { makeActions } from '../../../../../Store/Make/make.action';
+import { makeSelector } from '../../../../../Store/Make/make.selector';
+import { IAppState } from '../../../../../Store/app.state';
+import { LocationService } from '../../../../../services/location/location.service';
 interface ICreateMakeForm {
   makeName: string;
   origin: string;
@@ -42,19 +26,18 @@ interface ICreateMakeForm {
   };
 }
 @Component({
-  selector: 'app-create-make',
-  templateUrl: './create-make.component.html',
-  styleUrl: './create-make.component.scss',
-  providers: [MessageService],
+  selector: 'app-create-make-form',
+  templateUrl: './create-make-form.component.html',
+  styleUrl: './create-make-form.component.scss'
 })
-export class CreateMakeComponent {
+export class CreateMakeFormComponent {
+  @Input() countriesList$!:Observable<ISelect[]>
   formItems!: FormArray;
   formName: string = 'makeForms';
   error$ = new BehaviorSubject<string>('');
-  makesSavedSub!: Subscription;
-  errorSub!: Subscription;
+  makesSavedSub = new Subscription();
+  errorSub = new Subscription();
   loading: boolean = false;
-  countriesList$!: Observable<ISelect[]>;
 
   constructor(
     private _store: Store<IAppState>,
@@ -144,6 +127,7 @@ export class CreateMakeComponent {
               detail: 'Data saved successfully',
             });
             this.clearForms();
+            this.loading = false;
             this.makesSavedSub.unsubscribe();
           }
         });
@@ -167,11 +151,12 @@ export class CreateMakeComponent {
               }
               makeFormGroup?.setValue(formValues);
             });
+            this.loading = false;
             this.errorSub.unsubscribe();
           }
         });
     }
-    this.loading = false;
+   this.loading = false;
   }
 
   Removeitem(index: number) {
@@ -215,28 +200,12 @@ export class CreateMakeComponent {
     makeFormGroup?.setValue(formValues);
   }
 
-  getCountries() {
-    this.countriesList$ = this._locationService.getCountriesList().pipe(
-      map((data) => {
-        return data.map((x) => ({
-          name: x.name,
-          code: x.name,
-        }));
-      })
-    );
-  }
-
   ngOnInit(): void {
     this.AddNewRow();
-    this.getCountries();
   }
 
   ngOnDestroy() {
-    if (this.errorSub) {
-      this.errorSub.unsubscribe();
-    }
-    if (this.makesSavedSub) {
-      this.makesSavedSub.unsubscribe();
-    }
+    this.errorSub.unsubscribe();
+    this.makesSavedSub.unsubscribe();
   }
 }

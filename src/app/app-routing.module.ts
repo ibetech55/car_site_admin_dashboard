@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './template/layout/layout.component';
 import { DashboardComponent } from './Pages/dashboard/components/dashboard/dashboard.component';
-import { ViewMakesComponent } from './Pages/brands/components/view-makes/view-makes.component';
+import { ViewMakesComponent } from './Pages/brands/view-makes/view-makes.component';
 
 const routes: Routes = [
   {

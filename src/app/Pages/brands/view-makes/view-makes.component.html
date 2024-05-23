@@ -1,0 +1,12 @@
+<div class="view-makes">
+  <app-loading [loading]="loading"></app-loading>
+  <app-page-header text="View Makes"></app-page-header>
+  <app-view-makes-table
+    [idsData]="idsData"
+    [openStatusDialog]="openStatusDialog.bind(this)"
+    [brandsData$]="brandsData$"
+  ></app-view-makes-table>
+
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast></p-toast>
+</div>

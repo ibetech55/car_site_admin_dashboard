@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ViewMakesComponent } from './components/view-makes/view-makes.component';
+import { ViewMakesComponent } from './view-makes/view-makes.component';
 import { MakeDetailsComponent } from './makes-details/make-details/make-details.component';
-import { CreateMakeComponent } from './create-make/create-make/create-make.component';
-import { CreateMultipleMakesComponent } from './create-multiple-makes/create-multiple-makes/create-multiple-makes.component';
+import { CreateMakeComponent } from './create-make/create-make.component';
+import { CreateMultipleMakesComponent } from './create-multiple-makes/create-multiple-makes.component';
 import { ViewModelsComponent } from './view-models/view-models.component';
 import { CreateModelComponent } from './create-model/create-model.component';
 import { CreateMultipleModelsComponent } from './create-multiple-models/create-multiple-models.component';

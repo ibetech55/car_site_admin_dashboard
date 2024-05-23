@@ -1,0 +1,34 @@
+<div class="create-multiple-models-form"> 
+    <p-card>
+      <p class="error-text medium-text">{{ errors.columnError }}</p>
+      <p class="error-text medium-text">{{ errors.modelError }}</p>
+      <p class="error-text medium-text">{{ errors.makeError }}</p>
+      <p class="error-text medium-text">{{ errors.modelCategoryError }}</p>
+      <p class="error-text medium-text">{{ errorText }}</p>
+  
+      <form (ngSubmit)="handleSubmit()">
+        <div>
+          <p class="medium-text">Select a Spreadsheet or CSV file to upload.</p>
+          <p class="medium-text">
+            Files must contain the following columns in the following order:
+          </p>
+          <p class="medium-text">Ex - [model_name, make_name, model_category]</p>
+        </div>
+        <app-button
+          label="Upload File"
+          [isUpload]="true"
+          (onFileChange)="onFileChange($event)"
+          [fileName]="fileName"
+        ></app-button>
+        <div class="create-multiple-models-form__action-btns">
+          <app-button
+            type="button"
+            label="Clear"
+            color="danger"
+            (click)="clearForm()"
+          ></app-button>
+          <app-button type="submit" label="Save"></app-button>
+        </div>
+      </form>
+    </p-card>
+  </div>
