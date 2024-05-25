@@ -67,12 +67,23 @@ export const makeReducer = createReducer(
     return {
       ...currentState,
       loading: true,
+      editMakeSuccess: false,
+      editMakeError: ''
     };
   }),
   on(makeActions.editMakeSuccess, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: false,
+      editMakeSuccess: action.response,
+      editMakeError:''
+    };
+  }),
+  on(makeActions.editMakeError, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      editMakeError:action.error
     };
   }),
   on(makeActions.getMakesList, (currentState: IMakeModel, action) => {

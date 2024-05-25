@@ -21,7 +21,10 @@
 <app-edit-make-dialog
   [getMake]="getMake.bind(this)"
   [showDialog]="editDialog"
-  (dialogClosed)="closeEditModal()"
+  (closeEditModal)="closeEditModal()"
+  (closeEditModalSuccess)="closeEditModalSuccess()"
   [id]="id"
 ></app-edit-make-dialog>
 <p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+

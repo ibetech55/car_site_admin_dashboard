@@ -68,10 +68,6 @@ span.p-button-label, span.p-button-icon{
   color:#000;
 }
 
-.form-input-margin-b {
-  margin-bottom: 1rem !important;
-}
-
 .form-input-margin-t {
   margin-top: 1rem !important;
 }
@@ -86,6 +82,10 @@ span.p-button-label, span.p-button-icon{
 
 .form-btns-right {
   text-align: right;
+}
+
+.p-inputtext.ng-dirty.ng-invalid {
+  border-color: none !important;
 }
 
 

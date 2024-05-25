@@ -178,4 +178,9 @@ export class CreateModelFormComponent {
   ngOnInit() {
     this.AddNewRow();
   }
+
+  ngOnDestroy(){
+    this.errorSub.unsubscribe();
+    this.modelsSavedSub.unsubscribe();
+  }
 }

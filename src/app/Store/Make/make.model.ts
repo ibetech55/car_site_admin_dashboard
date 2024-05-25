@@ -11,4 +11,6 @@ export interface IMakeModel {
   verifyMakesResponse:boolean;
   createMultipleMakesResponse: boolean;
   createMultipleMakesError: string;
+  editMakeError: string;
+  editMakeSuccess: boolean;
 }

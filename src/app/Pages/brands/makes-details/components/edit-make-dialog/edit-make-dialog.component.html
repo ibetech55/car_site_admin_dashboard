@@ -5,29 +5,31 @@
   (onSubmit)="confirmModal()"
 >
   <form [formGroup]="editMakeFormGroup">
-    <app-input label="Make name" name="makeName">
+    <p class="medium-text error-text">{{errorText$ | async}}</p>
+    <app-input label="Make name" name="makeName" [error]="editMakeFormGroup.get('errorMakeName')?.getRawValue()">
       <input
         pInputText
         id="makeName"
         aria-describedby="username-help"
         class="p-inputtext-sm form-input-margin-b"
         formControlName="makeName"
+        [ngClass]="{ errorBorder: editMakeFormGroup.get('errorMakeNameBorder')?.getRawValue()}"
       />
     </app-input>
     <div
       *ngIf="countriesList$ | async as countriesList; else nocountrylist"
       [ngStyle]="{ marginBottom: '1rem' }"
     >
-      <app-input label="Origin" name="origin">
+      <app-input label="Origin" name="origin" [error]="editMakeFormGroup.get('errorOrigin')?.getRawValue()">
         <p-dropdown
           name="make"
+          [id]="'originselectedit'"
           [options]="countriesList"
           optionLabel="name"
           optionValue="code"
           [showClear]="true"
           [editable]="false"
           formControlName="origin"
-          [editable]="true"
         ></p-dropdown>
       </app-input>
     </div>
@@ -77,3 +79,6 @@
     </app-input>
   </form>
 </app-dialog>
+
+<p-toast></p-toast>
+

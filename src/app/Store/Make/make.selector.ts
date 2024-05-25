@@ -11,6 +11,8 @@ const deleteMakeResponse = createSelector(makeState, (state) => state.deleteMake
 const verifyMakesResponse = createSelector(makeState, (state) => state.verifyMakesResponse);
 const createMultipleMakesResponse = createSelector(makeState, (state) => state.createMultipleMakesResponse);
 const createMultipleMakesError = createSelector(makeState, (state) => state.createMultipleMakesError);
+const editMakeError = createSelector(makeState, (state) => state.editMakeError);
+const editMakeSuccess = createSelector(makeState, (state) => state.editMakeSuccess);
 
 export const makeSelector = {
   makesData,
@@ -22,5 +24,7 @@ export const makeSelector = {
   deleteMakeResponse,
   verifyMakesResponse,
   createMultipleMakesResponse,
-  createMultipleMakesError
+  createMultipleMakesError,
+  editMakeError,
+  editMakeSuccess
 };

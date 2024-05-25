@@ -74,7 +74,7 @@ export class MakeEffects {
             return makeActions.editMakeSuccess({ response:data });
           }),
           catchError(({ error }) =>
-            of(makeActions.saveMakesFail({ errorText: error.message }))
+            of(makeActions.editMakeError({ error: error.message }))
           )
         );
       })

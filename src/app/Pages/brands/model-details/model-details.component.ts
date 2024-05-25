@@ -12,14 +12,12 @@ import { modelSelector } from '../../../Store/Model/model.selector';
   selector: 'app-model-details',
   templateUrl: './model-details.component.html',
   styleUrl: './model-details.component.scss',
-  providers: [MessageService, ConfirmationService],
+  providers:[ConfirmationService]
 })
 export class ModelDetailsComponent {
   constructor(
     private _router: ActivatedRoute,
     private _store: Store<IAppState>,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
   ) {}
 
   id: string = this._router.snapshot.params['id'];
@@ -38,8 +36,18 @@ export class ModelDetailsComponent {
     this.editDialog = false;
     this.visibilityChange.emit(this.editDialog);
   }
-  ngOnInit() {
-     this._store.dispatch(modelActions.getModelById({ id: this.id }));
+
+  closeEditModalSuccess() {
+    this.getModel();
+    this.editDialog = false;
+    this.visibilityChange.emit(this.editDialog);
+  }
+
+  getModel(){
+    this._store.dispatch(modelActions.getModelById({ id: this.id }));
     this.modelData$ = this._store.select(modelSelector.modelData);
+  }
+  ngOnInit() {
+this.getModel()
   }
 }

@@ -21,8 +21,8 @@ export class MakeDetailsComponent {
   constructor(
     private _router: ActivatedRoute,
     private _store: Store<IAppState>,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private _confirmationService: ConfirmationService,
+    private _messageService: MessageService
   ) {}
   id: string = this._router.snapshot.params['id'];
   makeData$!: Observable<IGetMake>;
@@ -41,6 +41,11 @@ export class MakeDetailsComponent {
     this.editDialog = false;
   }
 
+  closeEditModalSuccess() {
+    this.getMake();
+    this.editDialog = false;
+  }
+
   openDeleteDialog(event: Event) {
     let deleteData:IGetMake = {
       id: '',
@@ -56,7 +61,7 @@ export class MakeDetailsComponent {
     this._store.select(makeSelector.makeData).subscribe(data=>{
       deleteData = data
     })
-    this.confirmationService.confirm({
+    this._confirmationService.confirm({
       target: event.target as EventTarget,
       message: `Are you sure you want to to delete ${deleteData.makeName} from makes`,
       header: 'Confirmation',
@@ -71,7 +76,7 @@ export class MakeDetailsComponent {
 
         this.deleteResp$.pipe(delay(1000)).subscribe((data) => {
           if (data) {
-            this.messageService.add({
+            this._messageService.add({
               severity: 'info',
               summary: 'Confirmed',
               detail: 'Data deleted successfully',

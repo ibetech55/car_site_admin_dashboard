@@ -19,6 +19,8 @@ export const GET_MAKE_BY_ID_SUCCESS =
   '[makes_details page] GET_MAKE_BY_ID_SUCCESS';
 export const EDIT_MAKE = '[View Makes Page] EDIT_MAKE';
 export const EDIT_MAKE_SUCCESS = '[View Makes Page] EDIT_MAKE_SUCCESS';
+export const EDIT_MAKE_ERROR = '[View Makes Page] EDIT_MAKE_ERROR';
+
 export const GET_MAKES_LIST = '[Create Model Page] GET_MAKES_LIST';
 export const GET_MAKES_LIST_SUCCESS =
   '[Create Model Page] GET_MAKES_LIST_SUCCESS';
@@ -64,6 +66,10 @@ export const editMake = createAction(
 export const editMakeSuccess = createAction(
   EDIT_MAKE_SUCCESS,
   props<{ response: boolean }>()
+);
+export const editMakeError = createAction(
+  EDIT_MAKE_ERROR,
+  props<{ error: string }>()
 );
 
 export const getMakesList = createAction(GET_MAKES_LIST);
@@ -119,5 +125,6 @@ export const makeActions = {
   verifyMakesSuccess,
   createMultipleMakes,
   createMultipleMakesSuccess,
-  createMultipleMakesError
+  createMultipleMakesError,
+  editMakeError
 };

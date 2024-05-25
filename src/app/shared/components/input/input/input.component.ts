@@ -11,7 +11,7 @@ export class InputComponent {
   @Input() name!: string;
   @Input() placeholder!: string;
   @Input() size!: string;
-  @Input() error!: string;
+  @Input() error?: string;
   @Input() formControlName!: string;
   @Input() formControl!: FormControl;
   @Input() isCheckBox: boolean = false;

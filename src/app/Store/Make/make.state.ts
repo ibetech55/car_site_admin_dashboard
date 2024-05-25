@@ -25,5 +25,7 @@ export const MakeState: IMakeModel = {
   deleteMakeResponse: false,
   verifyMakesResponse: false,
   createMultipleMakesResponse: false,
-  createMultipleMakesError: ''
+  createMultipleMakesError: '',
+  editMakeError: '',
+  editMakeSuccess: false
 };

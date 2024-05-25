@@ -12,6 +12,7 @@
 <app-edit-model-modal
   [showDialog]="editDialog"
   (dialogClosed)="closeEditModal()"
+  (closeEditModalSuccess)="closeEditModalSuccess()"
   [id]="id"
 ></app-edit-model-modal>
 <p-confirmDialog></p-confirmDialog>
