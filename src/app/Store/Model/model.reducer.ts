@@ -142,5 +142,19 @@ export const modelReducer = createReducer(
       editModelResponse: false,
       editModelError: action.error,
     };
-  })
+  }),
+  on(modelActions.deleteModel, (currentState: IModelModel) => {
+    return {
+      ...currentState,
+      loading: true,
+      deleteModelSuccess: false
+    };
+  }),
+  on(modelActions.deleteModelSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      deleteModelSuccess: action.data,
+    };
+  }),
 );

@@ -63,4 +63,10 @@ export class ModelService {
       values
     );
   }
+
+  deleteModel(id: string): Observable<boolean> {
+    return this._httpClient.delete<boolean>(
+      `http://localhost:5003/brand_api/model/${id}`
+    );
+  }
 }

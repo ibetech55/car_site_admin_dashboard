@@ -41,6 +41,9 @@ export const EDIT_MODEL = '[Model Details Page] EDIT_MODEL';
 export const EDIT_MODEL_SUCCESS = '[Model Details page] EDIT_MODEL_SUCCESS';
 export const EDIT_MODEL_FAIL = '[Model Details page] EDIT_MODEL_FAIL';
 
+export const DELETE_MODEL = '[Model Details Page] DELETE_MODEL';
+export const DELETE_MODEL_SUCCESS = '[Model Details page] DELETE_MODEL_SUCCESS';
+
 const getModelByMakeId = createAction(
   GET_MODELS_MAKES,
   props<{ makeId: string }>()
@@ -119,6 +122,15 @@ export const editModelFail = createAction(
   props<{ error: string }>()
 );
 
+export const deleteModel = createAction(
+  DELETE_MODEL,
+  props<{ id: string }>()
+);
+export const deleteModelSuccess = createAction(
+  DELETE_MODEL,
+  props<{ data: boolean }>()
+);
+
 export const modelActions = {
   getModelByMakeId,
   getModelByMakeIdSuccess,
@@ -136,5 +148,7 @@ export const modelActions = {
   getModelByIdSuccess,
   editModel,
   editModelSuccess,
-  editModelFail
+  editModelFail,
+  deleteModel,
+  deleteModelSuccess
 };

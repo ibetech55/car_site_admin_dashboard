@@ -21,5 +21,6 @@ export interface IModelModel {
   editModelResponse: boolean;
   editModelError: string;
   createModelError: ICreateModelError;
-  createModelSuccess: string;
+  createModelSuccess: boolean;
+  deleteModelSuccess: boolean;
 }

@@ -12,6 +12,7 @@ const editModelResponse = createSelector(modelState, (state) => state.editModelR
 const editModelError = createSelector(modelState, (state) => state.editModelError);
 const createModelError = createSelector(modelState, (state) => state.createModelError);
 const createModelSuccess = createSelector(modelState, (state) => state.createModelSuccess);
+const deleteModelSuccess = createSelector(modelState, (state) => state.deleteModelSuccess);
 
 export const modelSelector = {
   modelByMakeData,
@@ -23,5 +24,6 @@ export const modelSelector = {
   editModelResponse,
   editModelError,
   createModelError,
-  createModelSuccess
+  createModelSuccess,
+  deleteModelSuccess
 };

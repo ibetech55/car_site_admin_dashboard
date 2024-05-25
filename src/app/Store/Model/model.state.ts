@@ -30,5 +30,6 @@ export const ModelState: IModelModel = {
     text:'',
     models: []
   },
-  createModelSuccess: ''
+  createModelSuccess: false,
+  deleteModelSuccess: false
 };

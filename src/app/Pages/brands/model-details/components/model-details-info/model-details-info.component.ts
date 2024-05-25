@@ -8,6 +8,6 @@ import { Observable } from 'rxjs';
   styleUrl: './model-details-info.component.scss',
 })
 export class ModelDetailsInfoComponent {
-  @Input() modelData$!: Observable<IGetModelById>;
+  @Input() modelData!: IGetModelById;
   @Input() openEditModal!: () => void;
 }

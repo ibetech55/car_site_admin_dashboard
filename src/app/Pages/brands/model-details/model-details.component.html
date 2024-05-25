@@ -1,11 +1,15 @@
 <div class="model-details">
   <app-page-header text="Model Details"></app-page-header>
   <app-model-details-info
-    [modelData$]="modelData$"
+    [modelData]="modelData"
     [openEditModal]="openEditModal.bind(this)"
   ></app-model-details-info>
   <div class="form-btns-mt form-btns-right">
-    <app-button label="Delete Model" color="danger"></app-button>
+    <app-button
+      label="Delete Model"
+      color="danger"
+      (click)="openDeleteDialog($event)"
+    ></app-button>
   </div>
 </div>
 

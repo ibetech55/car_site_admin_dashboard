@@ -4,6 +4,7 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import {
   CREATE_MODELS,
   CREATE_MULTIPLE_MODELS,
+  DELETE_MODEL,
   EDIT_MODEL,
   GET_MODELS,
   GET_MODELS_MAKES,
@@ -115,6 +116,19 @@ export class ModelEffects {
           catchError(({ error }) =>
             of(modelActions.editModelFail({ error: error.message }))
           )
+        );
+      })
+    )
+  );
+
+  _deleteModel = createEffect(() =>
+    this.action$.pipe(
+      ofType(DELETE_MODEL),
+      switchMap((action: { id: string}) => {
+        return this._modelService.deleteModel(action.id).pipe(
+          map((data) => {
+            return modelActions.deleteModelSuccess({ data });
+          })
         );
       })
     )
