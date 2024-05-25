@@ -1,0 +1,54 @@
+<div class="make-details-info" *ngIf="makeData$ | async as data">
+  <p-card>
+    <div class="make-details-info__content">
+      <div class="make-details-info__info medium-text">
+        <p>
+          <span class="dark-label bold-text">Make Name:</span>
+          {{ data.makeName }}
+        </p>
+        <p>
+          <span class="dark-label bold-text">Status:</span>
+          {{ data.active | active }}
+        </p>
+        <p>
+          <span class="dark-label bold-text">Origin:</span> {{ data.origin }}
+        </p>
+        <p *ngIf="data.company">
+          <span class="dark-label bold-text">Company: </span>
+          {{ data.company }}
+        </p>
+        <p *ngIf="!data.company">
+          <span class="dark-label bold-text">Company: </span>
+          -
+        </p>
+        <p *ngIf="data.yearFounded">
+          <span class="dark-label bold-text">Year Founded: </span>
+          {{ data.yearFounded }}
+        </p>
+        <p *ngIf="!data.yearFounded">
+          <span class="dark-label bold-text">Year Founded: </span>
+          -
+        </p>
+        <p>
+          <span class="dark-label bold-text">Date Created:</span>
+          {{ data.createdAt | formatDate }}
+        </p>
+        <p *ngIf="data.updatedAt">
+          <span class="dark-label bold-text">Last Modified:</span>
+          {{ data.updatedAt | formatDate }}
+        </p>
+        <p *ngIf="!data.updatedAt">
+          <span class="dark-label bold-text">Last Modified:</span>
+          -
+        </p>
+      </div>
+      <div class="make-details-info__info-btn">
+        <app-button label="Edit Make" (click)="openEditModal()"></app-button>
+      </div>
+      <div class="make-details-info__logo">
+        <div class="make-details-info__logo-img"></div>
+        <app-button label="Upload Photo" [isUpload]="true"></app-button>
+      </div>
+    </div>
+  </p-card>
+</div>

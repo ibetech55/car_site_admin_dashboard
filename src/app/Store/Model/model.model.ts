@@ -5,6 +5,11 @@ import {
   IGetModelPagination,
 } from '../../Data/Brand/Model/GetModel';
 
+export interface ICreateModelError {
+  text:string;
+  models:string[];
+}
+
 export interface IModelModel {
   modelsByMakes: IGetModelByMakeId[];
   loading: boolean;
@@ -15,4 +20,6 @@ export interface IModelModel {
   modelData: IGetModelById;
   editModelResponse: boolean;
   editModelError: string;
+  createModelError: ICreateModelError;
+  createModelSuccess: string;
 }

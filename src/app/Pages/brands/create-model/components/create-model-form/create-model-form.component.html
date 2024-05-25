@@ -15,72 +15,90 @@
 </div>
 
 <form [formGroup]="modelFormGroup" (ngSubmit)="handleSubmit()">
-    <div formArrayName="modelForms">
-      <div
-        *ngFor="let item of modelForms.controls; let i = index"
-        [formGroupName]="i"
-        class="create-model-form__content"
-      >
-        <p-card>
-          <div class="create-model-form__inputs">
-            <app-input label="Model name" name="modelName">
-              <input
-                pInputText
-                id="modelName"
-                aria-describedby="username-help"
-                class="p-inputtext-sm"
-                formControlName="modelName"
-              />
-            </app-input>
-
-            <app-input label="Year Founded" name="yearFounded">
-              <input
-                pInputText
-                id="yearFounded"
-                aria-describedby="username-help"
-                class="p-inputtext-sm"
-                formControlName="yearFounded"
-              />
-            </app-input>
-
-            <app-input label="Select Make" name="makeId" *ngIf="makeList$ | async as makeList">
-              <p-dropdown
-                name="make"
-                [options]="makeList"
-                optionLabel="name"
-                optionValue="code"
-                [showClear]="true"
-                [editable]="false"
-                placeholder="Select a Make"
-                formControlName="makeId"
-              ></p-dropdown>
-            </app-input>
-            <app-input label="Model Category" name="modelCategoryId" *ngIf="modelCategories$ | async as modelCategories">
-              <p-dropdown
-                name="modelCategoryId"
-                [options]="modelCategories"
-                optionLabel="name"
-                optionValue="code"
-                [showClear]="true"
-                [editable]="false"
-                placeholder="Select a Model Category"
-                formControlName="modelCategoryId"
-              ></p-dropdown>
-            </app-input>
-          </div>
-          <div class="align-right create-model-form__remove-btn">
-            <app-button label="Remove" color="danger" (click)="Removeitem(i)">
-            </app-button>
-          </div>
-        </p-card>
-      </div>
-    </div>
-
+  <div formArrayName="modelForms">
+    <p class="error-text medium-text">{{error$ | async}}</p>
     <div
-      class="align-right create-model-form__form-btns create-model-form__action-bottom"
+      *ngFor="let item of modelForms.controls; let i = index"
+      [formGroupName]="i"
+      class="create-model-form__content"
     >
-      <app-button label="Clear" color="danger" (click)="clearForms()">
-      </app-button>
-      <app-button label="Save" type="submit"> </app-button>
+      <p-card>
+        <div class="create-model-form__inputs">
+          <app-input
+            label="Model name"
+            name="modelName"
+            [error]="item.value.errorModelName"
+          >
+            <input
+              pInputText
+              id="modelName"
+              aria-describedby="username-help"
+              class="p-inputtext-sm"
+              formControlName="modelName"
+              [ngClass]="{ errorBorder: item.value.errorModelNameBorder }"
+            />
+          </app-input>
+
+          <app-input label="Year Founded" name="yearFounded">
+            <input
+              pInputText
+              id="yearFounded"
+              aria-describedby="username-help"
+              class="p-inputtext-sm"
+              formControlName="yearFounded"
+            />
+          </app-input>
+
+          <app-input
+            label="Select Make"
+            name="makeId"
+            [error]="item.value.errorMakeId"
+            *ngIf="makeList$ | async as makeList"
+          >
+            <p-dropdown
+              [id]="'selectmake' + i.toString()"
+              name="make"
+              [options]="makeList"
+              optionLabel="name"
+              optionValue="code"
+              [showClear]="true"
+              [editable]="false"
+              placeholder="Select a Make"
+              formControlName="makeId"
+            ></p-dropdown>
+          </app-input>
+          <app-input
+            label="Body Style"
+            name="modelCategoryId"
+            [error]="item.value.errorModelCategory"
+            *ngIf="modelCategories$ | async as modelCategories"
+          >
+            <p-dropdown
+              [id]="'modelcategory' + i.toString()"
+              name="modelCategoryId"
+              [options]="modelCategories"
+              optionLabel="name"
+              optionValue="code"
+              [showClear]="true"
+              [editable]="false"
+              placeholder="Select a Body Style"
+              formControlName="modelCategoryId"
+            ></p-dropdown>
+          </app-input>
+        </div>
+        <div class="align-right create-model-form__remove-btn">
+          <app-button label="Remove" color="danger" (click)="Removeitem(i)">
+          </app-button>
+        </div>
+      </p-card>
     </div>
-  </form>
+  </div>
+
+  <div
+    class="align-right create-model-form__form-btns create-model-form__action-bottom"
+  >
+    <app-button label="Clear" color="danger" (click)="clearForms()">
+    </app-button>
+    <app-button label="Save" type="submit"> </app-button>
+  </div>
+</form>

@@ -1,0 +1,37 @@
+<div *ngIf="modelData$ | async as modelData">
+    <p-card>
+      <app-page-header text="Models"></app-page-header>
+      <p-table
+        [value]="modelData"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        dataKey="id"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 25%">Model Name</th>
+            <th style="width: 25%">Status</th>
+            <th style="width: 25%">Body Type</th>
+            <th style="width: 25%">Created At</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-modelData>
+          <tr>
+            <td>
+              <a [routerLink]="'/brands/model/' + modelData.id">{{
+                modelData.modelName
+              }}</a>
+            </td>
+            <td>{{ modelData.active | active }}</td>
+            <td>-</td>
+            <td>{{ modelData.createdAt | formatDate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+    </div>

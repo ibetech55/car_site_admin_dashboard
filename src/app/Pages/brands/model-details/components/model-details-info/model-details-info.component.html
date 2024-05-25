@@ -1,0 +1,43 @@
+<div *ngIf="modelData$ | async as modelData" class="model-details-form">
+    <p-card>
+      <div class="model-details-form__content">
+        <div class="model-details-form__info medium-text">
+          <p>
+            <span class="dark-label bold-text">Model Name:</span>
+            {{ modelData.modelName }}
+          </p>
+          <p>
+            <span class="dark-label bold-text">Status:</span>
+            {{ modelData.active | active }}
+          </p>
+          <p>
+            <span class="dark-label bold-text">Make Name:</span>
+            {{ modelData?.make?.makeName }}
+          </p>
+          <p *ngIf="modelData.yearFounded">
+            <span class="dark-label bold-text">Year Founded: </span>
+            {{ modelData.yearFounded }}
+          </p>
+          <p *ngIf="!modelData.yearFounded">
+            <span class="dark-label bold-text">Year Founded: </span>
+            -
+          </p>
+          <p>
+            <span class="dark-label bold-text">Date Created:</span>
+            {{ modelData.createdAt | formatDate }}
+          </p>
+          <p *ngIf="modelData.updatedAt">
+            <span class="dark-label bold-text">Last Modified:</span>
+            {{ modelData.updatedAt | formatDate }}
+          </p>
+          <p *ngIf="!modelData.updatedAt">
+            <span class="dark-label bold-text">Last Modified:</span>
+            -
+          </p>
+        </div>
+        <div class="model-details-form__info-btn">
+          <app-button label="Edit Model" (click)="openEditModal()"></app-button>
+        </div>
+      </div>
+    </p-card>
+  </div>

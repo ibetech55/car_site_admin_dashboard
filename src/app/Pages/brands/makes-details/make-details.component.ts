@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../Store/app.state';
-import { makeActions } from '../../../../Store/Make/make.action';
+import { IAppState } from '../../../Store/app.state';
+import { makeActions } from '../../../Store/Make/make.action';
 import { Observable, delay } from 'rxjs';
-import { IGetMake } from '../../../../Data/Brand/Makes/GetMakes';
-import { makeSelector } from '../../../../Store/Make/make.selector';
-import { modelActions } from '../../../../Store/Model/model.action';
-import { IGetModelByMakeId } from '../../../../Data/Brand/Model/GetModel';
-import { modelSelector } from '../../../../Store/Model/model.selector';
+import { IGetMake } from '../../../Data/Brand/Makes/GetMakes';
+import { makeSelector } from '../../../Store/Make/make.selector';
+import { modelActions } from '../../../Store/Model/model.action';
+import { IGetModelByMakeId } from '../../../Data/Brand/Model/GetModel';
+import { modelSelector } from '../../../Store/Model/model.selector';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
@@ -32,23 +32,33 @@ export class MakeDetailsComponent {
   deleteResp$!: Observable<boolean>;
   loading = false;
 
-  @Output() visibilityChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
-
   openEditModal() {
     this.editDialog = true;
-    this.visibilityChange.emit(this.editDialog);
   }
+
 
   closeEditModal() {
     this.editDialog = false;
-    this.visibilityChange.emit(this.editDialog);
   }
 
-  openDeleteDialog(event: Event, data: IGetMake) {
+  openDeleteDialog(event: Event) {
+    let deleteData:IGetMake = {
+      id: '',
+      makeName: '',
+      origin: '',
+      makeLogo: '',
+      active: false,
+      yearFounded: 0,
+      company: '',
+      createdAt: '',
+      updatedAt: ''
+    };
+    this._store.select(makeSelector.makeData).subscribe(data=>{
+      deleteData = data
+    })
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: `Are you sure you want to to delete ${data.makeName} from makes`,
+      message: `Are you sure you want to to delete ${deleteData.makeName} from makes`,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon: 'none',
@@ -56,7 +66,7 @@ export class MakeDetailsComponent {
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
         this.loading = true;
-        this._store.dispatch(makeActions.deleteMake({ id: data.id }));
+        this._store.dispatch(makeActions.deleteMake({ id: deleteData.id }));
         this.deleteResp$ = this._store.select(makeSelector.deleteMakeResponse);
 
         this.deleteResp$.pipe(delay(1000)).subscribe((data) => {
@@ -68,17 +78,24 @@ export class MakeDetailsComponent {
             });
           }
           this.loading = false;
-          window.location.href = '/brands/view_makes'
+          window.location.href = '/brands/view_makes';
         });
       },
     });
   }
 
-  ngOnInit() {
+  getMake() {
     this._store.dispatch(makeActions.getMakeById({ id: this.id }));
     this.makeData$ = this._store.select(makeSelector.makeData);
+  }
+
+  getModelByMake() {
     this._store.dispatch(modelActions.getModelByMakeId({ makeId: this.id }));
     this.modelData$ = this._store.select(modelSelector.modelByMakeData);
-    this.makeData$.subscribe((data) => (this.editData = data));
+  }
+
+  ngOnInit() {
+    this.getMake();
+    this.getModelByMake();
   }
 }

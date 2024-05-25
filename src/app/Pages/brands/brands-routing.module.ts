@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewMakesComponent } from './view-makes/view-makes.component';
-import { MakeDetailsComponent } from './makes-details/make-details/make-details.component';
+import { MakeDetailsComponent } from './makes-details/make-details.component';
 import { CreateMakeComponent } from './create-make/create-make.component';
 import { CreateMultipleMakesComponent } from './create-multiple-makes/create-multiple-makes.component';
 import { ViewModelsComponent } from './view-models/view-models.component';

@@ -9,6 +9,7 @@ import {
   IMultipleModelErrors,
 } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
+import { ICreateModelError } from './model.model';
 
 export const GET_MODELS_MAKES = '[Makes Details Page] GET_MODELS_MAKES';
 export const GET_MODELS_MAKES_SUCCESS =
@@ -20,6 +21,8 @@ export const GET_MODELS_SUCCESS = '[View Models page] GET_MODELS_SUCCESS';
 export const CREATE_MODELS = '[Create Models Page] CREATE_MODELS';
 export const CREATE_MODELS_SUCCESS =
   '[Create Models page] CREATE_MODELS_SUCCESS';
+  export const CREATE_MODELS_FAIL =
+  '[Create Models page] CREATE_MODELS_FAIL';
 
 export const CREATE_MULTIPLE_MODELS =
   '[Create Models Spreadsheet/CSV Page] CREATE_MULTIPLE_MODELS';
@@ -65,6 +68,11 @@ const createModelsSuccess = createAction(
   props<{ data: boolean }>()
 );
 
+const createModelsFail = createAction(
+  CREATE_MODELS_FAIL,
+  props<{ error: ICreateModelError }>()
+);
+
 const createMultipleModels = createAction(
   CREATE_MULTIPLE_MODELS,
   props<{ file: File }>()
@@ -73,6 +81,7 @@ const createMultipleModels = createAction(
 const createMultipleModelsSuccess = createAction(
   CREATE_MULTIPLE_MODELS_SUCCESS,
   props<{ data: boolean }>()
+  
 );
 
 const createMultipleModelsFail = createAction(
@@ -117,6 +126,7 @@ export const modelActions = {
   getModelsSuccess,
   createModelsSuccess,
   createModels,
+  createModelsFail,
   createMultipleModels,
   createMultipleModelsSuccess,
   createMultipleModelsFail,

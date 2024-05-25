@@ -25,5 +25,10 @@ export const ModelState: IModelModel = {
     yearFounded: 0
   },
   editModelResponse: false,
-  editModelError: ''
+  editModelError: '',
+  createModelError: {
+    text:'',
+    models: []
+  },
+  createModelSuccess: ''
 };

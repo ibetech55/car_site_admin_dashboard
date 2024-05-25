@@ -48,6 +48,13 @@ export const modelReducer = createReducer(
       loading: false,
     };
   }),
+  on(modelActions.createModelsFail, (currentState: IModelModel, action) => {
+    return {
+      ...currentState,
+      loading: false,
+      createModelError: action.error
+    };
+  }),
   on(modelActions.createMultipleModels, (currentState: IModelModel) => {
     return {
       ...currentState,

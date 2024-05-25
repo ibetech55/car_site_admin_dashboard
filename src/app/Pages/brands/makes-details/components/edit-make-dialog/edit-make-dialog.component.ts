@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IGetMake } from '../../../../../../Data/Brand/Makes/GetMakes';
+import { IGetMake } from '../../../../../Data/Brand/Makes/GetMakes';
 import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../../../Store/app.state';
-import { makeSelector } from '../../../../../../Store/Make/make.selector';
+import { IAppState } from '../../../../../Store/app.state';
+import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IEditMake } from '../../../../../../Data/Brand/Makes/EditMake';
-import { makeActions } from '../../../../../../Store/Make/make.action';
+import { IEditMake } from '../../../../../Data/Brand/Makes/EditMake';
+import { makeActions } from '../../../../../Store/Make/make.action';
 import { Observable, map } from 'rxjs';
-import { LocationService } from '../../../../../../services/location/location.service';
-import { ISelect } from '../../../../../../Data/Common';
+import { LocationService } from '../../../../../services/location/location.service';
+import { ISelect } from '../../../../../Data/Common';
 @Component({
   selector: 'app-edit-make-dialog',
   templateUrl: './edit-make-dialog.component.html',
@@ -20,12 +20,14 @@ export class EditMakeDialogComponent {
     private _builder: FormBuilder,
     private _locationService: LocationService
   ) {}
+  @Input() handleLoading!:()=>void;
+  @Input() getMake!: () => void;
   @Input() showDialog: boolean = false;
   @Input() loading: boolean = false;
   @Output() dialogClosed: EventEmitter<void> = new EventEmitter<void>();
   @Output() editDialog = new EventEmitter<boolean>();
   @Output() closeEditModal = new EventEmitter<void>();
-  @Input() editData!: IEditMake;
+ editData!: IEditMake;
   @Input() id!: string;
   countriesList$!: Observable<ISelect[]>;
 
@@ -78,6 +80,8 @@ export class EditMakeDialogComponent {
   }
 
   ngOnInit() {
+    this.setForm();
     this.getCountries();
+    this.getMake();
   }
 }

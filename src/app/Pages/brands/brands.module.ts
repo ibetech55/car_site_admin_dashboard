@@ -6,11 +6,11 @@ import { ComponentsModule } from '../../shared/components/components.module';
 import { DesignModule } from '../../shared/design/design.module';
 import { MakeService } from '../../services/make.service';
 import { PipesModule } from '../../shared/pipes/pipes.module';
-import { MakeDetailsComponent } from './makes-details/make-details/make-details.component';
+import { MakeDetailsComponent } from './makes-details/make-details.component';
 import { CreateMakeComponent } from './create-make/create-make.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateMultipleMakesComponent } from './create-multiple-makes/create-multiple-makes.component';
-import { EditMakeDialogComponent } from './makes-details/make-details/components/edit-make-dialog/edit-make-dialog.component';
+import { EditMakeDialogComponent } from './makes-details/components/edit-make-dialog/edit-make-dialog.component';
 import { ViewModelsComponent } from './view-models/view-models.component';
 import { CreateModelComponent } from './create-model/create-model.component';
 import { CreateMultipleModelsComponent } from './create-multiple-models/create-multiple-models.component';
@@ -24,6 +24,9 @@ import { CreateMultipleMakesFormComponent } from './create-multiple-makes/compon
 import { CreateMultipleModelsFormComponent } from './create-multiple-models/components/create-multiple-models-form/create-multiple-models-form.component';
 import { CreateModelCategoriesFormComponent } from './model-categories/components/create-model-categories-form/create-model-categories-form.component';
 import { ModelCategoriesTableComponent } from './model-categories/components/model-categories-table/model-categories-table.component';
+import { MakeDetailsInfoComponent } from './makes-details/components/make-details-info/make-details-info.component';
+import { MakeDetailsModelsTableComponent } from './makes-details/components/make-details-models-table/make-details-models-table.component';
+import { ModelDetailsInfoComponent } from './model-details/components/model-details-info/model-details-info.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { ModelCategoriesTableComponent } from './model-categories/components/mod
     CreateMultipleMakesFormComponent,
     CreateMultipleModelsFormComponent,
     CreateModelCategoriesFormComponent,
-    ModelCategoriesTableComponent
+    ModelCategoriesTableComponent,
+    MakeDetailsInfoComponent,
+    MakeDetailsModelsTableComponent,
+    ModelDetailsInfoComponent
   ],
   providers: [MakeService],
   imports: [

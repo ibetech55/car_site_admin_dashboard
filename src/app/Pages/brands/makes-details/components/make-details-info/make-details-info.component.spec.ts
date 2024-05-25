@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditModalComponent } from './edit-modal.component';
+import { MakeDetailsInfoComponent } from './make-details-info.component';
 
-describe('EditModalComponent', () => {
-  let component: EditModalComponent;
-  let fixture: ComponentFixture<EditModalComponent>;
+describe('MakeDetailsInfoComponent', () => {
+  let component: MakeDetailsInfoComponent;
+  let fixture: ComponentFixture<MakeDetailsInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditModalComponent]
+      declarations: [MakeDetailsInfoComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EditModalComponent);
+    fixture = TestBed.createComponent(MakeDetailsInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

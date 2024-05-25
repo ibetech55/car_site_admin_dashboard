@@ -51,7 +51,10 @@ export class ModelEffects {
         return this._modelService.saveModels(action.values).pipe(
           map((data) => {
             return modelActions.createModelsSuccess({ data });
-          })
+          }),
+          catchError(({error}) => 
+            of(modelActions.createModelsFail({ error: error.message }))
+          ),
         );
       })
     )

@@ -10,6 +10,8 @@ const verifyModelsResponse = createSelector(modelState, (state) => state.verifyM
 const modelData = createSelector(modelState, (state) => state.modelData);
 const editModelResponse = createSelector(modelState, (state) => state.editModelResponse);
 const editModelError = createSelector(modelState, (state) => state.editModelError);
+const createModelError = createSelector(modelState, (state) => state.createModelError);
+const createModelSuccess = createSelector(modelState, (state) => state.createModelSuccess);
 
 export const modelSelector = {
   modelByMakeData,
@@ -19,5 +21,7 @@ export const modelSelector = {
   verifyModelsResponse,
   modelData,
   editModelResponse,
-  editModelError
+  editModelError,
+  createModelError,
+  createModelSuccess
 };

@@ -1,0 +1,27 @@
+<app-loading [loading]="loading"></app-loading>
+<app-page-header text="Make Details"></app-page-header>
+<div class="make-details">
+  <app-make-details-info
+    [makeData$]="makeData$"
+    [openEditModal]="openEditModal.bind(this)"
+  ></app-make-details-info>
+  <app-horizontal-line></app-horizontal-line>
+  <app-make-details-models-table
+    [modelData$]="modelData$"
+  ></app-make-details-models-table>
+  <div class="make-details__delete-btn">
+    <app-button
+      label="Delete Make"
+      color="danger"
+      (click)="openDeleteDialog($event)"
+    ></app-button>
+  </div>
+</div>
+
+<app-edit-make-dialog
+  [getMake]="getMake.bind(this)"
+  [showDialog]="editDialog"
+  (dialogClosed)="closeEditModal()"
+  [id]="id"
+></app-edit-make-dialog>
+<p-confirmDialog></p-confirmDialog>
