@@ -13,6 +13,8 @@ const createMultipleMakesResponse = createSelector(makeState, (state) => state.c
 const createMultipleMakesError = createSelector(makeState, (state) => state.createMultipleMakesError);
 const editMakeError = createSelector(makeState, (state) => state.editMakeError);
 const editMakeSuccess = createSelector(makeState, (state) => state.editMakeSuccess);
+const getMakeLogoUrl = createSelector(makeState, (state) => state.getMakeLogoSuccess);
+const changeMakeLogoSuccess = createSelector(makeState, (state) => state.changeMakeLogoSuccess);
 
 export const makeSelector = {
   makesData,
@@ -26,5 +28,7 @@ export const makeSelector = {
   createMultipleMakesResponse,
   createMultipleMakesError,
   editMakeError,
-  editMakeSuccess
+  editMakeSuccess,
+  getMakeLogoUrl,
+  changeMakeLogoSuccess
 };

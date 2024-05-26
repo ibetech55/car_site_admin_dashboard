@@ -2,6 +2,7 @@
 <app-page-header text="Make Details"></app-page-header>
 <div class="make-details">
   <app-make-details-info
+    [id]="id"
     [makeData$]="makeData$"
     [openEditModal]="openEditModal.bind(this)"
   ></app-make-details-info>
@@ -27,4 +28,3 @@
 ></app-edit-make-dialog>
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>
-

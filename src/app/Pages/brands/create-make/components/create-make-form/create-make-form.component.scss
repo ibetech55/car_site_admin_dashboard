@@ -30,24 +30,28 @@
         }
       }
     }
-  
-    &__upload-btns {
-      display: flex;
-      app-button {
-        margin-right: 0.5rem;
+
+    &__upload {      
+      &-btns {
+        display: flex;
+        app-button {
+          margin-right: 0.5rem;
+        }
+      }
+    
+      &-image {
+        width: 200px;
+        height: 200px;
+        margin: 0.5rem 0;
+    
+        img {
+          height: 100%;
+          width: 100%;
+        }
       }
     }
   
-    &__upload-image {
-      width: 200px;
-      height: 200px;
-      margin: 0.5rem 0;
-  
-      img {
-        height: 100%;
-        width: 100%;
-      }
-    }
+
   
     form {
       span.error-text {

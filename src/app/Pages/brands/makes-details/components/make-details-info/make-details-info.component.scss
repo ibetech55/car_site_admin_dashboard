@@ -15,11 +15,24 @@
   
     &__logo-img {
       margin-bottom: 1rem;
+      width: 200px;
+      height: 200px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   
     &__td-actions {
       display: flex;
       :first-child {
+        margin-right: 0.5rem;
+      }
+    }
+
+    &__upload-btns {
+      display: flex;
+      :first-child, :nth-child(2) {
         margin-right: 0.5rem;
       }
     }

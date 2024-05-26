@@ -97,4 +97,19 @@ export class MakeService {
       formData
     );
   }
+
+  getMakeLogo(id: string): Observable<string> {
+    return this._httpClient.get<string>(
+      `http://localhost:5003/brand_api/make/get-make-logo/${id}`
+    );
+  }
+
+  changeMakeLogo(id: string, makeLogo: File): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('makeImage', makeLogo);
+    return this._httpClient.patch<boolean>(
+      `http://localhost:5003/brand_api/make/changeMakeLogo/${id}`,
+      formData
+    );
+  }
 }

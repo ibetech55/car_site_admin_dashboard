@@ -1,5 +1,6 @@
 <div class="make-details-info" *ngIf="makeData$ | async as data">
   <p-card>
+    <p class="medium-text error-text">{{ errorImageType$ | async }}</p>
     <div class="make-details-info__content">
       <div class="make-details-info__info medium-text">
         <p>
@@ -46,8 +47,37 @@
         <app-button label="Edit Make" (click)="openEditModal()"></app-button>
       </div>
       <div class="make-details-info__logo">
-        <div class="make-details-info__logo-img"></div>
-        <app-button label="Upload Photo" [isUpload]="true"></app-button>
+        <div class="make-details-info__logo-img">
+          <img
+            *ngIf="makeImage && !loadingImage"
+            [src]="previewImage.url"
+            [alt]="previewImage.alt"
+            [id]="previewImage.id"
+          />
+          <img
+            *ngIf="makeLogoUrl$ && !makeImage && !loadingImage"
+            [src]="makeLogoUrl$"
+          />
+          <div *ngIf="loadingImage">Loading...</div>
+        </div>
+        <div class="make-details-info__upload-btns">
+          <app-button
+            label="Upload Logo"
+            [isUpload]="true"
+            (onFileChange)="onUpload($event)"
+          ></app-button>
+          <app-button
+            label="Save Logo"
+            (click)="saveLogo()"
+            *ngIf="makeImage"
+          ></app-button>
+          <app-button
+            *ngIf="makeImage"
+            label="Remove Image"
+            (click)="removeImage()"
+            color="danger"
+          ></app-button>
+        </div>
       </div>
     </div>
   </p-card>

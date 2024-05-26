@@ -32,8 +32,16 @@ export const CREATE_MULTIPLE_MAKES =
   '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES';
 export const CREATE_MULTIPLE_MAKES_SUCCESS =
   '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES_SUCCESS';
-  export const CREATE_MULTIPLE_MAKES_ERROR =
+export const CREATE_MULTIPLE_MAKES_ERROR =
   '[Create Multiple Makes Page] CREATE_MULTIPLE_MAKES_ERROR';
+
+export const GET_MAKE_LOGO = '[Make Details Page] GET_MAKE_LOGO';
+export const GET_MAKE_LOGO_SUCCESS =
+  '[Make Details Page] GET_MAKE_LOGO_SUCCESS';
+
+export const CHANGE_MAKE_LOGO = '[Make Details Page] CHANGE_MAKE_LOGO';
+export const CHANGE_MAKE_LOGO_SUCCESS =
+  '[Make Details Page] CHANGE_MAKE_LOGO_SUCCESS';
 
 const loadMakes = createAction(LOAD_MAKES);
 const loadMakessuccess = createAction(
@@ -106,6 +114,20 @@ export const createMultipleMakesError = createAction(
   props<{ error: string }>()
 );
 
+export const getMakeLogo = createAction(GET_MAKE_LOGO, props<{ id: string }>());
+
+export const getMakeLogoSuccess = createAction(
+  GET_MAKE_LOGO_SUCCESS,
+  props<{ data: string }>()
+);
+
+export const changeMakeLogo = createAction(CHANGE_MAKE_LOGO, props<{ id: string, makeLogo:File }>());
+
+export const changeMakeLogoSuccess = createAction(
+  CHANGE_MAKE_LOGO_SUCCESS,
+  props<{ data: boolean }>()
+);
+
 export const makeActions = {
   loadMakes,
   loadMakessuccess,
@@ -126,5 +148,9 @@ export const makeActions = {
   createMultipleMakes,
   createMultipleMakesSuccess,
   createMultipleMakesError,
-  editMakeError
+  editMakeError,
+  getMakeLogo,
+  getMakeLogoSuccess,
+  changeMakeLogo,
+  changeMakeLogoSuccess
 };

@@ -13,4 +13,6 @@ export interface IMakeModel {
   createMultipleMakesError: string;
   editMakeError: string;
   editMakeSuccess: boolean;
+  getMakeLogoSuccess: string;
+  changeMakeLogoSuccess: boolean;
 }

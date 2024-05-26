@@ -10,6 +10,7 @@ import { makeActions } from '../../../../../Store/Make/make.action';
 import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { IAppState } from '../../../../../Store/app.state';
 import { LocationService } from '../../../../../services/location/location.service';
+import { CONSTANTS } from '../../../../../Constants';
 interface ICreateMakeForm {
   makeName: string;
   origin: string;
@@ -20,6 +21,7 @@ interface ICreateMakeForm {
   errorMakeNameBorder: boolean;
   errorOrigin: string;
   errorOriginBorder: boolean;
+  errorUploadImage: string;
   previewImage: {
     url: string;
     id: string;
@@ -38,6 +40,8 @@ export class CreateMakeFormComponent {
   makesSavedSub = new Subscription();
   errorSub = new Subscription();
   loading: boolean = false;
+  errorImageType$ = new BehaviorSubject('');
+
 
   constructor(
     private _store: Store<IAppState>,
@@ -71,6 +75,7 @@ export class CreateMakeFormComponent {
       errorMakeNameBorder: this._builder.control(false),
       errorOrigin: this._builder.control(''),
       errorOriginBorder: this._builder.control(false),
+      errorUploadImage: this._builder.control(''),
       previewImage: {
         url: this._builder.control(''),
         id: this._builder.control(''),
@@ -170,12 +175,18 @@ export class CreateMakeFormComponent {
     const makeFormGroup = this.makeFormGroup.get(this.formName) as FormArray;
 
     const formValues = makeFormGroup.value;
-    formValues[index].file = file;
-    formValues[index].previewImage.url =
-      this._imagePreview.generateImageUrl(file);
-    formValues[index].previewImage.id = this._imagePreview.generateImageId();
-
+    if(CONSTANTS.IMAGE_FILE_EXT.includes(file.type)){
+      formValues[index].errorUploadImage = ''
+      formValues[index].file = file;
+      formValues[index].previewImage.url =
+        this._imagePreview.generateImageUrl(file);
+      formValues[index].previewImage.id = this._imagePreview.generateImageId();
+  
+    } else {
+     formValues[index].errorUploadImage = 'Make Logo must an image'
+    }
     makeFormGroup?.setValue(formValues);
+
   }
 
   clearForms() {

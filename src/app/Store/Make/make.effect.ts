@@ -3,11 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, catchError, of, switchMap, exhaustMap } from 'rxjs';
 import { MakeService } from '../../services/make.service';
 import {
+  CHANGE_MAKE_LOGO,
   CREATE_MULTIPLE_MAKES,
   DELETE_MAKE,
   EDIT_MAKE,
   GET_MAKES_LIST,
   GET_MAKE_BY_ID,
+  GET_MAKE_LOGO,
   LOAD_MAKES,
   SAVE_MAKES,
   VERIFY_MAKES,
@@ -134,6 +136,32 @@ export class MakeEffects {
           catchError(({ error }) =>
             of(makeActions.createMultipleMakesError({ error: error.message }))
           )
+        );
+      })
+    )
+  );
+
+  _getMakeLogo = createEffect(() =>
+    this.action$.pipe(
+      ofType(GET_MAKE_LOGO),
+      switchMap((action:{id:string}) => {
+        return this._makeService.getMakeLogo(action.id).pipe(
+          map((data) => {
+            return makeActions.getMakeLogoSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _changeMakeLogo = createEffect(() =>
+    this.action$.pipe(
+      ofType(CHANGE_MAKE_LOGO),
+      switchMap((action:{id:string, makeLogo:File}) => {
+        return this._makeService.changeMakeLogo(action.id, action.makeLogo).pipe(
+          map((data) => {
+            return makeActions.changeMakeLogoSuccess({ data });
+          })
         );
       })
     )

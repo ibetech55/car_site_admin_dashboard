@@ -68,7 +68,7 @@ export const makeReducer = createReducer(
       ...currentState,
       loading: true,
       editMakeSuccess: false,
-      editMakeError: ''
+      editMakeError: '',
     };
   }),
   on(makeActions.editMakeSuccess, (currentState: IMakeModel, action) => {
@@ -76,14 +76,14 @@ export const makeReducer = createReducer(
       ...currentState,
       loading: false,
       editMakeSuccess: action.response,
-      editMakeError:''
+      editMakeError: '',
     };
   }),
   on(makeActions.editMakeError, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
       loading: false,
-      editMakeError:action.error
+      editMakeError: action.error,
     };
   }),
   on(makeActions.getMakesList, (currentState: IMakeModel, action) => {
@@ -139,7 +139,7 @@ export const makeReducer = createReducer(
       ...currentState,
       loading: false,
       createMultipleMakesResponse: true,
-      createMultipleMakesError:''
+      createMultipleMakesError: '',
     };
   }),
   on(
@@ -152,5 +152,27 @@ export const makeReducer = createReducer(
         createMultipleMakesError: action.error,
       };
     }
-  )
+  ),
+  on(makeActions.getMakeLogo, (currentState: IMakeModel) => {
+    return {
+      ...currentState,
+    };
+  }),
+  on(makeActions.getMakeLogoSuccess, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      getMakeLogoSuccess: action.data,
+    };
+  }),
+  on(makeActions.changeMakeLogo, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+    };
+  }),
+  on(makeActions.changeMakeLogoSuccess, (currentState: IMakeModel, action) => {
+    return {
+      ...currentState,
+      changeMakeLogoSuccess: action.data,
+    };
+  })
 );
