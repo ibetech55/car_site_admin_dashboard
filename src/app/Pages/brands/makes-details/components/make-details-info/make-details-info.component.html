@@ -3,45 +3,15 @@
     <p class="medium-text error-text">{{ errorImageType$ | async }}</p>
     <div class="make-details-info__content">
       <div class="make-details-info__info medium-text">
-        <p>
-          <span class="dark-label bold-text">Make Name:</span>
-          {{ data.makeName }}
-        </p>
-        <p>
-          <span class="dark-label bold-text">Status:</span>
-          {{ data.active | active }}
-        </p>
-        <p>
-          <span class="dark-label bold-text">Origin:</span> {{ data.origin }}
-        </p>
-        <p *ngIf="data.company">
-          <span class="dark-label bold-text">Company: </span>
-          {{ data.company }}
-        </p>
-        <p *ngIf="!data.company">
-          <span class="dark-label bold-text">Company: </span>
-          -
-        </p>
-        <p *ngIf="data.yearFounded">
-          <span class="dark-label bold-text">Year Founded: </span>
-          {{ data.yearFounded }}
-        </p>
-        <p *ngIf="!data.yearFounded">
-          <span class="dark-label bold-text">Year Founded: </span>
-          -
-        </p>
-        <p>
-          <span class="dark-label bold-text">Date Created:</span>
-          {{ data.createdAt | formatDate }}
-        </p>
-        <p *ngIf="data.updatedAt">
-          <span class="dark-label bold-text">Last Modified:</span>
-          {{ data.updatedAt | formatDate }}
-        </p>
-        <p *ngIf="!data.updatedAt">
-          <span class="dark-label bold-text">Last Modified:</span>
-          -
-        </p>
+        <app-label-text label="Make Name:" [text]="data.makeName"></app-label-text>
+        <app-label-text label="Status:" text="{{ data.active | active }}"></app-label-text>
+        <app-label-text label="Origin:" [text]="data.origin"></app-label-text>
+        <app-label-text *ngIf="data.company" label="Company:" [text]="data.company"></app-label-text>
+        <app-label-text *ngIf="!data.company" label="Company:" text="-"></app-label-text>
+        <app-label-text *ngIf="data.yearFounded" label="Year Founded:" [text]="data.yearFounded.toString()"></app-label-text>
+        <app-label-text *ngIf="!data.yearFounded" label="Year Founded:" text="-"></app-label-text>
+        <app-label-text label="Date Created:" text="{{ data.createdAt | formatDate }}"></app-label-text>
+        <app-label-text label="Date Updated:" text="{{ data.updatedAt | formatDate }}"></app-label-text>
       </div>
       <div class="make-details-info__info-btn">
         <app-button label="Edit Make" (click)="openEditModal()"></app-button>
@@ -58,7 +28,7 @@
             *ngIf="makeLogoUrl$ && !makeImage && !loadingImage"
             [src]="makeLogoUrl$"
           />
-          <div *ngIf="loadingImage">Loading...</div>
+          <!-- <div *ngIf="loadingImage">Loading...</div> -->
         </div>
         <div class="make-details-info__upload-btns">
           <app-button
@@ -69,10 +39,10 @@
           <app-button
             label="Save Logo"
             (click)="saveLogo()"
-            *ngIf="makeImage"
+            *ngIf="showButtons"
           ></app-button>
           <app-button
-            *ngIf="makeImage"
+            *ngIf="showButtons"
             label="Remove Image"
             (click)="removeImage()"
             color="danger"

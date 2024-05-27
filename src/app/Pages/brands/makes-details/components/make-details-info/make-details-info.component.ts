@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, delay } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  delay,
+  takeUntil,
+} from 'rxjs';
 import { IGetModelByMakeId } from '../../../../../Data/Brand/Model/GetModel';
 import { IGetMake } from '../../../../../Data/Brand/Makes/GetMakes';
 import { ImagePreview } from '../../../../../../utils/ImagePreview';
@@ -20,6 +27,7 @@ export class MakeDetailsInfoComponent {
   @Input() id!: string;
   makeImage?: File;
   makeLogoUrl$ = '';
+  hideButtons = false;
   previewImage = {
     url: '',
     id: '',
@@ -30,20 +38,24 @@ export class MakeDetailsInfoComponent {
 
   loadingImage = false;
   errorImageType$ = new BehaviorSubject('');
+  showButtons = false;
 
   onUpload(file: File) {
-    if(CONSTANTS.XLSX_FILE_EXT.includes(file.type)){
+    if (CONSTANTS.IMAGE_FILE_EXT.includes(file.type)) {
+      this.showButtons = true;
       this.makeImage = file;
-      this.previewImage.url = this._imagePreview.generateImageUrl(this.makeImage);
+      this.hideButtons = true
+      this.previewImage.url = this._imagePreview.generateImageUrl(
+        this.makeImage
+      );
       this.previewImage.id = this._imagePreview.generateImageId();
       this.previewImage.alt = this.makeImage.name;
     } else {
-      this.errorImageType$.next('Make Logo must be an image file.')
-      setTimeout(()=>{
-        this.errorImageType$.next('')
-      }, 5000)
+      this.errorImageType$.next('Make Logo must be an image file.');
+      setTimeout(() => {
+        this.errorImageType$.next('');
+      }, 5000);
     }
-
   }
 
   removeImage() {
@@ -58,22 +70,23 @@ export class MakeDetailsInfoComponent {
 
   saveLogo() {
     if (CONSTANTS.IMAGE_FILE_EXT.includes(this.makeImage?.type as string)) {
-      this.loadingImage = true;
       this._store.dispatch(
         makeActions.changeMakeLogo({
           id: this.id,
           makeLogo: this.makeImage as File,
         })
       );
+
       this.changeMakeLogoSub = this._store
         .select(makeSelector.changeMakeLogoSuccess)
         .subscribe((data) => {
           if (data) {
-            window.location.href = `brands/make/${this.id}`;
+            this.getMakeLogo();
+
             this.changeMakeLogoSub.unsubscribe();
           }
         });
-    } 
+    }
 
     this.loadingImage = false;
   }
@@ -84,9 +97,14 @@ export class MakeDetailsInfoComponent {
       .select(makeSelector.getMakeLogoUrl)
       .subscribe((data) => {
         if (data) {
-          this.makeLogoUrl$ = data;
+          this.showButtons = false;
+          if (!this.makeLogoUrl$) {
+            this.makeLogoUrl$ = data;
+          }
+
           this.getMakeLogoSub.unsubscribe();
         }
+        
       });
   }
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { IGetModelCategory } from '../../../../../Data/Brand/ModelCategory/GetModelCategory';
 import { modelCategoryActions } from '../../../../../Store/ModelCategory/model.category.action';
 import { modelCategorySelector } from '../../../../../Store/ModelCategory/model.category.selector';
@@ -18,9 +18,13 @@ export class CreateModelCategoriesFormComponent {
     private _store: Store<IAppState>
   ) {}
   @Output() onLoading = new EventEmitter<boolean>(false);
-  @Input() getModelCategoriesData!:() => void;
+  @Input() getModelCategoriesData!: () => void;
   errorText!: string;
   _type = this._builder.control('', Validators.required);
+  errorCreateModel = "";
+  errorSub = new Subscription();
+  createSub = new Subscription();
+
   handleSubmit() {
     this.onLoading.emit(true);
     if (this._type.valid) {
@@ -29,8 +33,22 @@ export class CreateModelCategoriesFormComponent {
           values: { type: this._type.getRawValue() as string },
         })
       );
-      this.clearForm();
-      this.getModelCategoriesData();
+      this.createSub = this._store
+        .select(modelCategorySelector.createModelCategorySuccess)
+        .subscribe((data) => {
+          if (data) {
+            this.clearForm();
+            this.getModelCategoriesData();
+            this.createSub.unsubscribe();
+          }
+        });
+
+        this.errorSub = this._store.select(modelCategorySelector.createModelCategoryError).subscribe((err)=>{
+          if(err){
+            console.log(err)
+            this.errorCreateModel = err
+          }
+        })
     } else {
       this.errorText = 'Please type a Category Name';
     }
@@ -39,6 +57,7 @@ export class CreateModelCategoriesFormComponent {
 
   clearForm() {
     this.errorText = '';
+    this.errorCreateModel = ''
     this._type.reset();
   }
 }

@@ -22,25 +22,33 @@ export const modelCategoryReducer = createReducer(
   }),
   on(modelCategoryActions.createModelCategory, (currentState: IModelCategoryModel) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: true,
     };
   }),
   on(modelCategoryActions.createModelCategorySuccess, (currentState: IModelCategoryModel) => {
     return {
       ...currentState,
+      createModelCategorySuccess: true,
       loading: false,
+    };
+  }),
+  on(modelCategoryActions.createModelCategoryError, (currentState: IModelCategoryModel, action) => {
+    return {
+      ...initialState,
+      loading: false,
+      createModelCategoryError:action.error
     };
   }),
   on(modelCategoryActions.getModelCategories, (currentState: IModelCategoryModel) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: false,
     };
   }),
   on(modelCategoryActions.getModelCategoriesSuccess, (currentState: IModelCategoryModel, action) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: true,
       modelCategoriesData: action.data
     };

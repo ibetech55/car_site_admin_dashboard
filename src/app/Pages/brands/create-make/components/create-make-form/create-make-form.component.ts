@@ -183,7 +183,7 @@ export class CreateMakeFormComponent {
       formValues[index].previewImage.id = this._imagePreview.generateImageId();
   
     } else {
-     formValues[index].errorUploadImage = 'Make Logo must an image'
+     formValues[index].errorUploadImage = 'Make Logo must be an image'
     }
     makeFormGroup?.setValue(formValues);
 

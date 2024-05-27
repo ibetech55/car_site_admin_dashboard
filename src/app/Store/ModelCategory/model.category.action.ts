@@ -16,6 +16,9 @@ export const CREATE_MODEL_CATEGORY =
 export const CREATE_MODEL_CATEGORY_SUCCESS =
   '[Model Categories Page] CREATE_MODEL_CATEGORY_SUCCESS';
 
+  export const CREATE_MODEL_CATEGORY_ERROR =
+  '[Model Categories Page] CREATE_MODEL_CATEGORY_ERROR';
+
 export const GET_MODEL_CATEGORIES =
   '[Model Categories Page] GET_MODEL_CATEGORIES';
 export const GET_MODEL_CATEGORIES_SUCCESS =
@@ -34,11 +37,18 @@ const createModelCategorySuccess = createAction(
   CREATE_MODEL_CATEGORY_SUCCESS,
   props<{ data: IGetModelCategory }>()
 );
+
+const createModelCategoryError = createAction(
+  CREATE_MODEL_CATEGORY_ERROR,
+  props<{ error: string }>()
+);
+
 const getModelCategories = createAction(GET_MODEL_CATEGORIES);
 const getModelCategoriesSuccess = createAction(
   GET_MODEL_CATEGORIES_SUCCESS,
   props<{ data: IGetModelCategory[] }>()
 );
+
 
 export const modelCategoryActions = {
   getModelCategoryList,
@@ -47,4 +57,5 @@ export const modelCategoryActions = {
   createModelCategorySuccess,
   getModelCategories,
   getModelCategoriesSuccess,
+  createModelCategoryError
 };

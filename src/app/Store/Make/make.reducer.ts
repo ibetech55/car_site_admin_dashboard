@@ -156,6 +156,7 @@ export const makeReducer = createReducer(
   on(makeActions.getMakeLogo, (currentState: IMakeModel) => {
     return {
       ...currentState,
+      getMakeLogoSuccess: "",
     };
   }),
   on(makeActions.getMakeLogoSuccess, (currentState: IMakeModel, action) => {
@@ -167,11 +168,14 @@ export const makeReducer = createReducer(
   on(makeActions.changeMakeLogo, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
+      getMakeLogoSuccess: "",
+      changeMakeLogoSuccess: false,
     };
   }),
   on(makeActions.changeMakeLogoSuccess, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
+            getMakeLogoSuccess: "",
       changeMakeLogoSuccess: action.data,
     };
   })

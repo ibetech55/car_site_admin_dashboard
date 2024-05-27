@@ -1,23 +1,24 @@
 <div class="model-categories-form">
-    <p-card>
-      <p class="error-text medium-text">{{ errorText }}</p>
-      <app-page-header text="Create Category"></app-page-header>
-      <form (ngSubmit)="handleSubmit()">
-        <div class="model-categories-form__form-r1">
-          <app-input label="Category Name">
-            <input
-              pInputText
-              id="categoryName"
-              aria-describedby="username-help"
-              class="p-inputtext-sm"
-              [formControl]="_type"
-            />
-          </app-input>
-        </div>
-  
-        <div class="form-btns-mt">
-          <app-button label="Save" type="submit"></app-button>
-        </div>
-      </form>
-    </p-card>
-  </div>
+  <p-card>
+    <p class="error-text medium-text">{{ errorText }}</p>
+    <app-page-header text="Create Category"></app-page-header>
+    <form (ngSubmit)="handleSubmit()">
+      <div class="model-categories-form__form-r1">
+        <app-input label="Category Name" [error]="errorCreateModel">
+          <input
+            [ngClass]="{ errorBorder: errorCreateModel ? true : false }"
+            pInputText
+            id="categoryName"
+            aria-describedby="username-help"
+            class="p-inputtext-sm"
+            [formControl]="_type"
+          />
+        </app-input>
+      </div>
+
+      <div class="form-btns-mt">
+        <app-button label="Save" type="submit"></app-button>
+      </div>
+    </form>
+  </p-card>
+</div>

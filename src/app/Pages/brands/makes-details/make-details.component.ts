@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
@@ -10,6 +10,7 @@ import { modelActions } from '../../../Store/Model/model.action';
 import { IGetModelByMakeId } from '../../../Data/Brand/Model/GetModel';
 import { modelSelector } from '../../../Store/Model/model.selector';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { MakeDetailsInfoComponent } from './components/make-details-info/make-details-info.component';
 
 @Component({
   selector: 'app-make-details',
@@ -24,6 +25,7 @@ export class MakeDetailsComponent {
     private _confirmationService: ConfirmationService,
     private _messageService: MessageService
   ) {}
+
   id: string = this._router.snapshot.params['id'];
   makeData$!: Observable<IGetMake>;
   modelData$!: Observable<IGetModelByMakeId[]>;
