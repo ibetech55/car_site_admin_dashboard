@@ -1,25 +1,18 @@
 import { Component, Injectable, inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-interface IConfirmDiaologProps{
-  message:string;
-  accept:() => void
-  reject:() => void
+interface IConfirmDiaologProps {
+  message: string;
+  accept: () => void;
+  reject?: () => void;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
-
-
 export class ConfirmDialog {
-  constructor(
-    private _confirmationService: ConfirmationService,
-  ) {
-  }
+  constructor(private _confirmationService: ConfirmationService) {}
 
-
-  handle(event:Event, values:IConfirmDiaologProps){
+  handle(event: Event, values: IConfirmDiaologProps) {
     this._confirmationService.confirm({
       target: event.target as EventTarget,
       message: values.message,
@@ -29,12 +22,13 @@ export class ConfirmDialog {
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
-       values.accept()
+        values.accept();
       },
       reject: () => {
-        values.reject()
+        if (values.reject) {
+          values.reject();
+        }
       },
     });
   }
-  
 }

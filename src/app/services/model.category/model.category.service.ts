@@ -4,6 +4,7 @@ import { IGetModelCategory, IGetModelCategoryList } from '../../Data/Brand/Model
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { ICreateModelForm } from '../../Data/Brand/Model/CreateModel';
+import { IUpdateModelCategory } from '../../Data/Brand/ModelCategory/UpdateModelCategory';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,26 @@ export class ModelCategoryService {
   getModelCategories(): Observable<IGetModelCategory[]> {
     return this._httpClient.get<IGetModelCategory[]>(
       `${environment.BRAND_API_URL}/model_category`
+    );
+  }
+
+
+  getModelCategoryById(id:string): Observable<IGetModelCategory> {
+    return this._httpClient.get<IGetModelCategory>(
+      `${environment.BRAND_API_URL}/model_category/${id}`
+    );
+  }
+
+  updateModelCategory(id:string, values:IUpdateModelCategory): Observable<boolean> {
+    return this._httpClient.put<boolean>(
+      `${environment.BRAND_API_URL}/model_category/${id}`,
+      values
+    );
+  }
+
+  deleteModelCategory(id:string): Observable<boolean> {
+    return this._httpClient.delete<boolean>(
+      `${environment.BRAND_API_URL}/model_category/${id}`
     );
   }
 }

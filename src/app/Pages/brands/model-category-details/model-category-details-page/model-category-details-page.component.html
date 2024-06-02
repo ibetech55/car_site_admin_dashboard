@@ -1,0 +1,25 @@
+<app-loading [loading]="loading"></app-loading>
+<div class="model-category">
+  <app-page-header text="Model Category Details"></app-page-header>
+  <app-mc-details
+    [mcData]="mcData"
+    [openEditModal]="openEditModal.bind(this)"
+  ></app-mc-details>
+  <div class="form-btns-right form-btns-mt">
+    <app-button
+      label="Delete"
+      color="danger"
+      (click)="openDeleteDialog($event)"
+    ></app-button>
+  </div>
+</div>
+<app-mc-edit-modal
+  [id]="id"
+  [showDialog]="editDialog"
+  [closeEditModal]="closeEditModal.bind(this)"
+  [getMCbyId]="getMCbyId.bind(this)"
+></app-mc-edit-modal>
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+

@@ -9,4 +9,8 @@ export interface IModelCategoryModel {
   loading: boolean;
   createModelCategoryError: string;
   createModelCategorySuccess: boolean;
+  modelCategoryData: IGetModelCategory;
+  updateMCSuccess: boolean;
+  updateMCError: string;
+  deleteMCSuccess:boolean;
 }

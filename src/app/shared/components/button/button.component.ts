@@ -15,7 +15,6 @@ type ButtonIconPosition = 'left' | 'right' | 'top' | 'bottom';
 })
 export class ButtonComponent {
   constructor(
-    private _renderer: Renderer2,
     private _element: ElementRef<HTMLDivElement>
   ) {}
   @Input() label: string = '';

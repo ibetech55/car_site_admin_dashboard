@@ -34,7 +34,7 @@ import { LabelTextComponent } from './label-text/label-text.component';
     LoadingComponent,
     HorizontalLineComponent,
     DialogComponent,
-    LabelTextComponent
-  ]
+    LabelTextComponent,
+  ],
 })
 export class ComponentsModule { }

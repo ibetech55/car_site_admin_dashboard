@@ -1,0 +1,24 @@
+<div *ngIf="mcData" class="mc-details">
+  <p-card>
+    <div class="mc-details__info medium-text">
+      <app-label-text label="Type:" [text]="mcData.type"></app-label-text>
+      <app-label-text
+        label="Status:"
+        [text]="mcData.active | active"
+      ></app-label-text>
+      <app-label-text
+        label="Created At:"
+        [text]="mcData.createdAt | formatDate"
+      ></app-label-text>
+      <app-label-text
+        label="Updated At:"
+        [text]="mcData.updatedAt | formatDate"
+      ></app-label-text>
+    </div>
+    <div class="form-btns-mt">
+      <app-button label="Edit" (click)="openEditModal()"></app-button>
+  </div>
+  </p-card>
+</div>
+
+

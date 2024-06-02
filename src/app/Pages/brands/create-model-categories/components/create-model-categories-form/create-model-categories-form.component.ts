@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { IGetModelCategory } from '../../../../../Data/Brand/ModelCategory/GetModelCategory';
+import { Subscription } from 'rxjs';
 import { modelCategoryActions } from '../../../../../Store/ModelCategory/model.category.action';
 import { modelCategorySelector } from '../../../../../Store/ModelCategory/model.category.selector';
 import { IAppState } from '../../../../../Store/app.state';
@@ -28,6 +27,7 @@ export class CreateModelCategoriesFormComponent {
   handleSubmit() {
     this.onLoading.emit(true);
     if (this._type.valid) {
+      this.errorText = "";
       this._store.dispatch(
         modelCategoryActions.createModelCategory({
           values: { type: this._type.getRawValue() as string },

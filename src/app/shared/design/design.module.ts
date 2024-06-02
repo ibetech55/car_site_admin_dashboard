@@ -11,6 +11,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -39,5 +40,6 @@ import { ToastModule } from 'primeng/toast';
     FileUploadModule,
     DialogModule,
   ],
+  providers: [ConfirmationService],
 })
 export class DesignModule {}

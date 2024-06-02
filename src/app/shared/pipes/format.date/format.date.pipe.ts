@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
   name: 'formatDate',
 })
 export class FormatDatePipe implements PipeTransform {
-  transform(value: string | Date | null, ...args: unknown[]): unknown {
+  transform(value: string | Date | null, ...args: unknown[]): string {
     if (value) {
       const date = DateTime.fromISO(value.toString());
       return date.toFormat('MM/dd/yyyy');

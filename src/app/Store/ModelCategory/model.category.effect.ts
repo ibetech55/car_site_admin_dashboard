@@ -6,12 +6,16 @@ import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 import {
   CREATE_MODEL_CATEGORY,
+  DELETE_MODEL_CATEGORY,
   GET_MODEL_CATEGORIES,
+  GET_MODEL_CATEGORY_BY_ID,
   GET_MODEL_CATEGORY_LIST,
+  UPDATE_MODEL_CATEGORY,
   modelCategoryActions,
 } from './model.category.action';
 import { ModelCategoryService } from '../../services/model.category/model.category.service';
 import { ICreateModelForm } from '../../Data/Brand/Model/CreateModel';
+import { IUpdateModelCategory } from '../../Data/Brand/ModelCategory/UpdateModelCategory';
 
 @Injectable()
 export class ModelCategoryEffects {
@@ -27,7 +31,7 @@ export class ModelCategoryEffects {
         return this._modelCategoryService.getModelCategoryList().pipe(
           map((data) => {
             return modelCategoryActions.getModelCategoryListSuccess({ data });
-          }),
+          })
         );
       })
     )
@@ -41,10 +45,14 @@ export class ModelCategoryEffects {
           .createModelCategory(action.values)
           .pipe(
             map((data) => {
-              return modelCategoryActions.createModelCategorySuccess({ data});
+              return modelCategoryActions.createModelCategorySuccess({ data });
             }),
-            catchError(({error}) =>
-              of(modelCategoryActions.createModelCategoryError({ error:error.message }))
+            catchError(({ error }) =>
+              of(
+                modelCategoryActions.createModelCategoryError({
+                  error: error.message,
+                })
+              )
             )
           );
       })
@@ -60,6 +68,56 @@ export class ModelCategoryEffects {
             return modelCategoryActions.getModelCategoriesSuccess({ data });
           })
         );
+      })
+    )
+  );
+
+  _getModelCategoryById = createEffect(() =>
+    this.action$.pipe(
+      ofType(GET_MODEL_CATEGORY_BY_ID),
+      switchMap((action: { id: string }) => {
+        return this._modelCategoryService.getModelCategoryById(action.id).pipe(
+          map((data) => {
+            return modelCategoryActions.getModelCategoryByIdSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _updateModelCategoryById = createEffect(() =>
+    this.action$.pipe(
+      ofType(UPDATE_MODEL_CATEGORY),
+      switchMap((action: { id: string; values: IUpdateModelCategory }) => {
+        return this._modelCategoryService
+          .updateModelCategory(action.id, action.values)
+          .pipe(
+            map((data) => {
+              return modelCategoryActions.updateModelCategorySuccess({ data });
+            }),
+            catchError(({error}) =>
+              of(
+                modelCategoryActions.updateModelCategoryError({
+                  error: error.message,
+                })
+              )
+            )
+          );
+      })
+    )
+  );
+
+  _deleteModelCategoryById = createEffect(() =>
+    this.action$.pipe(
+      ofType(DELETE_MODEL_CATEGORY),
+      switchMap((action: { id: string }) => {
+        return this._modelCategoryService
+          .deleteModelCategory(action.id)
+          .pipe(
+            map((data) => {
+              return modelCategoryActions.deleteModelCategorySuccess({ data });
+            })
+          );
       })
     )
   );

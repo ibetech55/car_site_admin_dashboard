@@ -21,7 +21,11 @@
       </ng-template>
       <ng-template pTemplate="body" let-data>
         <tr>
-          <td>{{ data.type }}</td>
+          <td>
+            <a [routerLink]="'/brands/model-category/' + data.id">{{
+              data.type
+            }}</a>
+          </td>
           <td>{{ data.active | active }}</td>
           <td>{{ data.createdAt | formatDate }}</td>
           <td *ngIf="data.updatedAt">{{ data.updatedAt | formatDate  }}</td>
