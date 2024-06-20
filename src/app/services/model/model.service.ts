@@ -53,7 +53,7 @@ export class ModelService {
 
   getModelById(id: string): Observable<IGetModelById> {
     return this._httpClient.get<IGetModelById>(
-      `http://localhost:5003/brand_api/model/${id}`
+      `http://localhost:5003/brand_api/model/getById/${id}`
     );
   }
 
@@ -67,6 +67,15 @@ export class ModelService {
   deleteModel(id: string): Observable<boolean> {
     return this._httpClient.delete<boolean>(
       `http://localhost:5003/brand_api/model/${id}`
+    );
+  }
+
+  downloadCreateModelsTemplate(): Observable<Blob> {
+    return this._httpClient.get<Blob>(
+      `http://localhost:5003/brand_api/model/createModelsTemplate`,
+      {
+        responseType: 'blob' as 'json'
+      }
     );
   }
 }

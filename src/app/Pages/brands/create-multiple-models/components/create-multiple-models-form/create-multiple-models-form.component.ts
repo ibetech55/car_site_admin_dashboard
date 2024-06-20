@@ -7,15 +7,18 @@ import { IMultipleModelErrors } from '../../../../../Data/Brand/Model/CreateMode
 import { modelActions } from '../../../../../Store/Model/model.action';
 import { modelSelector } from '../../../../../Store/Model/model.selector';
 import { IAppState } from '../../../../../Store/app.state';
+import { HandleDownload } from '../../../../../../utils/HandleDownload';
 
 @Component({
   selector: 'app-create-multiple-models-form',
   templateUrl: './create-multiple-models-form.component.html',
-  styleUrl: './create-multiple-models-form.component.scss'
+  styleUrl: './create-multiple-models-form.component.scss',
 })
 export class CreateMultipleModelsFormComponent {
-  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(false);
-
+  @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(
+    false
+  );
+  templateSub = new Subscription();
   fileName!: string;
   fileSelected?: File;
   errorText: string = '';
@@ -30,7 +33,8 @@ export class CreateMultipleModelsFormComponent {
 
   constructor(
     private _store: Store<IAppState>,
-    private _messageService: MessageService
+    private _messageService: MessageService,
+    private _handleDownload: HandleDownload
   ) {}
 
   onFileChange(file: File) {
@@ -45,20 +49,19 @@ export class CreateMultipleModelsFormComponent {
     this.errors = {};
   }
 
-  removeErrors(){
-    setTimeout(()=>{
+  removeErrors() {
+    setTimeout(() => {
       this.errorText = '';
       this.errors = {};
-    }, 5000)
+    }, 5000);
   }
 
   handleSubmit() {
-    this.loadingChange.emit(true)
+    this.loadingChange.emit(true);
     if (
       this.fileSelected &&
       this.fileSelected.type === CONSTANTS.XLSX_FILE_EXT
     ) {
-
       this._store.dispatch(
         modelActions.createMultipleModels({ file: this.fileSelected as File })
       );
@@ -71,7 +74,7 @@ export class CreateMultipleModelsFormComponent {
               summary: 'Confirmed',
               detail: 'Data Upĺoaded successfully',
             });
-            this.clearForm()
+            this.clearForm();
           }
           this._createMultipleModelsResponseSub.unsubscribe();
         });
@@ -84,14 +87,30 @@ export class CreateMultipleModelsFormComponent {
             this.errors.makeError = data.makeError;
             this.errors.modelCategoryError = data.modelCategoryError;
             this.errors.columnError = data.columnError;
-            this.removeErrors()
+            this.removeErrors();
           }
-          this._errorMultipleModelsResponseSub.unsubscribe()
+          this._errorMultipleModelsResponseSub.unsubscribe();
         });
     } else {
       this.errorText = 'Please select an .xlsx file';
-      this.removeErrors()
+      this.removeErrors();
     }
-    this.loadingChange.emit(false)
+    this.loadingChange.emit(false);
+  }
+
+  downloadTemplate() {
+    this._store.dispatch(modelActions.downloadCreateModelsTemplate());
+    this.templateSub = this._store
+      .select(modelSelector.downloadCreateModelsTemplate)
+      .subscribe((blob) => {
+        if (blob) {
+          this._handleDownload.execute(blob, 'CreateModelsTemplate.xlsx');
+          this.templateSub.unsubscribe();
+        }
+      });
+  }
+
+  ngOnInit() {
+    this.templateSub.unsubscribe();
   }
 }

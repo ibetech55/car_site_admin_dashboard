@@ -6,6 +6,7 @@ import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { IAppState } from '../../../../../Store/app.state';
+import { HandleDownload } from '../../../../../../utils/HandleDownload';
 
 @Component({
   selector: 'app-create-multiple-makes-form',
@@ -16,9 +17,11 @@ import { IAppState } from '../../../../../Store/app.state';
 export class CreateMultipleMakesFormComponent {
   constructor(
     private _store: Store<IAppState>,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private _handleDownload: HandleDownload
   ) {}
   @Output() loadingChange: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  templateSub = new Subscription();
   fileName!: string;
   fileSelected?: File;
   createMultipleMakesResponse: boolean = false;
@@ -80,6 +83,18 @@ export class CreateMultipleMakesFormComponent {
   onFileChange(file: File) {
     this.fileName = file.name;
     this.fileSelected = file;
+  }
+
+  downloadTemplate() {
+    this._store.dispatch(makeActions.downloadCreateMakesTemplate());
+    this.templateSub = this._store
+      .select(makeSelector.downloadCreateMakesTemplate)
+      .subscribe((blob) => {
+        if (blob) {
+          this._handleDownload.execute(blob, 'CreateMakesTemplate.xlsx');
+          this.templateSub.unsubscribe();
+        }
+      });
   }
 
 }

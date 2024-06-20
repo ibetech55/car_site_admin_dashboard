@@ -36,6 +36,7 @@
               class="p-inputtext-sm"
               formControlName="modelName"
               [ngClass]="{ errorBorder: item.value.errorModelNameBorder }"
+              autocomplete="off"
             />
           </app-input>
 
@@ -46,6 +47,7 @@
               aria-describedby="username-help"
               class="p-inputtext-sm"
               formControlName="yearFounded"
+              autocomplete="off"
             />
           </app-input>
 
@@ -102,3 +104,5 @@
     <app-button label="Save" type="submit"> </app-button>
   </div>
 </form>
+<p-toast></p-toast>
+

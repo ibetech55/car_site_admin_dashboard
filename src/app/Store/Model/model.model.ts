@@ -23,4 +23,5 @@ export interface IModelModel {
   createModelError: ICreateModelError;
   createModelSuccess: boolean;
   deleteModelSuccess: boolean;
+  downloadCreateModelsTemplate: Blob | undefined;
 }

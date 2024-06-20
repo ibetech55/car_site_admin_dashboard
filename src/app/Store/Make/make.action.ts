@@ -43,6 +43,9 @@ export const CHANGE_MAKE_LOGO = '[Make Details Page] CHANGE_MAKE_LOGO';
 export const CHANGE_MAKE_LOGO_SUCCESS =
   '[Make Details Page] CHANGE_MAKE_LOGO_SUCCESS';
 
+  export const DOWNLOAD_CREATE_MAKES_TEMPLATE = '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE';
+  export const DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS = '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS';
+
 const loadMakes = createAction(LOAD_MAKES);
 const loadMakessuccess = createAction(
   LOAD_BLOG_SUCCESS,
@@ -128,6 +131,16 @@ export const changeMakeLogoSuccess = createAction(
   props<{ data: boolean }>()
 );
 
+
+export const downloadCreateMakesTemplate = createAction(
+  DOWNLOAD_CREATE_MAKES_TEMPLATE,
+);
+
+export const downloadCreateMakesTemplateSuccess = createAction(
+  DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS,
+  props<{ download: Blob }>()
+);
+
 export const makeActions = {
   loadMakes,
   loadMakessuccess,
@@ -152,5 +165,7 @@ export const makeActions = {
   getMakeLogo,
   getMakeLogoSuccess,
   changeMakeLogo,
-  changeMakeLogoSuccess
+  changeMakeLogoSuccess,
+  downloadCreateMakesTemplate,
+  downloadCreateMakesTemplateSuccess
 };

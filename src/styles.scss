@@ -88,4 +88,13 @@ span.p-button-label, span.p-button-icon{
   border-color: none !important;
 }
 
+.download-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover{
+    text-decoration: underline;
+  }
+}
 

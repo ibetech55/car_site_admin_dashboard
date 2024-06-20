@@ -15,4 +15,5 @@ export interface IMakeModel {
   editMakeSuccess: boolean;
   getMakeLogoSuccess: string;
   changeMakeLogoSuccess: boolean;
+  downloadCreateMakesTemplate: Blob | undefined;
 }

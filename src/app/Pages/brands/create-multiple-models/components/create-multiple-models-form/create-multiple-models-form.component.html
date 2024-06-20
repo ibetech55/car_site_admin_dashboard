@@ -9,10 +9,7 @@
       <form (ngSubmit)="handleSubmit()">
         <div>
           <p class="medium-text">Select a Spreadsheet or CSV file to upload.</p>
-          <p class="medium-text">
-            Files must contain the following columns in the following order:
-          </p>
-          <p class="medium-text">Ex - [model_name, make_name, model_category]</p>
+          <p class="download-link" (click)="downloadTemplate()">Download create models spreadsheet template</p>
         </div>
         <app-button
           label="Upload File"

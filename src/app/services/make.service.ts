@@ -59,7 +59,7 @@ export class MakeService {
   }
   getMakeById(id: string): Observable<IGetMake> {
     return this._httpClient.get<IGetMake>(
-      `http://localhost:5003/brand_api/make/${id}`
+      `http://localhost:5003/brand_api/make/getById/${id}`
     );
   }
 
@@ -110,6 +110,15 @@ export class MakeService {
     return this._httpClient.patch<boolean>(
       `http://localhost:5003/brand_api/make/changeMakeLogo/${id}`,
       formData
+    );
+  }
+
+  downloadCreateMakesTemplate(): Observable<Blob> {
+    return this._httpClient.get<Blob>(
+      `http://localhost:5003/brand_api/make/create-makes-template`,
+      {
+        responseType: 'blob' as 'json',
+      }
     );
   }
 }

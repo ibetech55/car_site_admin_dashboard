@@ -44,6 +44,10 @@ export const EDIT_MODEL_FAIL = '[Model Details page] EDIT_MODEL_FAIL';
 export const DELETE_MODEL = '[Model Details Page] DELETE_MODEL';
 export const DELETE_MODEL_SUCCESS = '[Model Details page] DELETE_MODEL_SUCCESS';
 
+export const DOWNLOAD_CREATE_MODEL_TEMPLATE = '[Create Models Spreadsheet/CSV page] DOWNLOAD_CREATE_MODEL_TEMPLATE';
+export const DOWNLOAD_CREATE_MODEL_TEMPLATE_SUCCESS = '[Create Models Spreadsheet/CSV page] DOWNLOAD_CREATE_MODEL_TEMPLATE_SUCCESS';
+
+
 const getModelByMakeId = createAction(
   GET_MODELS_MAKES,
   props<{ makeId: string }>()
@@ -131,6 +135,15 @@ export const deleteModelSuccess = createAction(
   props<{ data: boolean }>()
 );
 
+export const downloadCreateModelsTemplate = createAction(
+  DOWNLOAD_CREATE_MODEL_TEMPLATE,
+);
+
+export const downloadCreateModelsTemplateSuccess = createAction(
+  DOWNLOAD_CREATE_MODEL_TEMPLATE_SUCCESS,
+  props<{ download: Blob }>()
+);
+
 export const modelActions = {
   getModelByMakeId,
   getModelByMakeIdSuccess,
@@ -150,5 +163,7 @@ export const modelActions = {
   editModelSuccess,
   editModelFail,
   deleteModel,
-  deleteModelSuccess
+  deleteModelSuccess,
+  downloadCreateModelsTemplate,
+  downloadCreateModelsTemplateSuccess
 };

@@ -6,6 +6,7 @@ import {
   CHANGE_MAKE_LOGO,
   CREATE_MULTIPLE_MAKES,
   DELETE_MAKE,
+  DOWNLOAD_CREATE_MAKES_TEMPLATE,
   EDIT_MAKE,
   GET_MAKES_LIST,
   GET_MAKE_BY_ID,
@@ -161,6 +162,21 @@ export class MakeEffects {
         return this._makeService.changeMakeLogo(action.id, action.makeLogo).pipe(
           map((data) => {
             return makeActions.changeMakeLogoSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+
+  _downloadCreateMakesTemplate = createEffect(() =>
+    this.action$.pipe(
+      ofType(DOWNLOAD_CREATE_MAKES_TEMPLATE),
+      switchMap(() => {
+        return this._makeService.downloadCreateMakesTemplate().pipe(
+          map((data) => {
+            return makeActions.downloadCreateMakesTemplateSuccess({
+              download: data,
+            });
           })
         );
       })

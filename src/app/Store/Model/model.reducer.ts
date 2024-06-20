@@ -38,19 +38,20 @@ export const modelReducer = createReducer(
   }),
   on(modelActions.createModels, (currentState: IModelModel) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: true,
     };
   }),
   on(modelActions.createModelsSuccess, (currentState: IModelModel, action) => {
     return {
-      ...currentState,
+      ...initialState,
+      createModelSuccess: true,
       loading: false,
     };
   }),
   on(modelActions.createModelsFail, (currentState: IModelModel, action) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: false,
       createModelError: action.error
     };
@@ -155,6 +156,19 @@ export const modelReducer = createReducer(
       ...currentState,
       loading: false,
       deleteModelSuccess: action.data,
+    };
+  }),
+  on(modelActions.downloadCreateModelsTemplate, (currentState: IModelModel, action) => {
+    return {
+      ...initialState,
+      loading: true,
+    };
+  }),
+  on(modelActions.downloadCreateModelsTemplateSuccess, (currentState: IModelModel, action) => {
+    return {
+      ...initialState,
+      downloadCreateModelsTemplate: action.download,
+      loading: false,
     };
   }),
 );

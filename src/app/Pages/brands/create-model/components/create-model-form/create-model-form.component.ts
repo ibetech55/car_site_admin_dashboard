@@ -109,7 +109,6 @@ export class CreateModelFormComponent {
             summary: 'Confirmed',
             detail: 'Data saved successfully',
           });
-          this.clearForms();
           this.loading = false;
           this.modelsSavedSub.unsubscribe();
         }
@@ -152,6 +151,7 @@ export class CreateModelFormComponent {
   clearForms() {
     this.modelFormGroup.get(this.formName)?.reset();
     this.formItems.clear();
+    this.error$.next("")
     this.AddNewRow();
   }
 

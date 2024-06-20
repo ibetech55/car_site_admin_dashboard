@@ -131,7 +131,6 @@ export class CreateMakeFormComponent {
               summary: 'Confirmed',
               detail: 'Data saved successfully',
             });
-            this.clearForms();
             this.loading = false;
             this.makesSavedSub.unsubscribe();
           }

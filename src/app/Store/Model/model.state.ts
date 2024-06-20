@@ -27,9 +27,10 @@ export const ModelState: IModelModel = {
   editModelResponse: false,
   editModelError: '',
   createModelError: {
-    text:'',
+    text: '',
     models: []
   },
   createModelSuccess: false,
-  deleteModelSuccess: false
+  deleteModelSuccess: false,
+  downloadCreateModelsTemplate: undefined
 };

@@ -156,7 +156,7 @@ export const makeReducer = createReducer(
   on(makeActions.getMakeLogo, (currentState: IMakeModel) => {
     return {
       ...currentState,
-      getMakeLogoSuccess: "",
+      getMakeLogoSuccess: '',
     };
   }),
   on(makeActions.getMakeLogoSuccess, (currentState: IMakeModel, action) => {
@@ -168,15 +168,32 @@ export const makeReducer = createReducer(
   on(makeActions.changeMakeLogo, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
-      getMakeLogoSuccess: "",
+      getMakeLogoSuccess: '',
       changeMakeLogoSuccess: false,
     };
   }),
   on(makeActions.changeMakeLogoSuccess, (currentState: IMakeModel, action) => {
     return {
       ...currentState,
-            getMakeLogoSuccess: "",
+      getMakeLogoSuccess: '',
       changeMakeLogoSuccess: action.data,
     };
-  })
+  }),
+  on(
+    makeActions.downloadCreateMakesTemplate,
+    (currentState: IMakeModel, action) => {
+      return {
+        ...initialState,
+      };
+    }
+  ),
+  on(
+    makeActions.downloadCreateMakesTemplateSuccess,
+    (currentState: IMakeModel, action) => {
+      return {
+        ...initialState,
+        downloadCreateMakesTemplate: action.download,
+      };
+    }
+  )
 );

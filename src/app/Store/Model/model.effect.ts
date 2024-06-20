@@ -5,6 +5,7 @@ import {
   CREATE_MODELS,
   CREATE_MULTIPLE_MODELS,
   DELETE_MODEL,
+  DOWNLOAD_CREATE_MODEL_TEMPLATE,
   EDIT_MODEL,
   GET_MODELS,
   GET_MODELS_MAKES,
@@ -53,9 +54,9 @@ export class ModelEffects {
           map((data) => {
             return modelActions.createModelsSuccess({ data });
           }),
-          catchError(({error}) => 
+          catchError(({ error }) =>
             of(modelActions.createModelsFail({ error: error.message }))
-          ),
+          )
         );
       })
     )
@@ -124,10 +125,24 @@ export class ModelEffects {
   _deleteModel = createEffect(() =>
     this.action$.pipe(
       ofType(DELETE_MODEL),
-      switchMap((action: { id: string}) => {
+      switchMap((action: { id: string }) => {
         return this._modelService.deleteModel(action.id).pipe(
           map((data) => {
             return modelActions.deleteModelSuccess({ data });
+          })
+        );
+      })
+    )
+  );
+  _downloadCreateModelTemplate = createEffect(() =>
+    this.action$.pipe(
+      ofType(DOWNLOAD_CREATE_MODEL_TEMPLATE),
+      switchMap(() => {
+        return this._modelService.downloadCreateModelsTemplate().pipe(
+          map((data) => {
+            return modelActions.downloadCreateModelsTemplateSuccess({
+              download: data,
+            });
           })
         );
       })
