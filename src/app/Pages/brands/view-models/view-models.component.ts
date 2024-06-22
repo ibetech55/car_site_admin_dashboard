@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
 import { IGetModelPagination } from '../../../Data/Brand/Model/GetModel';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { modelActions } from '../../../Store/Model/model.action';
 import { modelSelector } from '../../../Store/Model/model.selector';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -29,6 +29,9 @@ export class ViewModelsComponent {
   modelsData$!: Observable<IGetModelPagination>;
   loading = false;
   verifyMakesResponse$!: Subscription;
+  textSelectAll = true;
+  selectAllSub = new Subscription();
+  
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
       this.loading = true;
@@ -55,8 +58,10 @@ export class ViewModelsComponent {
                   detail: 'You have accepted',
                 });
                 this.idsData = [];
+                this.textSelectAll = true;
                 this._store.dispatch(modelActions.getModels());
                 this.loading = false;
+                this.selectAllSub.unsubscribe();
                 this.verifyMakesResponse$.unsubscribe();
               }
             });
@@ -81,6 +86,24 @@ export class ViewModelsComponent {
     return this.idsData.some((item) => item.id === id);
   }
 
+  selectAll() {
+    if (this.textSelectAll) {
+      this.selectAllSub = this.modelsData$
+        .pipe(
+          map((data) =>
+            data.data.map((x) => ({ id: x.id, modelName: x.modelName }))
+          )
+        )
+        .subscribe((data2) => {
+          this.idsData = [...data2];
+          this.textSelectAll = false;
+        });
+    } else {
+      this.idsData = [];
+      this.textSelectAll = true;
+    }
+  }
+
   ngOnInit() {
     this._store.dispatch(modelActions.getModels());
     this.modelsData$ = this._store.select(modelSelector.modelsData);
@@ -88,5 +111,6 @@ export class ViewModelsComponent {
 
   ngOnDestroy() {
     this.verifyMakesResponse$?.unsubscribe();
+    this.selectAllSub.unsubscribe();
   }
 }

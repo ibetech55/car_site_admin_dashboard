@@ -4,6 +4,10 @@
 <div *ngIf="modelsData$ | async as modelsData">
   <div class="form-btns-mb view-models__activate-actions">
     <app-button
+    [label]="textSelectAll ? 'Select All' : 'Unselect All'"
+    (click)="selectAll()"
+  ></app-button>
+    <app-button
       label="Activate Models"
       (click)="openStatusDialog($event, 'activate')"
     ></app-button>
@@ -17,11 +21,11 @@
       <p-table
         [value]="modelsData.data"
         [paginator]="true"
-        [rows]="5"
+        [rows]="20"
         [showCurrentPageReport]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[5, 10, 20]"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"
         dataKey="id"
         styleClass="p-datatable-sm"
       >

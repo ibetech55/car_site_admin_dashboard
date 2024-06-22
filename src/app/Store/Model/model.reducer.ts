@@ -58,7 +58,7 @@ export const modelReducer = createReducer(
   }),
   on(modelActions.createMultipleModels, (currentState: IModelModel) => {
     return {
-      ...currentState,
+      ...initialState,
       loading: true,
     };
   }),
@@ -66,7 +66,7 @@ export const modelReducer = createReducer(
     modelActions.createMultipleModelsSuccess,
     (currentState: IModelModel, action) => {
       return {
-        ...currentState,
+        ...initialState,
         loading: false,
         createMultipleModelsResponse: true,
       };
@@ -76,7 +76,7 @@ export const modelReducer = createReducer(
     modelActions.createMultipleModelsFail,
     (currentState: IModelModel, action) => {
       return {
-        ...currentState,
+        ...initialState,
         loading: false,
         errorsMultipleModels: action.errors,
         createMultipleModelsResponse: false,

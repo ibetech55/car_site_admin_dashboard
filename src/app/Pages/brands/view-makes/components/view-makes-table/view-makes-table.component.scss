@@ -10,7 +10,7 @@
       margin-top: 1rem;
     }
     &__activate-actions {
-      :first-child {
+      app-button{
         margin-right: 0.5rem;
       }
     }

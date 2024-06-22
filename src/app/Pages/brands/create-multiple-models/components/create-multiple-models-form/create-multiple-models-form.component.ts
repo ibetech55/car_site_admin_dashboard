@@ -28,7 +28,7 @@ export class CreateMultipleModelsFormComponent {
     modelCategoryError: '',
     columnError: '',
   };
-  private _createMultipleModelsResponseSub!: Subscription;
+   _createMultipleModelsResponseSub = new Subscription;
   private _errorMultipleModelsResponseSub!: Subscription;
 
   constructor(
@@ -75,8 +75,9 @@ export class CreateMultipleModelsFormComponent {
               detail: 'Data Upĺoaded successfully',
             });
             this.clearForm();
+            this._createMultipleModelsResponseSub.unsubscribe();
+
           }
-          this._createMultipleModelsResponseSub.unsubscribe();
         });
 
       this._errorMultipleModelsResponseSub = this._store

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { IGetMakePagination } from '../../../../../Data/Brand/Makes/GetMakes';
 import { makeActions } from '../../../../../Store/Make/make.action';
 import { makeSelector } from '../../../../../Store/Make/make.selector';
@@ -17,11 +17,12 @@ interface IIdsData {
   styleUrl: './view-makes-table.component.scss',
 })
 export class ViewMakesTableComponent {
-  
   @Input() idsData: IIdsData[] = [];
   @Input() openStatusDialog!: (event: Event, requestType: string) => void;
   @Input() brandsData$!: Observable<IGetMakePagination>;
-  
+  @Input() selectAll!: () => void;
+  @Input() textSelectAll!: boolean;
+
   handleCheckbox(data: IIdsData) {
     if (!this.idsData.some((item) => item.id === data.id)) {
       this.idsData.push(data);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, Subscription, delay } from 'rxjs';
+import { Observable, Subscription, delay, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
 import { makeActions } from '../../../Store/Make/make.action';
@@ -20,7 +20,7 @@ interface IIdsData {
   selector: 'app-view-makes',
   templateUrl: './view-makes.component.html',
   styleUrl: './view-makes.component.scss',
-  providers:[MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
 })
 export class ViewMakesComponent {
   constructor(
@@ -34,6 +34,8 @@ export class ViewMakesComponent {
   loading: boolean = false;
   checked: boolean = false;
   verifyMakesResponseSub!: Subscription;
+  textSelectAll = true;
+  selectAllSub = new Subscription();
 
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
@@ -61,8 +63,10 @@ export class ViewMakesComponent {
                   detail: 'You have accepted',
                 });
                 this.idsData = [];
+                this.textSelectAll = true;
                 this._store.dispatch(makeActions.loadMakes());
                 this.loading = false;
+                this.selectAllSub.unsubscribe();
                 this.verifyMakesResponseSub.unsubscribe();
               }
             });
@@ -74,6 +78,24 @@ export class ViewMakesComponent {
     }
   }
 
+  selectAll() {
+    if (this.textSelectAll) {
+      this.selectAllSub = this.brandsData$
+        .pipe(
+          map((data) =>
+            data.data.map((x) => ({ id: x.id, makeName: x.makeName }))
+          )
+        )
+        .subscribe((data2) => {
+          this.idsData = [...data2];
+          this.textSelectAll = false;
+        });
+    } else {
+      this.idsData = [];
+      this.textSelectAll = true;
+    }
+  }
+
   ngOnInit() {
     this._store.dispatch(makeActions.loadMakes());
     this.brandsData$ = this._store.select(makeSelector.makesData);
@@ -81,5 +103,6 @@ export class ViewMakesComponent {
 
   ngOnDestroy() {
     this.verifyMakesResponseSub?.unsubscribe();
+    this.selectAllSub.unsubscribe();
   }
 }

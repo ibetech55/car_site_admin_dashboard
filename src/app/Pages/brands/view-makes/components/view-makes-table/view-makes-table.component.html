@@ -2,6 +2,10 @@
   <div *ngIf="brandsData.data" class="view-makes-table">
     <div class="form-btns-mb view-makes-table__activate-actions">
       <app-button
+        [label]="textSelectAll ? 'Select All' : 'Unselect All'"
+        (click)="selectAll()"
+      ></app-button>
+      <app-button
         label="Activate Makes"
         (click)="openStatusDialog($event, 'activate')"
       ></app-button>
@@ -14,11 +18,11 @@
       <p-table
         [value]="brandsData.data"
         [paginator]="true"
-        [rows]="5"
+        [rows]="20"
         [showCurrentPageReport]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[5, 10, 20]"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"
         dataKey="id"
         styleClass="p-datatable-sm"
       >
@@ -64,4 +68,3 @@
     </div>
   </div>
 </div>
-
