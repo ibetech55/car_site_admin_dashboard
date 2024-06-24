@@ -12,7 +12,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService } from 'primeng/api';
-
+import { AccordionModule } from 'primeng/accordion';
+import { CalendarModule } from 'primeng/calendar';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
   imports: [
     ToastModule,
@@ -27,6 +29,9 @@ import { ConfirmationService } from 'primeng/api';
     ReactiveFormsModule,
     FileUploadModule,
     DialogModule,
+    AccordionModule,
+    CalendarModule,
+    PaginatorModule
   ],
   exports: [
     ToastModule,
@@ -39,6 +44,9 @@ import { ConfirmationService } from 'primeng/api';
     InputTextModule,
     FileUploadModule,
     DialogModule,
+    AccordionModule,
+    CalendarModule,
+    PaginatorModule
   ],
   providers: [ConfirmationService],
 })

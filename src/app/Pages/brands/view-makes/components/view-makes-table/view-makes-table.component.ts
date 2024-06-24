@@ -5,12 +5,20 @@ import { IGetMakePagination } from '../../../../../Data/Brand/Makes/GetMakes';
 import { makeActions } from '../../../../../Store/Make/make.action';
 import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { IAppState } from '../../../../../Store/app.state';
+import { TableLazyLoadEvent, TablePageEvent } from 'primeng/table';
+import { LazyLoadEvent } from 'primeng/api';
+import { PaginatorState } from 'primeng/paginator';
 
 interface IIdsData {
   id: String;
   makeName: string;
 }
-
+interface PageEvent {
+  first: number;
+  rows: number;
+  page: number;
+  pageCount: number;
+}
 @Component({
   selector: 'app-view-makes-table',
   templateUrl: './view-makes-table.component.html',
@@ -22,7 +30,10 @@ export class ViewMakesTableComponent {
   @Input() brandsData$!: Observable<IGetMakePagination>;
   @Input() selectAll!: () => void;
   @Input() textSelectAll!: boolean;
+  @Input() getMakes!: (event:TableLazyLoadEvent) => void;
+  first: number = 0;
 
+  rows: number = 20;
   handleCheckbox(data: IIdsData) {
     if (!this.idsData.some((item) => item.id === data.id)) {
       this.idsData.push(data);
@@ -34,5 +45,8 @@ export class ViewMakesTableComponent {
 
   checkId(id: string) {
     return this.idsData.some((item) => item.id === id);
+  }
+
+  onPageChange(ev:PaginatorState) {
   }
 }

@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/theme/appTheme/theme.scss";
 @import "primeicons/primeicons.css";
+
 * {
   box-sizing: border-box;
 }
@@ -98,3 +99,10 @@ span.p-button-label, span.p-button-icon{
   }
 }
 
+.p-calendar {
+  width: 100%;
+  .p-inputtext {
+    font-size: 14px;
+    padding: 0.4375rem 0.4375rem;
+  }
+}

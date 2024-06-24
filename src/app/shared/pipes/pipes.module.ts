@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivePipe } from './active.pipe/active.pipe';
 import { FormatDatePipe } from './format.date/format.date.pipe';
+import { DeepCopyPipe } from './deep.copy.pipe/deep.copy.pipe';
 
 
 
@@ -9,6 +10,7 @@ import { FormatDatePipe } from './format.date/format.date.pipe';
   declarations: [
     ActivePipe,
     FormatDatePipe,
+    DeepCopyPipe
   ],
   imports: [
     CommonModule
@@ -16,6 +18,7 @@ import { FormatDatePipe } from './format.date/format.date.pipe';
   exports:[
     ActivePipe,
     FormatDatePipe,
+    DeepCopyPipe
   ]
 })
 export class PipesModule { }

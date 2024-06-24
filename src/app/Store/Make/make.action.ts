@@ -3,9 +3,12 @@ import {
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
+  IMakeOrderBy,
+  IMakesFilter,
 } from '../../Data/Brand/Makes/GetMakes';
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
+import { IPagination } from '../../Data/IPagination';
 
 export const LOAD_MAKES = '[View Makes Page] load makes';
 export const LOAD_BLOG_SUCCESS = '[blog page] load blog success';
@@ -43,10 +46,12 @@ export const CHANGE_MAKE_LOGO = '[Make Details Page] CHANGE_MAKE_LOGO';
 export const CHANGE_MAKE_LOGO_SUCCESS =
   '[Make Details Page] CHANGE_MAKE_LOGO_SUCCESS';
 
-  export const DOWNLOAD_CREATE_MAKES_TEMPLATE = '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE';
-  export const DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS = '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS';
+export const DOWNLOAD_CREATE_MAKES_TEMPLATE =
+  '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE';
+export const DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS =
+  '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS';
 
-const loadMakes = createAction(LOAD_MAKES);
+const loadMakes = createAction(LOAD_MAKES, props<{ filter?: IPagination<IMakesFilter, IMakeOrderBy> }>());
 const loadMakessuccess = createAction(
   LOAD_BLOG_SUCCESS,
   props<{ makes: IGetMakePagination }>()
@@ -124,16 +129,18 @@ export const getMakeLogoSuccess = createAction(
   props<{ data: string }>()
 );
 
-export const changeMakeLogo = createAction(CHANGE_MAKE_LOGO, props<{ id: string, makeLogo:File }>());
+export const changeMakeLogo = createAction(
+  CHANGE_MAKE_LOGO,
+  props<{ id: string; makeLogo: File }>()
+);
 
 export const changeMakeLogoSuccess = createAction(
   CHANGE_MAKE_LOGO_SUCCESS,
   props<{ data: boolean }>()
 );
 
-
 export const downloadCreateMakesTemplate = createAction(
-  DOWNLOAD_CREATE_MAKES_TEMPLATE,
+  DOWNLOAD_CREATE_MAKES_TEMPLATE
 );
 
 export const downloadCreateMakesTemplateSuccess = createAction(
@@ -167,5 +174,5 @@ export const makeActions = {
   changeMakeLogo,
   changeMakeLogoSuccess,
   downloadCreateMakesTemplate,
-  downloadCreateMakesTemplateSuccess
+  downloadCreateMakesTemplateSuccess,
 };

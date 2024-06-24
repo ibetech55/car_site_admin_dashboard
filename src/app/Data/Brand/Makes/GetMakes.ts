@@ -21,3 +21,24 @@ export interface IGetMakesList {
   id: string;
   makeName: string;
 }
+
+export interface IMakesFilter {
+  makeName?:string;
+  origin?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface IMakeFilterForm {
+  makeName?: string;
+  origin?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export interface IMakeOrderBy {
+  makeName?: string;
+  created_at?: string;
+  origin?: string;
+  active?: string;
+}
