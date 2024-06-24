@@ -30,6 +30,7 @@ import { ModelDetailsInfoComponent } from './model-details/components/model-deta
 import { ModelCategoryDetailsPageComponent } from './model-category-details/model-category-details-page/model-category-details-page.component';
 import { McDetailsComponent } from './model-category-details/components/mc-details/mc-details.component';
 import { McEditModalComponent } from './model-category-details/components/mc-edit-modal/mc-edit-modal.component';
+import { ViewMakesFiltersComponent } from './view-makes/components/view-makes-filters/view-makes-filters.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { McEditModalComponent } from './model-category-details/components/mc-edi
     ModelCategoryDetailsPageComponent,
     McDetailsComponent,
     McEditModalComponent,
+    ViewMakesFiltersComponent,
   ],
   providers: [MakeService],
   imports: [

@@ -1,7 +1,11 @@
 <div class="view-makes">
   <app-loading [loading]="loading"></app-loading>
   <app-page-header text="View Makes"></app-page-header>
+  <div class="view-makes__filters">
+    <app-view-makes-filters [handleFilter]="getMakes.bind(this)" [filterData]="filterData" />
+  </div>
   <app-view-makes-table
+  [getMakes]="getMakes.bind(this)"
     [idsData]="idsData"
     [openStatusDialog]="openStatusDialog.bind(this)"
     [brandsData$]="brandsData$"

@@ -19,6 +19,8 @@ import {
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 import { CREATE_MODELS_SUCCESS } from '../Model/model.action';
+import { IMakeOrderBy, IMakesFilter } from '../../Data/Brand/Makes/GetMakes';
+import { IPagination } from '../../Data/IPagination';
 
 @Injectable()
 export class MakeEffects {
@@ -26,8 +28,8 @@ export class MakeEffects {
   _blog = createEffect(() =>
     this.action$.pipe(
       ofType(LOAD_MAKES),
-      switchMap(() => {
-        return this._makeService.getMakes().pipe(
+      switchMap((action:{filter:IPagination<IMakesFilter, IMakeOrderBy>}) => {
+        return this._makeService.getMakes(action.filter).pipe(
           map((data) => {
             return makeActions.loadMakessuccess({ makes: data });
           })

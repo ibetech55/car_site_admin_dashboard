@@ -1,26 +1,36 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
+  IMakeOrderBy,
+  IMakesFilter,
 } from '../Data/Brand/Makes/GetMakes';
 import {
   ISaveMakes,
   ISaveMakesRequestData,
 } from '../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../Data/Brand/Makes/EditMake';
+import { IOrderData, IPagination, IPaginationData } from '../Data/IPagination';
+import { HandleQueryString } from '../../utils/HandleQueryString';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MakeService {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(
+    private _httpClient: HttpClient,
+    private _handleQueryString: HandleQueryString
+  ) {}
 
-  getMakes(): Observable<IGetMakePagination> {
+  getMakes(
+    filters: IPagination<IMakesFilter, IMakeOrderBy>
+  ): Observable<IGetMakePagination> {
+    const queryString = this._handleQueryString.execute<IMakesFilter, IMakeOrderBy>(filters);
     return this._httpClient.get<IGetMakePagination>(
-      'http://localhost:5003/brand_api/make'
+      `http://localhost:5003/brand_api/make${queryString}`
     );
   }
 

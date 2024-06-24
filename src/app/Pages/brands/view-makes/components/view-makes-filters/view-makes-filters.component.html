@@ -1,0 +1,35 @@
+<p-accordion class="view-makes-filters">
+  <p-accordionTab header="Filters">
+    <div class="view-makes-filters__inputs">
+      <app-input label="Make name" name="makeName">
+        <input
+          pInputText
+          id="makeName"
+          aria-describedby="username-help"
+          class="p-inputtext-sm"
+          autocomplete="off"
+          [(ngModel)]="filterData.makeName"
+        />
+      </app-input>
+      <app-input label="Origin" name="origin">
+        <input
+          pInputText
+          id="origin"
+          aria-describedby="username-help"
+          class="p-inputtext-sm"
+          autocomplete="off"
+          [(ngModel)]="filterData.origin"
+        />
+      </app-input>
+      <app-input label="Date Created Start" name="startDate">
+        <p-calendar [(ngModel)]="filterData.startDate" />
+      </app-input>
+      <app-input label="Date Created End" name="endDate">
+        <p-calendar [(ngModel)]="filterData.endDate" />
+      </app-input>
+    </div>
+    <div class="form-btns-right">
+        <app-button label="Search" icon="bx bx-search" (click)="handleFilter()"></app-button>
+    </div>
+  </p-accordionTab>
+</p-accordion>
