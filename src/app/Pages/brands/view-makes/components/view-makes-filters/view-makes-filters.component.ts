@@ -9,4 +9,5 @@ import { IMakeFilterForm } from '../../../../../Data/Brand/Makes/GetMakes';
 export class ViewMakesFiltersComponent {
   @Input() filterData!: IMakeFilterForm;
   @Input() handleFilter!: () => void;
+  @Input() resetFilters!: () => void;
 }

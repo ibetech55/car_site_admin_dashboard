@@ -1,34 +1,26 @@
 import { Component } from '@angular/core';
-import { Observable, Subscription, delay, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
 import { makeActions } from '../../../Store/Make/make.action';
 import { makeSelector } from '../../../Store/Make/make.selector';
 import {
-  IGetMake,
   IGetMakePagination,
   IMakeFilterForm,
-  IMakeOrderBy,
-  IMakesFilter,
 } from '../../../Data/Brand/Makes/GetMakes';
-import { ActivePipe } from '../../../shared/pipes/active.pipe/active.pipe';
-import { FormatDatePipe } from '../../../shared/pipes/format.date/format.date.pipe';
 import {
   ConfirmationService,
-  LazyLoadEvent,
   MessageService,
 } from 'primeng/api';
 import { HandleSQLDate } from '../../../../utils/HandleSQLDate';
-import { IPagination, ISortField } from '../../../Data/IPagination';
+import { ISortField } from '../../../Data/IPagination';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { HandleQuery } from '../../../../utils/HandleQuery';
 interface IIdsData {
-  id: String;
+  id: string;
   makeName: string;
 }
 
-interface IMap {
-  [key: string]: string | undefined;
-}
 
 @Component({
   selector: 'app-view-makes',
@@ -41,7 +33,7 @@ export class ViewMakesComponent {
     private _store: Store<IAppState>,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private _handleSQLDate: HandleSQLDate
+    private _handleQuery: HandleQuery
   ) {}
   idsData: IIdsData[] = [];
 
@@ -114,73 +106,23 @@ export class ViewMakesComponent {
   }
 
   getMakes(event?: TableLazyLoadEvent) {
-    console.log(event);
-    let skip: number = 0;
-    let page = 0;
-    let rows: number = 0;
-    let order = '';
-    let orderBy = '';
-
-    if (event) {
-      skip = event?.first as number;
-      rows = event?.rows as number;
-      page = skip / rows + 1;
-
-      if (event.sortField && event.sortOrder) {
-        if (!this.sortFields.some((x) => x.field === event.sortField)) {
-          this.sortFields.push({
-            field: event.sortField as string,
-            order: event.sortOrder === 1 ? 'asc' : 'desc',
-          });
-        } else {
-          const index = this.sortFields.findIndex(
-            (x) => x.field === event.sortField
-          );
-          this.sortFields[index].order =
-            this.sortFields[index].order === 'asc' ? 'desc' : 'asc';
-        }
-      }
-    }
-
-    const filterData: { where: IMakesFilter; orderBy: IMap } = {
-      where: {},
-      orderBy: {},
-    };
-    this.sortFields.map((x) => {
-      if (filterData.orderBy) {
-        filterData.orderBy[x.field] = x.order;
-      }
-    });
-
-    if (this.filterData.makeName && filterData.where) {
-      filterData.where.makeName = this.filterData.makeName;
-    }
-
-    if (this.filterData.origin && filterData.where) {
-      filterData.where.origin = this.filterData.origin;
-    }
-
-    if (this.filterData.startDate && filterData.where) {
-      filterData.where.startDate = this._handleSQLDate.execute(
-        this.filterData.startDate.toISOString()
-      );
-    }
-
-    if (this.filterData.endDate && filterData.where) {
-      filterData.where.endDate = this._handleSQLDate.execute(
-        this.filterData.endDate.toISOString()
-      );
-    }
+    const query = this._handleQuery.execute(
+      this.filterData,
+      event
+    )
     this._store.dispatch(
       makeActions.loadMakes({
         filter: {
-          page: page ? page : 1,
-          limit: rows ? rows : 20,
-          ...filterData,
+          ...query
         },
       })
     );
     this.brandsData$ = this._store.select(makeSelector.makesData);
+  }
+
+  resetFilters(){
+    this.filterData = {};
+    this.getMakes()
   }
 
   ngOnInit() {
