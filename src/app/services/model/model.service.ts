@@ -5,16 +5,23 @@ import {
   IGetModelById,
   IGetModelByMakeId,
   IGetModelPagination,
+  IModelFilter,
+  IModelOrderBy,
 } from '../../Data/Brand/Model/GetModel';
 import { environment } from '../../../environments/environment.development';
 import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
+import { HandleQueryString } from '../../../utils/HandleQueryString';
+import { IPagination } from '../../Data/IPagination';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModelService {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(
+    private _httpClient: HttpClient,
+    private _handleQueryString: HandleQueryString
+  ) {}
 
   getModelsByMakeId(id: string): Observable<IGetModelByMakeId[]> {
     return this._httpClient.get<IGetModelByMakeId[]>(
@@ -22,9 +29,14 @@ export class ModelService {
     );
   }
 
-  getModels(): Observable<IGetModelPagination> {
+  getModels(filters:IPagination<IModelFilter, IModelOrderBy>): Observable<IGetModelPagination> {
+    const queryString = this._handleQueryString.execute<
+      IModelFilter,
+      IModelOrderBy
+    >(filters);
+
     return this._httpClient.get<IGetModelPagination>(
-      `${environment.BRAND_API_URL}/model?orderBy[modelName]=asc`
+      `${environment.BRAND_API_URL}/model${queryString}`
     );
   }
 
@@ -74,7 +86,7 @@ export class ModelService {
     return this._httpClient.get<Blob>(
       `http://localhost:5003/brand_api/model/createModelsTemplate`,
       {
-        responseType: 'blob' as 'json'
+        responseType: 'blob' as 'json',
       }
     );
   }

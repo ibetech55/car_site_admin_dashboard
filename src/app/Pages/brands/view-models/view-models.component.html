@@ -1,69 +1,21 @@
-
-
 <app-page-header text="View Models"></app-page-header>
-<div *ngIf="modelsData$ | async as modelsData">
-  <div class="form-btns-mb view-models__activate-actions">
-    <app-button
-    [label]="textSelectAll ? 'Select All' : 'Unselect All'"
-    (click)="selectAll()"
-  ></app-button>
-    <app-button
-      label="Activate Models"
-      (click)="openStatusDialog($event, 'activate')"
-    ></app-button>
-    <app-button
-      label="Deactivate Models"
-      (click)="openStatusDialog($event, 'deactivate')"
-    ></app-button>
-  </div>
-  <div *ngIf="modelsData.data" class="view-models">
-    <p-card>
-      <p-table
-        [value]="modelsData.data"
-        [paginator]="true"
-        [rows]="20"
-        [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10, 20, 50, 100]"
-        dataKey="id"
-        styleClass="p-datatable-sm"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 25%">Model Name</th>
-            <th style="width: 25%">Make</th>
-            <th style="width: 25%">Status</th>
-            <th style="width: 25%">Created At</th>
-            <th style="width: 25%">Actions</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-data>
-          <tr>
-            <td><a [routerLink]="'/brands/model/' + data.id">{{ data.modelName }}</a></td>
-            <td>{{ data.make.makeName }}</td>
-            <td>{{ data.active | active }}</td>
-            <td>{{ data.createdAt | formatDate }}</td>
-            <td class="view-models__actions">
-              <p-checkbox
-                [ngModel]="checkId(data.id)"
-                [binary]="true"
-                inputId="binary"
-                (click)="
-                  handleCheckbox({ id: data.id, modelName: data.modelName })
-                "
-              ></p-checkbox>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </p-card>
-    <div class="view-models__btn">
-      <app-button color="success" label="Export to Spreadsheet" icon="bx bx-spreadsheet"></app-button>
-    </div>
-  </div>
+<div class="view-models__filter">
+  <app-view-models-filters
+    [handleFilter]="getModels.bind(this)"
+    [filterData]="filterData"
+    [resetFilters]="resetFilters.bind(this)"
+  ></app-view-models-filters>
 </div>
-
+<app-view-models-table
+  [getModels]="getModels.bind(this)"
+  [idsData]="idsData"
+  [modelsData$]="modelsData$"
+  [loading]="loading"
+  [textSelectAll]="textSelectAll"
+  [openStatusDialog]="openStatusDialog.bind(this)"
+  [selectAll]="selectAll.bind(this)"
+  [checkId]="checkId.bind(this)"
+  [handleCheckbox]="handleCheckbox.bind(this)"
+></app-view-models-table>
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>
-

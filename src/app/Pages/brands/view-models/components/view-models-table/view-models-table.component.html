@@ -1,0 +1,82 @@
+<div *ngIf="modelsData$ | async as modelsData">
+  <div class="form-btns-mb view-models-table__activate-actions">
+    <app-button
+      [label]="textSelectAll ? 'Select All' : 'Unselect All'"
+      (click)="selectAll()"
+    ></app-button>
+    <app-button
+      label="Activate Models"
+      (click)="openStatusDialog($event, 'activate')"
+    ></app-button>
+    <app-button
+      label="Deactivate Models"
+      (click)="openStatusDialog($event, 'deactivate')"
+    ></app-button>
+  </div>
+  <div *ngIf="modelsData.data" class="view-models">
+    <p-card>
+      <p-table
+        [paginator]="true"
+        [value]="modelsData.data | deepCopy"
+        [first]="0"
+        [lazy]="true"
+        [lazyLoadOnInit]="false"
+        (onLazyLoad)="getModels($event)"
+        [rows]="20"
+        [totalRecords]="modelsData.total"
+        [rowsPerPageOptions]="[10, 20, 50]"
+        [showCurrentPageReport]="true"
+        [showPageLinks]="true"
+        [showJumpToPageDropdown]="false"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 25%" pSortableColumn="modelName">
+              Model Name <p-sortIcon field="modelName" />
+            </th>
+            <th style="width: 25%" pSortableColumn="makes">
+              Make <p-sortIcon field="makes" />
+            </th>
+            <th style="width: 25%" pSortableColumn="status">
+              Status <p-sortIcon field="status" />
+            </th>
+            <th style="width: 25%" pSortableColumn="createdAt">
+              Created At <p-sortIcon field="createdAt" />
+            </th>
+            <th style="width: 25%">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td>
+              <a [routerLink]="'/brands/model/' + data.id">{{
+                data.modelName
+              }}</a>
+            </td>
+            <td>{{ data.make.makeName }}</td>
+            <td>{{ data.active | active }}</td>
+            <td>{{ data.createdAt | formatDate }}</td>
+            <td class="view-models__actions">
+              <p-checkbox
+                [ngModel]="checkId(data.id)"
+                [binary]="true"
+                inputId="binary"
+                (click)="
+                  handleCheckbox({ id: data.id, modelName: data.modelName })
+                "
+              ></p-checkbox>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+    <div class="form-btns-mt form-btns-right">
+      <app-button
+        color="success"
+        label="Export to Spreadsheet"
+        icon="bx bx-spreadsheet"
+      ></app-button>
+    </div>
+  </div>
+</div>

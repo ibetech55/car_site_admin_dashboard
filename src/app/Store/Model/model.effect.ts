@@ -16,6 +16,8 @@ import {
 import { ModelService } from '../../services/model/model.service';
 import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
+import { IPagination } from '../../Data/IPagination';
+import { IModelFilter, IModelOrderBy } from '../../Data/Brand/Model/GetModel';
 
 @Injectable()
 export class ModelEffects {
@@ -36,8 +38,8 @@ export class ModelEffects {
   _getModels = createEffect(() =>
     this.action$.pipe(
       ofType(GET_MODELS),
-      switchMap(() => {
-        return this._modelService.getModels().pipe(
+      switchMap((action:{filter:IPagination<IModelFilter, IModelOrderBy>}) => {
+        return this._modelService.getModels(action.filter).pipe(
           map((data) => {
             return modelActions.getModelsSuccess({ data });
           })

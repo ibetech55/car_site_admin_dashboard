@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Renderer2 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,7 +35,7 @@ import { ModelCategoryEffects } from './Store/ModelCategory/model.category.effec
     AppRoutingModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([MakeEffects, ModelEffects, ModelCategoryEffects]),
-    PipesModule
+    PipesModule,
   ],
   providers: [MakeService],
   bootstrap: [AppComponent]

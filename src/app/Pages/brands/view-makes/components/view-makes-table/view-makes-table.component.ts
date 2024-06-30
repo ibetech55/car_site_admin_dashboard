@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
 import { IGetMakePagination } from '../../../../../Data/Brand/Makes/GetMakes';
@@ -25,13 +25,17 @@ interface PageEvent {
   styleUrl: './view-makes-table.component.scss',
 })
 export class ViewMakesTableComponent {
+  /**
+   *
+   */
+
   @Input() idsData: IIdsData[] = [];
   @Input() openStatusDialog!: (event: Event, requestType: string) => void;
   @Input() brandsData$!: Observable<IGetMakePagination>;
   @Input() selectAll!: () => void;
   @Input() textSelectAll!: boolean;
   @Input() getMakes!: (event:TableLazyLoadEvent) => void;
-  first: number = 0;
+  @Input() first!: number;
 
   rows: number = 20;
   handleCheckbox(data: IIdsData) {
@@ -45,8 +49,5 @@ export class ViewMakesTableComponent {
 
   checkId(id: string) {
     return this.idsData.some((item) => item.id === id);
-  }
-
-  onPageChange(ev:PaginatorState) {
   }
 }

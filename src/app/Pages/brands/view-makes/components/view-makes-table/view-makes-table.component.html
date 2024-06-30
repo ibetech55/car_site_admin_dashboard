@@ -20,6 +20,7 @@
         [value]="brandsData.data | deepCopy"
         [first]="first"
         [lazy]="true"
+        [lazyLoadOnInit]="false"
         (onLazyLoad)="getMakes($event)"
         [rows]="rows"
         [totalRecords]="brandsData.total"

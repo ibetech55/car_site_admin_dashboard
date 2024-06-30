@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -31,7 +31,7 @@ import { PaginatorModule } from 'primeng/paginator';
     DialogModule,
     AccordionModule,
     CalendarModule,
-    PaginatorModule
+    PaginatorModule,
   ],
   exports: [
     ToastModule,
@@ -46,7 +46,7 @@ import { PaginatorModule } from 'primeng/paginator';
     DialogModule,
     AccordionModule,
     CalendarModule,
-    PaginatorModule
+    PaginatorModule,
   ],
   providers: [ConfirmationService],
 })

@@ -3,6 +3,8 @@ import {
   IGetModelById,
   IGetModelByMakeId,
   IGetModelPagination,
+  IModelFilter,
+  IModelOrderBy,
 } from '../../Data/Brand/Model/GetModel';
 import {
   ICreateModel,
@@ -10,6 +12,7 @@ import {
 } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 import { ICreateModelError } from './model.model';
+import { IPagination } from '../../Data/IPagination';
 
 export const GET_MODELS_MAKES = '[Makes Details Page] GET_MODELS_MAKES';
 export const GET_MODELS_MAKES_SUCCESS =
@@ -58,7 +61,7 @@ const getModelByMakeIdSuccess = createAction(
   props<{ data: IGetModelByMakeId[] }>()
 );
 
-const getModels = createAction(GET_MODELS);
+const getModels = createAction(GET_MODELS, props<{ filter?: IPagination<IModelFilter, IModelOrderBy> }>());
 
 const getModelsSuccess = createAction(
   GET_MODELS_SUCCESS,
