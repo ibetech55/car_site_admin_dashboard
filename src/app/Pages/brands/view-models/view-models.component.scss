@@ -3,16 +3,7 @@
     margin-top: 1rem;
     text-align: end;
   }
-  &__actions {
-    display: flex;
-    :first-child {
-      margin-right: 0.5rem;
-    }
-  }
-
-  &__activate-actions {
-    app-button {
-      margin-right: 0.5rem;
-    }
+  &__filter {
+    margin-bottom: 2rem;
   }
 }

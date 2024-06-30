@@ -25,7 +25,7 @@ import { LabelTextComponent } from './label-text/label-text.component';
     CommonModule,
     DesignModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports:[
     ButtonComponent,

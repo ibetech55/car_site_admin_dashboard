@@ -1,0 +1,13 @@
+.view-models-filters {
+    &__inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 2rem;
+    }
+    margin-bottom: 2rem;
+    &__btns {
+        app-button {
+            margin-left: 0.5rem;
+        }
+    }
+}

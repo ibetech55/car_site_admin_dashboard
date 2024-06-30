@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, inject } from '@angular/core';
 import { Observable, Subscription, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
@@ -8,19 +8,16 @@ import {
   IGetMakePagination,
   IMakeFilterForm,
 } from '../../../Data/Brand/Makes/GetMakes';
-import {
-  ConfirmationService,
-  MessageService,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { HandleSQLDate } from '../../../../utils/HandleSQLDate';
 import { ISortField } from '../../../Data/IPagination';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { HandleQuery } from '../../../../utils/HandleQuery';
+import { HandleResetPagination } from '../../../../utils/HandleResetPagination';
 interface IIdsData {
   id: string;
   makeName: string;
 }
-
 
 @Component({
   selector: 'app-view-makes',
@@ -33,7 +30,11 @@ export class ViewMakesComponent {
     private _store: Store<IAppState>,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private _handleQuery: HandleQuery
+    private _handleQuery: HandleQuery,
+    private _handleResetPagination: HandleResetPagination,
+    private _renderer: Renderer2,
+    private _element: ElementRef<HTMLDivElement>, 
+    private _el: ElementRef
   ) {}
   idsData: IIdsData[] = [];
 
@@ -45,7 +46,8 @@ export class ViewMakesComponent {
   selectAllSub = new Subscription();
   filterData: IMakeFilterForm = {};
   sortFields: ISortField[] = [];
-
+  init = true;
+  first: number = 0;
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
       this.loading = true;
@@ -106,23 +108,28 @@ export class ViewMakesComponent {
   }
 
   getMakes(event?: TableLazyLoadEvent) {
-    const query = this._handleQuery.execute(
-      this.filterData,
-      event
-    )
+    let query = this._handleQuery.execute({ filter: this.filterData, event });
+
+    if (this.init && Object.keys(this.filterData).length === 0) {
+      query.orderBy = {}
+      query.orderBy['makeName'] = 'asc';
+      this.init = false;
+    }
     this._store.dispatch(
       makeActions.loadMakes({
         filter: {
-          ...query
+          ...query,
         },
       })
     );
     this.brandsData$ = this._store.select(makeSelector.makesData);
   }
 
-  resetFilters(){
+  resetFilters() {
+    this.init = true;
     this.filterData = {};
-    this.getMakes()
+    this._handleResetPagination.execute(this._renderer, this._element, this._el);
+    this.init = false;
   }
 
   ngOnInit() {

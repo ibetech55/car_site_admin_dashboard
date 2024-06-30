@@ -1,11 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
-import { IGetModelPagination } from '../../../Data/Brand/Model/GetModel';
+import {
+  IGetModelPagination,
+  IModelFilterForm,
+} from '../../../Data/Brand/Model/GetModel';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { modelActions } from '../../../Store/Model/model.action';
 import { modelSelector } from '../../../Store/Model/model.selector';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
+import { HandleQuery } from '../../../../utils/HandleQuery';
+import { HandleResetPagination } from '../../../../utils/HandleResetPagination';
+import { ISortField } from '../../../Data/IPagination';
 
 interface IIdsData {
   id: String;
@@ -22,16 +29,24 @@ export class ViewModelsComponent {
   constructor(
     private _store: Store<IAppState>,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private _handleQuery: HandleQuery,
+    private _handleResetPagination: HandleResetPagination,
+    private _renderer: Renderer2,
+    private _element: ElementRef<HTMLDivElement>,
+    private _el: ElementRef
   ) {}
   idsData: IIdsData[] = [];
-  modelsDataSub!:Subscription;
+  modelsDataSub!: Subscription;
   modelsData$!: Observable<IGetModelPagination>;
   loading = false;
   verifyMakesResponse$!: Subscription;
   textSelectAll = true;
   selectAllSub = new Subscription();
-  
+  filterData: IModelFilterForm = {};
+  init = true;
+  sortFields: ISortField[] = [];
+
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
       this.loading = true;
@@ -59,7 +74,7 @@ export class ViewModelsComponent {
                 });
                 this.idsData = [];
                 this.textSelectAll = true;
-                this._store.dispatch(modelActions.getModels());
+                this._store.dispatch(modelActions.getModels({}));
                 this.loading = false;
                 this.selectAllSub.unsubscribe();
                 this.verifyMakesResponse$.unsubscribe();
@@ -104,9 +119,35 @@ export class ViewModelsComponent {
     }
   }
 
-  ngOnInit() {
-    this._store.dispatch(modelActions.getModels());
+  resetFilters() {
+    this.init = true;
+    this.filterData = {};
+    this._handleResetPagination.execute(
+      this._renderer,
+      this._element,
+      this._el
+    );
+    this.init = false;
+  }
+
+  getModels(event?: TableLazyLoadEvent) {
+    let query = this._handleQuery.execute({ filter: this.filterData, event });
+    if (this.init && Object.keys(this.filterData).length === 0) {
+      query.orderBy = {};
+      query.orderBy['modelName'] = 'asc';
+      this.init = false;
+    }
+    this._store.dispatch(
+      modelActions.getModels({
+        filter: {
+          ...query,
+        },
+      })
+    );
     this.modelsData$ = this._store.select(modelSelector.modelsData);
+  }
+  ngOnInit() {
+    this.getModels();
   }
 
   ngOnDestroy() {

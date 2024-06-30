@@ -36,3 +36,30 @@ export interface IGetModelById {
   updatedAt: string | Date;
   yearFounded: number;
 }
+
+export interface IModelFilter {
+  modelName?:string;
+  active?: string;
+  makeName?: string;
+  startDate?: string;
+  endDate?: string;
+  bodyStyle?: string;
+}
+
+export interface IModelFilterForm {
+  modelName?:string;
+  active?: string;
+  makeName?: string;
+  startDate?: string;
+  endDate?: string;
+  bodyStyle?: string;
+}
+
+export interface IModelOrderBy {
+  modelName?:string;
+  makeName?: string;
+  createdAt?: string;
+  origin?: string;
+  active?: string;
+  bodyStyle?: string;
+}

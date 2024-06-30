@@ -12,11 +12,14 @@ interface IMap {
 export class HandleQuery {
   constructor(private _handleSQLDate: HandleSQLDate) {}
   sortFields: ISortField[] = [];
-  execute(filter: any, event?: TableLazyLoadEvent) {
+  execute(params: { filter: any; event?: TableLazyLoadEvent, reset?:boolean }) {
     let skip: number = 0;
     let page = 0;
     let rows: number = 0;
-
+    const { event, filter, reset } = params;
+    if(reset) {
+      this.sortFields = []
+    }
     if (event) {
       skip = event?.first as number;
       rows = event?.rows as number;
@@ -30,7 +33,7 @@ export class HandleQuery {
           this.sortFields.splice(index, 1);
         }
 
-        this.sortFields.push({
+        this.sortFields.unshift({
           field: event.sortField as string,
           order: event.sortOrder === 1 ? 'asc' : 'desc',
         });

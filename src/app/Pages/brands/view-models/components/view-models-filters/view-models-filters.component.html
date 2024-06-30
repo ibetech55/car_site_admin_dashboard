@@ -1,0 +1,73 @@
+<p-accordion class="view-models-filters">
+    <p-accordionTab header="Filters">
+      <div class="view-models-filters__inputs">
+        <app-input label="Model name" name="modelName">
+          <input
+            pInputText
+            id="modelName"
+            aria-describedby="username-help"
+            class="p-inputtext-sm"
+            autocomplete="off"
+            [(ngModel)]="filterData.modelName"
+          />
+        </app-input>
+          <app-input
+            label="Make Name"
+            name="makeId"
+            *ngIf="makeList$ | async as makeList"
+          >
+            <p-dropdown
+              name="make"
+              [options]="makeList"
+              optionLabel="name"
+              optionValue="code"
+              [showClear]="true"
+              [editable]="false"
+              placeholder="Select a make"
+              [(ngModel)]="filterData.makeName"
+            ></p-dropdown>
+          </app-input>
+          <app-input
+          label="Status"
+          name="makeId"
+        >
+          <p-dropdown
+            name="active"
+            [options]="statusOptions"
+            optionLabel="name"
+            optionValue="code"
+            [showClear]="true"
+            [editable]="false"
+            placeholder="Select a status"
+            [(ngModel)]="filterData.active"
+          ></p-dropdown>
+        </app-input>
+        <app-input label="Body Style" name="bodyStyle">
+            <input
+              pInputText
+              id="bodyStyle"
+              aria-describedby="username-help"
+              class="p-inputtext-sm"
+              autocomplete="off"
+              [(ngModel)]="filterData.bodyStyle"
+            />
+          </app-input>
+        <app-input label="Date Created Start" name="startDate">
+          <p-calendar [(ngModel)]="filterData.startDate" />
+        </app-input>
+        <app-input label="Date Created End" name="endDate">
+          <p-calendar [(ngModel)]="filterData.endDate" />
+        </app-input>
+
+      </div>
+      <div class="form-btns-right view-models-filters__btns">
+        <app-button label="Reset" (click)="resetFilters()"></app-button>
+        <app-button
+          label="Search"
+          icon="bx bx-search"
+          (click)="handleFilter()"
+        ></app-button>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+  

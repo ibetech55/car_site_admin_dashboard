@@ -1,4 +1,4 @@
 export interface ISelect {
     name: string;
-    code: string;
+    code: string | boolean;
   }
