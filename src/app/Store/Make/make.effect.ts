@@ -8,6 +8,7 @@ import {
   DELETE_MAKE,
   DOWNLOAD_CREATE_MAKES_TEMPLATE,
   EDIT_MAKE,
+  EXPORT_MAKES_DATA,
   GET_MAKES_LIST,
   GET_MAKE_BY_ID,
   GET_MAKE_LOGO,
@@ -19,7 +20,7 @@ import {
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 import { CREATE_MODELS_SUCCESS } from '../Model/model.action';
-import { IMakeOrderBy, IMakesFilter } from '../../Data/Brand/Makes/GetMakes';
+import { IExportBody, IMakeOrderBy, IMakesFilter } from '../../Data/Brand/Makes/GetMakes';
 import { IPagination } from '../../Data/IPagination';
 
 @Injectable()
@@ -177,6 +178,21 @@ export class MakeEffects {
         return this._makeService.downloadCreateMakesTemplate().pipe(
           map((data) => {
             return makeActions.downloadCreateMakesTemplateSuccess({
+              download: data,
+            });
+          })
+        );
+      })
+    )
+  );
+
+  _exportMakesData = createEffect(() =>
+    this.action$.pipe(
+      ofType(EXPORT_MAKES_DATA),
+      switchMap((action:{exportType:string; columns:IExportBody[], filters: IPagination<IMakesFilter, IMakeOrderBy>}) => {
+        return this._makeService.exportMakesData(action.exportType, action.columns, action.filters).pipe(
+          map((data) => {
+            return makeActions.expertMakesDataSuccess({
               download: data,
             });
           })

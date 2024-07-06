@@ -195,5 +195,25 @@ export const makeReducer = createReducer(
         downloadCreateMakesTemplate: action.download,
       };
     }
+  ),
+  on(
+    makeActions.expertMakesData,
+    (currentState: IMakeModel, action) => {
+      return {
+        ...initialState,
+        makes:currentState.makes,
+        loading: true
+      };
+    }
+  ),
+  on(
+    makeActions.expertMakesDataSuccess,
+    (currentState: IMakeModel, action) => {
+      return {
+        ...currentState,
+        exportMakeDataDownload: action.download,
+        loading: false
+      };
+    }
   )
 );

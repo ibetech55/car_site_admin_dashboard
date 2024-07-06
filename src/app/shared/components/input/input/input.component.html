@@ -1,6 +1,8 @@
 <div class="app-input" [ngClass]="{checkbox:isCheckBox}">
-  <label [for]="name">{{ label }}</label>
-  <ng-content></ng-content>
+  <label [for]="name" class="label">{{ label }}</label>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
   <small class="error" id="username-help">{{ error }}</small>
 </div>
 

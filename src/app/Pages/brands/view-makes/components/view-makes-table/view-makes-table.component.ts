@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
-import { IGetMakePagination } from '../../../../../Data/Brand/Makes/GetMakes';
+import { IExportMakesData, IGetMakePagination } from '../../../../../Data/Brand/Makes/GetMakes';
 import { makeActions } from '../../../../../Store/Make/make.action';
 import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { IAppState } from '../../../../../Store/app.state';
@@ -36,6 +36,7 @@ export class ViewMakesTableComponent {
   @Input() textSelectAll!: boolean;
   @Input() getMakes!: (event:TableLazyLoadEvent) => void;
   @Input() first!: number;
+  @Input() exportData!: IExportMakesData;
 
   rows: number = 20;
   handleCheckbox(data: IIdsData) {

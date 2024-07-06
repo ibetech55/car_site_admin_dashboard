@@ -1,0 +1,14 @@
+.view-makes-export-data {
+  &__export-type {
+    margin-top: 1rem;
+  }
+
+  &__columns {
+    &-rows {
+      display: flex;
+      div {
+        margin-right: 2rem;
+      }
+    }
+  }
+}

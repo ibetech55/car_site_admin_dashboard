@@ -23,7 +23,7 @@ export interface IGetMakesList {
 }
 
 export interface IMakesFilter {
-  makeName?:string;
+  makeName?: string;
   origin?: string;
   startDate?: string;
   endDate?: string;
@@ -41,4 +41,18 @@ export interface IMakeOrderBy {
   created_at?: string;
   origin?: string;
   active?: string;
+}
+
+export interface IExportMakesData {
+  makeName?: string;
+  origin?: string;
+  active?: string;
+  createdAt?: string;
+  company?: string;
+  yearFounded?: string;
+  updatedAt?: string;
+}
+
+export interface IExportBody {
+  key: string;
 }
