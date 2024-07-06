@@ -17,5 +17,13 @@
   [checkId]="checkId.bind(this)"
   [handleCheckbox]="handleCheckbox.bind(this)"
 ></app-view-models-table>
+<div class="view-models__export">
+  <app-view-models-export-data
+    [exportData]="exportData"
+    [exportType]="exportType"
+    [handleExportType]="handleExportType.bind(this)"
+    [handleExport]="handleExport.bind(this)"
+  ></app-view-models-export-data>
+</div>
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>

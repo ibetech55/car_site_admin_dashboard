@@ -171,4 +171,24 @@ export const modelReducer = createReducer(
       loading: false,
     };
   }),
+  on(
+    modelActions.expertModelsData,
+    (currentState: IModelModel, action) => {
+      return {
+        ...initialState,
+        modelsData:currentState.modelsData,
+        loading: true
+      };
+    }
+  ),
+  on(
+    modelActions.expertModelsDataSuccess,
+    (currentState: IModelModel, action) => {
+      return {
+        ...currentState,
+        exportModelDataDownload: action.download,
+        loading: false
+      };
+    }
+  )
 );

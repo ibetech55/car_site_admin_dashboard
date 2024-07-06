@@ -13,6 +13,7 @@ import {
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 import { ICreateModelError } from './model.model';
 import { IPagination } from '../../Data/IPagination';
+import { IExportBody } from '../../Data/Common';
 
 export const GET_MODELS_MAKES = '[Makes Details Page] GET_MODELS_MAKES';
 export const GET_MODELS_MAKES_SUCCESS =
@@ -49,6 +50,11 @@ export const DELETE_MODEL_SUCCESS = '[Model Details page] DELETE_MODEL_SUCCESS';
 
 export const DOWNLOAD_CREATE_MODEL_TEMPLATE = '[Create Models Spreadsheet/CSV page] DOWNLOAD_CREATE_MODEL_TEMPLATE';
 export const DOWNLOAD_CREATE_MODEL_TEMPLATE_SUCCESS = '[Create Models Spreadsheet/CSV page] DOWNLOAD_CREATE_MODEL_TEMPLATE_SUCCESS';
+
+export const EXPORT_MODELS_DATA = '[View Models Page] EXPORT_MODELS_DATA';
+
+export const EXPORT_MODELS_DATA_SUCCESS =
+  '[View MODELS Page] EXPORT_MODELS_DATA_SUCCESS';
 
 
 const getModelByMakeId = createAction(
@@ -147,6 +153,20 @@ export const downloadCreateModelsTemplateSuccess = createAction(
   props<{ download: Blob }>()
 );
 
+export const expertModelsData = createAction(
+  EXPORT_MODELS_DATA,
+  props<{
+    exportType: string;
+    columns: IExportBody[];
+    filters: IPagination<IModelFilter, IModelOrderBy>;
+  }>()
+);
+
+export const expertModelsDataSuccess = createAction(
+  EXPORT_MODELS_DATA_SUCCESS,
+  props<{ download: Blob }>()
+);
+
 export const modelActions = {
   getModelByMakeId,
   getModelByMakeIdSuccess,
@@ -168,5 +188,7 @@ export const modelActions = {
   deleteModel,
   deleteModelSuccess,
   downloadCreateModelsTemplate,
-  downloadCreateModelsTemplateSuccess
+  downloadCreateModelsTemplateSuccess,
+  expertModelsData,
+  expertModelsDataSuccess
 };

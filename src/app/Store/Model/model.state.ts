@@ -32,5 +32,6 @@ export const ModelState: IModelModel = {
   },
   createModelSuccess: false,
   deleteModelSuccess: false,
-  downloadCreateModelsTemplate: undefined
+  downloadCreateModelsTemplate: undefined,
+  exportModelDataDownload: undefined
 };

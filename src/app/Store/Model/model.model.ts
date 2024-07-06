@@ -24,4 +24,5 @@ export interface IModelModel {
   createModelSuccess: boolean;
   deleteModelSuccess: boolean;
   downloadCreateModelsTemplate: Blob | undefined;
+  exportModelDataDownload: Blob | undefined;
 }

@@ -5,7 +5,6 @@ import { IAppState } from '../../../Store/app.state';
 import { makeActions } from '../../../Store/Make/make.action';
 import { makeSelector } from '../../../Store/Make/make.selector';
 import {
-  IExportBody,
   IExportMakesData,
   IGetMakePagination,
   IMakeFilterForm,
@@ -16,7 +15,7 @@ import { ISortField } from '../../../Data/IPagination';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { HandleQuery } from '../../../../utils/HandleQuery';
 import { HandleResetPagination } from '../../../../utils/HandleResetPagination';
-import { IExportType } from '../../../Data/Common';
+import { IExportBody, IExportType } from '../../../Data/Common';
 import { HandleDownload } from '../../../../utils/HandleDownload';
 interface IIdsData {
   id: string;

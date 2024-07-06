@@ -34,6 +34,7 @@ import { ViewMakesFiltersComponent } from './view-makes/components/view-makes-fi
 import { ViewModelsTableComponent } from './view-models/components/view-models-table/view-models-table.component';
 import { ViewModelsFiltersComponent } from './view-models/components/view-models-filters/view-models-filters.component';
 import { ViewMakesExportDataComponent } from './view-makes/components/view-makes-export-data/view-makes-export-data.component';
+import { ViewModelsExportDataComponent } from './view-models/components/view-models-export-data/view-models-export-data.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { ViewMakesExportDataComponent } from './view-makes/components/view-makes
     ViewModelsTableComponent,
     ViewModelsFiltersComponent,
     ViewMakesExportDataComponent,
+    ViewModelsExportDataComponent
   ],
   providers: [MakeService],
   imports: [
