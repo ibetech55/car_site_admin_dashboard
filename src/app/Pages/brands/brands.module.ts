@@ -33,6 +33,7 @@ import { McEditModalComponent } from './model-category-details/components/mc-edi
 import { ViewMakesFiltersComponent } from './view-makes/components/view-makes-filters/view-makes-filters.component';
 import { ViewModelsTableComponent } from './view-models/components/view-models-table/view-models-table.component';
 import { ViewModelsFiltersComponent } from './view-models/components/view-models-filters/view-models-filters.component';
+import { ViewMakesExportDataComponent } from './view-makes/components/view-makes-export-data/view-makes-export-data.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ViewModelsFiltersComponent } from './view-models/components/view-models
     ViewMakesFiltersComponent,
     ViewModelsTableComponent,
     ViewModelsFiltersComponent,
+    ViewMakesExportDataComponent,
   ],
   providers: [MakeService],
   imports: [

@@ -21,4 +21,11 @@
     label{
         margin-right: 0.5rem;
     }
+    .label {
+        order:2;
+    }
+    .content {
+        order:1;
+        margin-right: 0.5rem;
+    }
 }

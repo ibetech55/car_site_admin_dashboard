@@ -17,6 +17,7 @@ export class HandleQuery {
     let page = 0;
     let rows: number = 0;
     const { event, filter, reset } = params;
+
     if(reset) {
       this.sortFields = []
     }
@@ -24,7 +25,6 @@ export class HandleQuery {
       skip = event?.first as number;
       rows = event?.rows as number;
       page = skip / rows + 1;
-
       if (event.sortField && event.sortOrder) {
         if (this.sortFields.some((x) => x.field === event.sortField)) {
           const index = this.sortFields.findIndex(
@@ -64,10 +64,12 @@ export class HandleQuery {
         );
       }
     });
-    return {
+  return {
+    query:{
+      ...filterData,
       page: page ? page : 1,
       limit: rows ? rows : 20,
-      ...filterData,
-    };
+    },
+  };
   }
 }

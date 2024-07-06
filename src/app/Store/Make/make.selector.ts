@@ -16,6 +16,7 @@ const editMakeSuccess = createSelector(makeState, (state) => state.editMakeSucce
 const getMakeLogoUrl = createSelector(makeState, (state) => state.getMakeLogoSuccess);
 const changeMakeLogoSuccess = createSelector(makeState, (state) => state.changeMakeLogoSuccess);
 const downloadCreateMakesTemplate = createSelector(makeState, (state) => state.downloadCreateMakesTemplate);
+const exportMakeDataDownload = createSelector(makeState, (state) => state.exportMakeDataDownload);
 
 export const makeSelector = {
   makesData,
@@ -32,5 +33,6 @@ export const makeSelector = {
   editMakeSuccess,
   getMakeLogoUrl,
   changeMakeLogoSuccess,
-  downloadCreateMakesTemplate
+  downloadCreateMakesTemplate,
+  exportMakeDataDownload
 };

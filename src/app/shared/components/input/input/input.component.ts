@@ -14,5 +14,5 @@ export class InputComponent {
   @Input() error?: string;
   @Input() formControlName!: string;
   @Input() formControl!: FormControl;
-  @Input() isCheckBox: boolean = false;
+  @Input() isCheckBox!: boolean;
 }

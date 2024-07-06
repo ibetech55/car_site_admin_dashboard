@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  IExportBody,
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
@@ -28,7 +29,10 @@ export class MakeService {
   getMakes(
     filters: IPagination<IMakesFilter, IMakeOrderBy>
   ): Observable<IGetMakePagination> {
-    const queryString = this._handleQueryString.execute<IMakesFilter, IMakeOrderBy>(filters);
+    const queryString = this._handleQueryString.execute<
+      IMakesFilter,
+      IMakeOrderBy
+    >(filters);
     return this._httpClient.get<IGetMakePagination>(
       `http://localhost:5003/brand_api/make${queryString}`
     );
@@ -126,6 +130,24 @@ export class MakeService {
   downloadCreateMakesTemplate(): Observable<Blob> {
     return this._httpClient.get<Blob>(
       `http://localhost:5003/brand_api/make/create-makes-template`,
+      {
+        responseType: 'blob' as 'json',
+      }
+    );
+  }
+
+  exportMakesData(
+    exportType: string,
+    columns: IExportBody[],
+    filters: IPagination<IMakesFilter, IMakeOrderBy>
+  ): Observable<Blob> {
+    const queryString = this._handleQueryString.execute<
+      IMakesFilter,
+      IMakeOrderBy
+    >(filters);
+    return this._httpClient.post<Blob>(
+      `http://localhost:5003/brand_api/make/export-makes-data/${exportType}${queryString}`,
+      { columns },
       {
         responseType: 'blob' as 'json',
       }

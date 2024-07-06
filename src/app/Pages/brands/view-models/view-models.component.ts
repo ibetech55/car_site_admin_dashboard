@@ -131,7 +131,7 @@ export class ViewModelsComponent {
   }
 
   getModels(event?: TableLazyLoadEvent) {
-    let query = this._handleQuery.execute({ filter: this.filterData, event });
+    let {query} = this._handleQuery.execute({ filter: this.filterData, event });
     if (this.init && Object.keys(this.filterData).length === 0) {
       query.orderBy = {};
       query.orderBy['modelName'] = 'asc';

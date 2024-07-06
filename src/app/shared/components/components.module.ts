@@ -10,6 +10,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { HorizontalLineComponent } from './horizontal-line/horizontal-line.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { LabelTextComponent } from './label-text/label-text.component';
+import { SectionLabelComponent } from './section-label/section-label.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { LabelTextComponent } from './label-text/label-text.component';
     HorizontalLineComponent,
     DialogComponent,
     LabelTextComponent,
+    SectionLabelComponent,
+    SectionLabelComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import { LabelTextComponent } from './label-text/label-text.component';
     HorizontalLineComponent,
     DialogComponent,
     LabelTextComponent,
+    SectionLabelComponent
   ],
 })
 export class ComponentsModule { }

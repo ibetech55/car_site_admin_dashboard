@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  IExportBody,
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
@@ -51,7 +52,15 @@ export const DOWNLOAD_CREATE_MAKES_TEMPLATE =
 export const DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS =
   '[Create Multiple Makes Page] DOWNLOAD_CREATE_MAKES_TEMPLATE_SUCCESS';
 
-const loadMakes = createAction(LOAD_MAKES, props<{ filter?: IPagination<IMakesFilter, IMakeOrderBy> }>());
+export const EXPORT_MAKES_DATA = '[View Makes Page] EXPORT_MAKES_DATA';
+
+export const EXPORT_MAKES_DATA_SUCCESS =
+  '[View Makes Page] EXPORT_MAKES_DATA_SUCCESS';
+
+const loadMakes = createAction(
+  LOAD_MAKES,
+  props<{ filter?: IPagination<IMakesFilter, IMakeOrderBy> }>()
+);
 const loadMakessuccess = createAction(
   LOAD_BLOG_SUCCESS,
   props<{ makes: IGetMakePagination }>()
@@ -148,6 +157,20 @@ export const downloadCreateMakesTemplateSuccess = createAction(
   props<{ download: Blob }>()
 );
 
+export const expertMakesData = createAction(
+  EXPORT_MAKES_DATA,
+  props<{
+    exportType: string;
+    columns: IExportBody[];
+    filters: IPagination<IMakesFilter, IMakeOrderBy>;
+  }>()
+);
+
+export const expertMakesDataSuccess = createAction(
+  EXPORT_MAKES_DATA_SUCCESS,
+  props<{ download: Blob }>()
+);
+
 export const makeActions = {
   loadMakes,
   loadMakessuccess,
@@ -175,4 +198,6 @@ export const makeActions = {
   changeMakeLogoSuccess,
   downloadCreateMakesTemplate,
   downloadCreateMakesTemplateSuccess,
+  expertMakesData,
+  expertMakesDataSuccess
 };

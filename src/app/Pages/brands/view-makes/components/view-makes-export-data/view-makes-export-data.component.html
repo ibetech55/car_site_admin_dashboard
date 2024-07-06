@@ -1,0 +1,92 @@
+<p-accordion class="view-makes-export-data">
+  <p-accordionTab header="Export to Spreadsheet">
+    <div class="view-makes-export-data__columns">
+     <app-section-label text="Select columns to add to Spreadsheet"></app-section-label>
+      <div class="view-makes-export-data__columns-rows">
+        <div>
+          <app-input label="Make Name" name="makeName" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="makeName"
+              [(ngModel)]="exportData.makeName"
+            ></p-checkbox>
+          </app-input>
+          <app-input label="Origin" name="origin" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="origin"
+              [(ngModel)]="exportData.origin"
+            ></p-checkbox>
+          </app-input>
+          <app-input label="Status" name="active" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="active"
+              [(ngModel)]="exportData.active"
+            ></p-checkbox>
+          </app-input>
+          <app-input label="Created At" name="createdAt" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="createdAt"
+              [(ngModel)]="exportData.createdAt"
+            ></p-checkbox>
+          </app-input>
+        </div>
+        <div class="view-makes-export-data__columns-row">
+          <app-input label="Company" name="company" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="company"
+              [(ngModel)]="exportData.company"
+            ></p-checkbox>
+          </app-input>
+          <app-input label="Year Founded" name="yearFounded" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="yearFounded"
+              [(ngModel)]="exportData.yearFounded"
+            ></p-checkbox>
+          </app-input>
+          <app-input label="Updated At" name="updatedAt" [isCheckBox]="true">
+            <p-checkbox
+              [binary]="true"
+              inputId="updatedAt"
+              [(ngModel)]="exportData.updatedAt"
+            ></p-checkbox>
+          </app-input>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="view-makes-export-data__export-type">
+      <app-section-label text="Select an export type"></app-section-label>
+      <app-input label="Export All" name="exportAll" [isCheckBox]="true">
+        <p-checkbox
+          inputId="exportAll"
+          [(ngModel)]="exportType.exportAll"
+          (onChange)="handleExportType('exportAll')"
+          [binary]="true"
+        ></p-checkbox>
+      </app-input>
+      <app-input label="Paginate" name="paginate" [isCheckBox]="true">
+        <p-checkbox
+          inputId="paginate"
+          [(ngModel)]="exportType.paginate"
+          [binary]="true"
+          (onChange)="handleExportType('paginate')"
+        ></p-checkbox>
+      </app-input>
+    </div>
+    <div class="form-btns-right">
+      <app-button
+        color="success"
+        label="Export to Spreadsheet"
+        icon="bx bx-spreadsheet"
+        type="button"
+        (click)="handleExport()"
+      ></app-button>
+    </div>
+  </p-accordionTab>
+</p-accordion>

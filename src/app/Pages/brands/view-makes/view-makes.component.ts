@@ -5,6 +5,8 @@ import { IAppState } from '../../../Store/app.state';
 import { makeActions } from '../../../Store/Make/make.action';
 import { makeSelector } from '../../../Store/Make/make.selector';
 import {
+  IExportBody,
+  IExportMakesData,
   IGetMakePagination,
   IMakeFilterForm,
 } from '../../../Data/Brand/Makes/GetMakes';
@@ -14,6 +16,8 @@ import { ISortField } from '../../../Data/IPagination';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { HandleQuery } from '../../../../utils/HandleQuery';
 import { HandleResetPagination } from '../../../../utils/HandleResetPagination';
+import { IExportType } from '../../../Data/Common';
+import { HandleDownload } from '../../../../utils/HandleDownload';
 interface IIdsData {
   id: string;
   makeName: string;
@@ -32,8 +36,9 @@ export class ViewMakesComponent {
     private confirmationService: ConfirmationService,
     private _handleQuery: HandleQuery,
     private _handleResetPagination: HandleResetPagination,
+    private _handleDownload: HandleDownload,
     private _renderer: Renderer2,
-    private _element: ElementRef<HTMLDivElement>, 
+    private _element: ElementRef<HTMLDivElement>,
     private _el: ElementRef
   ) {}
   idsData: IIdsData[] = [];
@@ -48,6 +53,15 @@ export class ViewMakesComponent {
   sortFields: ISortField[] = [];
   init = true;
   first: number = 0;
+  exportData: IExportMakesData = {};
+  exportType: IExportType = {
+    exportAll: true,
+    paginate: false,
+  };
+  exportTypeText = 'exportAll';
+  exportSub!: Subscription;
+  query!:any;
+
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
       this.loading = true;
@@ -108,10 +122,13 @@ export class ViewMakesComponent {
   }
 
   getMakes(event?: TableLazyLoadEvent) {
-    let query = this._handleQuery.execute({ filter: this.filterData, event });
-
+    let { query} = this._handleQuery.execute({
+      filter: this.filterData,
+      event
+    });
+    this.query = query;
     if (this.init && Object.keys(this.filterData).length === 0) {
-      query.orderBy = {}
+      query.orderBy = {};
       query.orderBy['makeName'] = 'asc';
       this.init = false;
     }
@@ -128,8 +145,55 @@ export class ViewMakesComponent {
   resetFilters() {
     this.init = true;
     this.filterData = {};
-    this._handleResetPagination.execute(this._renderer, this._element, this._el);
+    this._handleResetPagination.execute(
+      this._renderer,
+      this._element,
+      this._el
+    );
     this.init = false;
+  }
+
+  checkExportType(type: string) {
+    return type === this.exportType ? true : false;
+  }
+
+  handleExportType(type: string) {
+    this.exportTypeText = type;
+    if (type === 'exportAll') {
+      this.exportType.exportAll = true;
+      this.exportType.paginate = false;
+    } else {
+      this.exportType.paginate = true;
+      this.exportType.exportAll = false;
+    }
+  }
+
+  handleExport() {
+    const cols: IExportBody[] = [];
+    Object.keys(this.exportData).map((key) => {
+      if (this.exportData[key as keyof IExportMakesData]) {
+        cols.push({ key });
+      }
+    });
+
+    this._store.dispatch(
+      makeActions.expertMakesData({
+        exportType: this.exportTypeText,
+        columns: cols,
+        filters: {
+          ...this.query,
+        },
+      })
+    );
+
+    this.exportSub = this._store
+      .select(makeSelector.exportMakeDataDownload)
+      .subscribe((blob) => {
+        if (blob) {
+          this._handleDownload.execute(blob, 'ExportMakesData.xlsx');
+          this.exportSub.unsubscribe();
+        }
+      });
   }
 
   ngOnInit() {
@@ -139,5 +203,6 @@ export class ViewMakesComponent {
   ngOnDestroy() {
     this.verifyMakesResponseSub?.unsubscribe();
     this.selectAllSub.unsubscribe();
+    this.exportSub.unsubscribe();
   }
 }

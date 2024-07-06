@@ -30,5 +30,6 @@ export const MakeState: IMakeModel = {
   editMakeSuccess: false,
   getMakeLogoSuccess: '',
   changeMakeLogoSuccess: false,
-  downloadCreateMakesTemplate: undefined
+  downloadCreateMakesTemplate: undefined,
+  exportMakeDataDownload: undefined
 };
