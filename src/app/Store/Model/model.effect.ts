@@ -7,6 +7,7 @@ import {
   DELETE_MODEL,
   DOWNLOAD_CREATE_MODEL_TEMPLATE,
   EDIT_MODEL,
+  EXPORT_MODELS_DATA,
   GET_MODELS,
   GET_MODELS_MAKES,
   GET_MODEL_BY_ID,
@@ -18,6 +19,7 @@ import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 import { IPagination } from '../../Data/IPagination';
 import { IModelFilter, IModelOrderBy } from '../../Data/Brand/Model/GetModel';
+import { IExportBody } from '../../Data/Common';
 
 @Injectable()
 export class ModelEffects {
@@ -143,6 +145,21 @@ export class ModelEffects {
         return this._modelService.downloadCreateModelsTemplate().pipe(
           map((data) => {
             return modelActions.downloadCreateModelsTemplateSuccess({
+              download: data,
+            });
+          })
+        );
+      })
+    )
+  );
+
+  _exportModelsData = createEffect(() =>
+    this.action$.pipe(
+      ofType(EXPORT_MODELS_DATA),
+      switchMap((action:{exportType:string; columns:IExportBody[], filters: IPagination<IModelFilter, IModelOrderBy>}) => {
+        return this._modelService.exportModelsData(action.exportType, action.columns, action.filters).pipe(
+          map((data) => {
+            return modelActions.expertModelsDataSuccess({
               download: data,
             });
           })

@@ -13,6 +13,7 @@ import { ICreateModel } from '../../Data/Brand/Model/CreateModel';
 import { IEditModel } from '../../Data/Brand/Model/UpdateModel';
 import { HandleQueryString } from '../../../utils/HandleQueryString';
 import { IPagination } from '../../Data/IPagination';
+import { IExportBody } from '../../Data/Common';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +86,24 @@ export class ModelService {
   downloadCreateModelsTemplate(): Observable<Blob> {
     return this._httpClient.get<Blob>(
       `http://localhost:5003/brand_api/model/createModelsTemplate`,
+      {
+        responseType: 'blob' as 'json',
+      }
+    );
+  }
+
+  exportModelsData(
+    exportType: string,
+    columns: IExportBody[],
+    filters: IPagination<IModelFilter, IModelOrderBy>
+  ): Observable<Blob> {
+    const queryString = this._handleQueryString.execute<
+      IModelFilter,
+      IModelOrderBy
+    >(filters);
+    return this._httpClient.post<Blob>(
+      `http://localhost:5003/brand_api/model/export-models-data/${exportType}${queryString}`,
+      { columns },
       {
         responseType: 'blob' as 'json',
       }

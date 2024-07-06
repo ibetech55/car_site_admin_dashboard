@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import {
-  IExportBody,
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
@@ -10,6 +9,7 @@ import {
 import { ISaveMakes } from '../../Data/Brand/Makes/SaveMakes';
 import { IEditMake } from '../../Data/Brand/Makes/EditMake';
 import { IPagination } from '../../Data/IPagination';
+import { IExportBody } from '../../Data/Common';
 
 export const LOAD_MAKES = '[View Makes Page] load makes';
 export const LOAD_BLOG_SUCCESS = '[blog page] load blog success';

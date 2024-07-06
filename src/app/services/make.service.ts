@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  IExportBody,
   IGetMake,
   IGetMakePagination,
   IGetMakesList,
@@ -16,6 +15,7 @@ import {
 import { IEditMake } from '../Data/Brand/Makes/EditMake';
 import { IOrderData, IPagination, IPaginationData } from '../Data/IPagination';
 import { HandleQueryString } from '../../utils/HandleQueryString';
+import { IExportBody } from '../Data/Common';
 
 @Injectable({
   providedIn: 'root',

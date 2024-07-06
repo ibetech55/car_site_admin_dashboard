@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../../Store/app.state';
 import {
+  IExportModelsData,
   IGetModelPagination,
   IModelFilterForm,
 } from '../../../Data/Brand/Model/GetModel';
@@ -13,6 +14,8 @@ import { TableLazyLoadEvent } from 'primeng/table';
 import { HandleQuery } from '../../../../utils/HandleQuery';
 import { HandleResetPagination } from '../../../../utils/HandleResetPagination';
 import { ISortField } from '../../../Data/IPagination';
+import { IExportBody, IExportType } from '../../../Data/Common';
+import { HandleDownload } from '../../../../utils/HandleDownload';
 
 interface IIdsData {
   id: String;
@@ -32,6 +35,7 @@ export class ViewModelsComponent {
     private confirmationService: ConfirmationService,
     private _handleQuery: HandleQuery,
     private _handleResetPagination: HandleResetPagination,
+    private _handleDownload: HandleDownload,
     private _renderer: Renderer2,
     private _element: ElementRef<HTMLDivElement>,
     private _el: ElementRef
@@ -46,6 +50,14 @@ export class ViewModelsComponent {
   filterData: IModelFilterForm = {};
   init = true;
   sortFields: ISortField[] = [];
+  exportData: IExportModelsData = {};
+  exportType: IExportType = {
+    exportAll: true,
+    paginate: false,
+  };
+  exportTypeText = 'exportAll';
+  exportSub!: Subscription;
+  query!:any;
 
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
@@ -132,6 +144,7 @@ export class ViewModelsComponent {
 
   getModels(event?: TableLazyLoadEvent) {
     let {query} = this._handleQuery.execute({ filter: this.filterData, event });
+    this.query = query;
     if (this.init && Object.keys(this.filterData).length === 0) {
       query.orderBy = {};
       query.orderBy['modelName'] = 'asc';
@@ -146,6 +159,49 @@ export class ViewModelsComponent {
     );
     this.modelsData$ = this._store.select(modelSelector.modelsData);
   }
+
+  checkExportType(type: string) {
+    return type === this.exportType ? true : false;
+  }
+
+  handleExportType(type: string) {
+    this.exportTypeText = type;
+    if (type === 'exportAll') {
+      this.exportType.exportAll = true;
+      this.exportType.paginate = false;
+    } else {
+      this.exportType.paginate = true;
+      this.exportType.exportAll = false;
+    }
+  }
+
+  handleExport() {
+    const cols: IExportBody[] = [];
+    Object.keys(this.exportData).map((key) => {
+      if (this.exportData[key as keyof IExportModelsData]) {
+        cols.push({ key });
+      }
+    });
+    this._store.dispatch(
+      modelActions.expertModelsData({
+        exportType: this.exportTypeText,
+        columns: cols,
+        filters: {
+          ...this.query,
+        },
+      })
+    );
+
+    this.exportSub = this._store
+      .select(modelSelector.exportModelDataDownload)
+      .subscribe((blob) => {
+        if (blob) {
+          this._handleDownload.execute(blob, 'ExportModelData.xlsx');
+          this.exportSub.unsubscribe();
+        }
+      });
+  }
+  
   ngOnInit() {
     this.getModels();
   }

@@ -63,3 +63,13 @@ export interface IModelOrderBy {
   active?: string;
   bodyStyle?: string;
 }
+
+export interface IExportModelsData {
+  modelName?: string;
+  makes?: string;
+  status?: string;
+  active?: string;
+  createdAt?: string;
+  yearFounded?: string;
+  updatedAt?: string;
+}

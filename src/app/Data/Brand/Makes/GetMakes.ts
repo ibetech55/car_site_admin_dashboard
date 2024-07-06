@@ -53,6 +53,4 @@ export interface IExportMakesData {
   updatedAt?: string;
 }
 
-export interface IExportBody {
-  key: string;
-}
+

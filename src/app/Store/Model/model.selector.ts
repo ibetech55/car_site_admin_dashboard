@@ -14,6 +14,7 @@ const createModelError = createSelector(modelState, (state) => state.createModel
 const createModelSuccess = createSelector(modelState, (state) => state.createModelSuccess);
 const deleteModelSuccess = createSelector(modelState, (state) => state.deleteModelSuccess);
 const  downloadCreateModelsTemplate = createSelector(modelState, (state) => state.downloadCreateModelsTemplate);
+const exportModelDataDownload = createSelector(modelState, (state) => state.exportModelDataDownload);
 
 export const modelSelector = {
   modelByMakeData,
@@ -27,5 +28,6 @@ export const modelSelector = {
   createModelError,
   createModelSuccess,
   deleteModelSuccess,
-  downloadCreateModelsTemplate
+  downloadCreateModelsTemplate,
+  exportModelDataDownload
 };
