@@ -18,6 +18,13 @@
                 [(ngModel)]="exportData.makes"
               ></p-checkbox>
             </app-input>
+            <app-input label="Body Type" name="bodyType" [isCheckBox]="true">
+              <p-checkbox
+                [binary]="true"
+                inputId="bodyType"
+                [(ngModel)]="exportData.bodyType"
+              ></p-checkbox>
+            </app-input>
             <app-input label="Status" name="active" [isCheckBox]="true">
               <p-checkbox
                 [binary]="true"

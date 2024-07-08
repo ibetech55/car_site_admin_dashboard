@@ -12,13 +12,14 @@ interface ICreateModelForm {
   modelName: string;
   yearFounded: number;
   makeId: string;
-  modelCategoryId: String;
+  bodyTypeValues: string[];
+  bodyType: string;
   errorModelName: string;
   errorMakeId: string;
-  errorModelCategory: string;
+  errorBodyType: string;
   errorOriginBorder: boolean;
   errorMakeBorder: boolean;
-  errorModelCategoryBorder: boolean;
+  errorBodyTypeBorder: boolean;
   errorModelNameBorder: boolean;
 }
 interface ISelect {
@@ -79,9 +80,9 @@ export class CreateModelFormComponent {
         this._renderer.setStyle(elem, 'borderColor', 'red');
       }
 
-      if (!x.modelCategoryId) {
-        formValues[i].errorModelCategory = 'Please, select a body type';
-        formValues[i].errorModelCategoryBorder = true;
+      if (!x.bodyTypeValues || !x.bodyTypeValues.length) {
+        formValues[i].errorBodyType = 'Please, select a body type';
+        formValues[i].errorBodyTypeBorder = true;
         const elem = this._element.nativeElement.querySelector(
           `#modelcategory${i}`
         );
@@ -94,25 +95,25 @@ export class CreateModelFormComponent {
       const data: ICreateModel[] = values.map((x: ICreateModelForm) => ({
         modelName: x.modelName,
         makeId: x.makeId,
-        modelCategoryId: x.modelCategoryId,
+        bodyType: x.bodyTypeValues,
         yearFounded: x.yearFounded,
       }));
       this._store.dispatch(modelActions.createModels({ values: data }));
 
       this.modelsSavedSub = this._store
-      .select(modelSelector.createModelSuccess)
-      .subscribe((data) => {
-        if (data) {
-          this.clearForms();
-          this._messageService.add({
-            severity: 'info',
-            summary: 'Confirmed',
-            detail: 'Data saved successfully',
-          });
-          this.loading = false;
-          this.modelsSavedSub.unsubscribe();
-        }
-      });
+        .select(modelSelector.createModelSuccess)
+        .subscribe((data) => {
+          if (data) {
+            this.clearForms();
+            this._messageService.add({
+              severity: 'info',
+              summary: 'Confirmed',
+              detail: 'Data saved successfully',
+            });
+            this.loading = false;
+            this.modelsSavedSub.unsubscribe();
+          }
+        });
 
       this.errorSub = this._store
         .select(modelSelector.createModelError)
@@ -120,20 +121,20 @@ export class CreateModelFormComponent {
           if (data.text && data.models.length > 0) {
             this.error$.next(data.text);
 
-            values.map((x:ICreateModelForm, i:number)=>{
+            values.map((x: ICreateModelForm, i: number) => {
               const formValues: ICreateModelForm[] = modelFormGroup.value;
               formValues[i].errorModelName = '';
               formValues[i].errorMakeId = '';
-              formValues[i].errorModelCategory = '';
+              formValues[i].errorBodyType = '';
 
               formValues[i].errorModelNameBorder = false;
               formValues[i].errorMakeBorder = false;
-              formValues[i].errorModelCategoryBorder = false;
+              formValues[i].errorBodyTypeBorder = false;
 
               if (data.models.includes(x.modelName)) {
                 formValues[i].errorModelNameBorder = true;
               }
-            })
+            });
             this.errorSub.unsubscribe();
           }
         });
@@ -151,7 +152,7 @@ export class CreateModelFormComponent {
   clearForms() {
     this.modelFormGroup.get(this.formName)?.reset();
     this.formItems.clear();
-    this.error$.next("")
+    this.error$.next('');
     this.AddNewRow();
   }
 
@@ -164,7 +165,8 @@ export class CreateModelFormComponent {
     return this._builder.group({
       modelName: this._builder.control('', Validators.required),
       makeId: this._builder.control('', Validators.required),
-      modelCategoryId: this._builder.control('', Validators.required),
+      bodyTypeValues: this._builder.control([], Validators.required),
+      bodyType: this._builder.control('', Validators.required),
       yearFounded: this._builder.control(''),
       errorModelName: this._builder.control(''),
       errorMakeId: this._builder.control(''),
@@ -175,11 +177,34 @@ export class CreateModelFormComponent {
     });
   }
 
+  handleBodyType(val: any, index: number) {
+    if (val.value.trim()) {
+      const bodyTypeArr = [];
+      const modelFormGroup = this.modelFormGroup.get(
+        this.formName
+      ) as FormArray;
+      const formValues = modelFormGroup.value;
+      bodyTypeArr.push(val.value);
+      formValues[index].bodyTypeValues = [
+        ...formValues[index].bodyTypeValues,
+        ...bodyTypeArr,
+      ];
+      modelFormGroup?.setValue(formValues);
+    }
+  }
+
+  handleRemoveBodyType(formIndex: number, bodyTypeIndex: number) {
+    const modelFormGroup = this.modelFormGroup.get(this.formName) as FormArray;
+    const formValues = modelFormGroup.value;
+    formValues[formIndex].bodyTypeValues.splice(bodyTypeIndex, 1);
+    modelFormGroup?.setValue(formValues);
+  }
+
   ngOnInit() {
     this.AddNewRow();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.errorSub.unsubscribe();
     this.modelsSavedSub.unsubscribe();
   }

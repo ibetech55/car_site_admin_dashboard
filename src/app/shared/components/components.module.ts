@@ -11,6 +11,7 @@ import { HorizontalLineComponent } from './horizontal-line/horizontal-line.compo
 import { DialogComponent } from './dialog/dialog.component';
 import { LabelTextComponent } from './label-text/label-text.component';
 import { SectionLabelComponent } from './section-label/section-label.component';
+import { ChipListComponent } from './chip-list/chip-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SectionLabelComponent } from './section-label/section-label.component';
     DialogComponent,
     LabelTextComponent,
     SectionLabelComponent,
-    SectionLabelComponent
+    SectionLabelComponent,
+    ChipListComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { SectionLabelComponent } from './section-label/section-label.component';
     HorizontalLineComponent,
     DialogComponent,
     LabelTextComponent,
-    SectionLabelComponent
+    SectionLabelComponent,
+    ChipListComponent
   ],
 })
 export class ComponentsModule { }

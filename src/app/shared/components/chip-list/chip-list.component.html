@@ -1,0 +1,7 @@
+<div class="chip-list">
+    <div *ngFor="let item of items; let itemIndex = index">
+      <span>{{ item }}</span>
+      <i class="pi pi-trash" (click)="removeItem(itemIndex)"></i>
+    </div>
+  </div>
+  

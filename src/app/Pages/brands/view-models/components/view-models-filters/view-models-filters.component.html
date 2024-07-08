@@ -42,16 +42,30 @@
             [(ngModel)]="filterData.active"
           ></p-dropdown>
         </app-input>
-        <app-input label="Body Style" name="bodyStyle">
-            <input
-              pInputText
-              id="bodyStyle"
-              aria-describedby="username-help"
-              class="p-inputtext-sm"
-              autocomplete="off"
-              [(ngModel)]="filterData.bodyStyle"
-            />
+        <div>
+          <app-input
+            label="Body Style"
+            name="bodyType"
+            *ngIf="modelCategories$ | async as modelCategories"
+          >
+            <p-dropdown
+              [id]="'bodytypeeditselect'"
+              name="bodyType"
+              [options]="modelCategories"
+              optionLabel="name"
+              optionValue="name"
+              [showClear]="true"
+              [editable]="false"
+              placeholder="Select a Body Style"
+              (onChange)="handleBodyType($event)"
+              [(ngModel)]="bodyTypeText.text"
+            ></p-dropdown>
+            <div class="create-model-form__body-style-list">
+              <app-chip-list [items]="filterData.bodyType || []" (removeItemEmit)="handleRemoveBodyType($event)"></app-chip-list>
+            </div>
           </app-input>
+        </div>
+    
         <app-input label="Date Created Start" name="startDate">
           <p-calendar [(ngModel)]="filterData.startDate" />
         </app-input>

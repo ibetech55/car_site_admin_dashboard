@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IAppState } from '../../../../../Store/app.state';
@@ -18,16 +19,22 @@ import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { makeActions } from '../../../../../Store/Make/make.action';
 import { modelActions } from '../../../../../Store/Model/model.action';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { modelCategoryActions } from '../../../../../Store/ModelCategory/model.category.action';
+import { modelCategorySelector } from '../../../../../Store/ModelCategory/model.category.selector';
 
 interface IEditForm {
   modelName: string;
   makeId: string;
   active: boolean;
   yearFounded: string;
+  bodyType: string;
+  bodyTypeValues: string[];
   errorModelName: string;
   errorModelNameBorder: boolean;
   errorMake: string;
   errorMakeBorder: boolean;
+  errorBodyType: string;
+  errorBodyTypeBorder: boolean;
 }
 
 @Component({
@@ -44,7 +51,8 @@ export class EditModelModalComponent {
     private _renderer: Renderer2,
     private _confirmationService: ConfirmationService,
     private _messageService: MessageService
-  ) {}
+  ) {
+     }
 
   @Input() showDialog: boolean = false;
   @Input() loading: boolean = false;
@@ -61,16 +69,22 @@ export class EditModelModalComponent {
   editError$ = new BehaviorSubject<string>('');
   borderColor = '#ced4da';
   makeSelectId = '#makeselect';
+  bodyTypeSelectId = '#bodytypeeditmodal';
+  modelCategories$ = new Observable<ISelect[]>();
 
   editModelFormGroup = this._builder.group({
     modelName: this._builder.control('', Validators.required),
     makeId: this._builder.control('', Validators.required),
     active: this._builder.control(false, Validators.required),
-    yearFounded: this._builder.control(''),
+    yearFounded: this._builder.control('', Validators.required),
+    bodyType: this._builder.control(''),
+    bodyTypeValues: this._builder.control([''], Validators.required),
     errorModelName: this._builder.control(''),
     errorModelNameBorder: this._builder.control(false),
     errorMake: this._builder.control(''),
     errorMakeBorder: this._builder.control(false),
+    errorBodyType: this._builder.control(''),
+    errorBodyTypeBorder: this._builder.control(false),
   });
 
   makeSelectDefault() {
@@ -80,9 +94,16 @@ export class EditModelModalComponent {
     }
   }
 
+  bodyTypeDefault() {
+    const elem = this._element.nativeElement.querySelector(this.bodyTypeSelectId);
+    if (elem) {
+      this._renderer.setStyle(elem, 'borderColor', this.borderColor);
+    }
+  }
+
   confirmModal() {
     this.loading = true;
-    const editForm = this.editModelFormGroup.getRawValue() as IEditForm;
+    const editForm = this.editModelFormGroup.getRawValue();
     if (!editForm.modelName) {
       this.editModelFormGroup.setValue({
         ...editForm,
@@ -100,7 +121,18 @@ export class EditModelModalComponent {
       const elem = this._element.nativeElement.querySelector(this.makeSelectId);
       this._renderer.setStyle(elem, 'borderColor', 'red');
     }
+    if (!editForm.bodyTypeValues || !editForm.bodyTypeValues.length) {
+      this.editModelFormGroup.setValue({
+          ...editForm,
+          errorBodyType:'Please, select a body type',
+          errorBodyTypeBorder: true
+      })
 
+      const elem = this._element.nativeElement.querySelector(
+        this.bodyTypeSelectId
+      );
+      this._renderer.setStyle(elem, 'borderColor', 'red');
+    }
     if (this.editModelFormGroup.valid) {
       this.editModelFormGroup.setValue({
         ...editForm,
@@ -109,8 +141,16 @@ export class EditModelModalComponent {
         errorMake: '',
         errorMakeBorder: false,
       });
+
+      const requestValues: IEditModel = {
+        modelName: editForm.modelName as string,
+        makeId: editForm.makeId as string,
+        yearFounded: Number(editForm.yearFounded),
+        bodyType: editForm.bodyTypeValues as string[],
+        active: editForm.active as boolean,
+      };
       this._store.dispatch(
-        modelActions.editModel({ id: this.id, values: editForm })
+        modelActions.editModel({ id: this.id, values: requestValues })
       );
 
       this.editResponseSub = this._store
@@ -122,7 +162,7 @@ export class EditModelModalComponent {
               severity: 'info',
               summary: 'Confirmed',
               detail: 'Data Updated successfully',
-            })
+            });
             this.closeEditModalSuccess.emit();
             this.editResponseSub.unsubscribe();
           }
@@ -142,10 +182,11 @@ export class EditModelModalComponent {
   }
 
   closeDialog() {
+    this.makeSelectDefault();
+    this.bodyTypeDefault();
     this.showDialog = false;
     this.editError$.next('');
     this.setForm();
-    this.makeSelectDefault();
     this.dialogClosed.emit();
   }
 
@@ -156,10 +197,14 @@ export class EditModelModalComponent {
         modelName: data.modelName,
         active: data.active,
         yearFounded: data.yearFounded ? data.yearFounded.toString() : '',
+        bodyType: '',
+        bodyTypeValues: data.bodyType ? data.bodyType.split(',') : [],
         errorMake: '',
         errorMakeBorder: false,
         errorModelName: '',
         errorModelNameBorder: false,
+        errorBodyType: '',
+        errorBodyTypeBorder: false,
       });
     });
   }
@@ -175,8 +220,52 @@ export class EditModelModalComponent {
     );
   }
 
+  getModelCategories() {
+    this._store.dispatch(modelCategoryActions.getModelCategoryList());
+    this.modelCategories$ = this._store
+      .select(modelCategorySelector.modelCategoryListData)
+      .pipe(
+        map((data) =>
+          data.map((x) => ({
+            name: x.type,
+            code: x.id,
+          }))
+        )
+      );
+  }
+
+  handleRemoveBodyType(bodyTypeIndex: number) {
+    const formValues = this.editModelFormGroup.getRawValue();
+    if (formValues.bodyTypeValues) {
+      formValues.bodyTypeValues.splice(bodyTypeIndex, 1);
+    }
+    this.editModelFormGroup?.setValue(formValues);
+  }
+
+  handleBodyType(val: any) {
+    if (val.value.trim()) {
+      const bodyTypeArr = [];
+      const formValues = this.editModelFormGroup.getRawValue();
+      if (!formValues.bodyTypeValues?.includes(val.value)) {
+        bodyTypeArr.push(val.value);
+        formValues.bodyTypeValues = [
+          ...(formValues.bodyTypeValues as string[]),
+          ...bodyTypeArr,
+        ];
+        this.editModelFormGroup.setValue(formValues);
+      }
+    }
+  }
+
+  getBodyTypeValues() {
+    return this.editModelFormGroup.get('bodyTypeValues')?.getRawValue();
+  }
+
   ngOnInit() {
     this.setForm();
     this.getMakesList();
+    this.getModelCategories();
+    this.makeSelectDefault();
+    this.bodyTypeDefault();
   }
 }

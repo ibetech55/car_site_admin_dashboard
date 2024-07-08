@@ -47,7 +47,9 @@ export class ViewModelsComponent {
   verifyMakesResponse$!: Subscription;
   textSelectAll = true;
   selectAllSub = new Subscription();
-  filterData: IModelFilterForm = {};
+  filterData: IModelFilterForm = {
+    bodyType: []
+  };
   init = true;
   sortFields: ISortField[] = [];
   exportData: IExportModelsData = {};
@@ -57,7 +59,10 @@ export class ViewModelsComponent {
   };
   exportTypeText = 'exportAll';
   exportSub!: Subscription;
-  query!:any;
+  query!: any;
+  bodyTypeText = {
+    text:''
+  };
 
   openStatusDialog(event: Event, requestType: string) {
     if (this.idsData.length > 0) {
@@ -133,7 +138,11 @@ export class ViewModelsComponent {
 
   resetFilters() {
     this.init = true;
-    this.filterData = {};
+    this.filterData = {
+      bodyType: []
+    };
+    this.bodyTypeText.text = 'fffff';
+
     this._handleResetPagination.execute(
       this._renderer,
       this._element,
@@ -143,7 +152,10 @@ export class ViewModelsComponent {
   }
 
   getModels(event?: TableLazyLoadEvent) {
-    let {query} = this._handleQuery.execute({ filter: this.filterData, event });
+    let { query } = this._handleQuery.execute({
+      filter: this.filterData,
+      event,
+    });
     this.query = query;
     if (this.init && Object.keys(this.filterData).length === 0) {
       query.orderBy = {};
@@ -201,7 +213,21 @@ export class ViewModelsComponent {
         }
       });
   }
-  
+
+  handleRemoveBodyType(bodyTypeIndex: number) {
+    if (this.filterData.bodyType) {
+      const arr = [...this.filterData.bodyType];
+      arr.splice(bodyTypeIndex, 1);
+      this.filterData.bodyType = [...arr];
+    }
+  }
+
+  handleBodyType(val: any) {
+    if (val.value.trim() && !this.filterData.bodyType.includes(val.value)) {
+      this.filterData.bodyType = [...this.filterData.bodyType, val.value];
+    }
+  }
+
   ngOnInit() {
     this.getModels();
   }

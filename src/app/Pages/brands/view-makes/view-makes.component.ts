@@ -201,7 +201,7 @@ export class ViewMakesComponent {
 
   ngOnDestroy() {
     this.verifyMakesResponseSub?.unsubscribe();
-    this.selectAllSub.unsubscribe();
-    this.exportSub.unsubscribe();
+    this.selectAllSub?.unsubscribe();
+    this.exportSub?.unsubscribe();
   }
 }

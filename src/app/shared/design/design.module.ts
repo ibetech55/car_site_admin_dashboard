@@ -1,4 +1,4 @@
-import { NgModule, Renderer2 } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -15,6 +15,8 @@ import { ConfirmationService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
 import { CalendarModule } from 'primeng/calendar';
 import { PaginatorModule } from 'primeng/paginator';
+import { ChipsModule } from 'primeng/chips';
+
 @NgModule({
   imports: [
     ToastModule,
@@ -32,6 +34,7 @@ import { PaginatorModule } from 'primeng/paginator';
     AccordionModule,
     CalendarModule,
     PaginatorModule,
+    ChipsModule
   ],
   exports: [
     ToastModule,
@@ -47,6 +50,7 @@ import { PaginatorModule } from 'primeng/paginator';
     AccordionModule,
     CalendarModule,
     PaginatorModule,
+    ChipsModule
   ],
   providers: [ConfirmationService],
 })

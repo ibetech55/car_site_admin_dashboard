@@ -6,6 +6,8 @@ import { IAppState } from '../../../../../Store/app.state';
 import { makeActions } from '../../../../../Store/Make/make.action';
 import { makeSelector } from '../../../../../Store/Make/make.selector';
 import { Observable, map } from 'rxjs';
+import { modelCategoryActions } from '../../../../../Store/ModelCategory/model.category.action';
+import { modelCategorySelector } from '../../../../../Store/ModelCategory/model.category.selector';
 
 @Component({
   selector: 'app-view-models-filters',
@@ -20,7 +22,11 @@ export class ViewModelsFiltersComponent {
   @Input() filterData!: IModelFilterForm;
   @Input() handleFilter!: () => void;
   @Input() resetFilters!: () => void;
+  @Input() handleRemoveBodyType!: (bodyTypeIndex: number) => void;
+  @Input() handleBodyType!: (value: any) => void;
+  @Input() bodyTypeText!: {text:string};
   makeList$: Observable<ISelect[]> = new Observable<ISelect[]>();
+  modelCategories$ = new Observable<ISelect[]>();
 
   statusOptions: ISelect[] = [
     { name: 'Active', code: true },
@@ -39,7 +45,22 @@ export class ViewModelsFiltersComponent {
     );
   }
 
-  ngOnInit(){
-    this.getMakes()
+  getModelCategories() {
+    this._store.dispatch(modelCategoryActions.getModelCategoryList());
+    this.modelCategories$ = this._store
+      .select(modelCategorySelector.modelCategoryListData)
+      .pipe(
+        map((data) =>
+          data.map((x) => ({
+            name: x.type,
+            code: x.id,
+          }))
+        )
+      );
+  }
+
+  ngOnInit() {
+    this.getMakes();
+    this.getModelCategories();
   }
 }

@@ -35,6 +35,7 @@ export interface IGetModelById {
   createdAt: string | Date;
   updatedAt: string | Date;
   yearFounded: number;
+  bodyType: string;
 }
 
 export interface IModelFilter {
@@ -43,7 +44,7 @@ export interface IModelFilter {
   makeName?: string;
   startDate?: string;
   endDate?: string;
-  bodyStyle?: string;
+  bodyType?: string;
 }
 
 export interface IModelFilterForm {
@@ -52,7 +53,7 @@ export interface IModelFilterForm {
   makeName?: string;
   startDate?: string;
   endDate?: string;
-  bodyStyle?: string;
+  bodyType: string[];
 }
 
 export interface IModelOrderBy {
@@ -61,7 +62,7 @@ export interface IModelOrderBy {
   createdAt?: string;
   origin?: string;
   active?: string;
-  bodyStyle?: string;
+  bodyType?: string;
 }
 
 export interface IExportModelsData {
@@ -72,4 +73,5 @@ export interface IExportModelsData {
   createdAt?: string;
   yearFounded?: string;
   updatedAt?: string;
+  bodyType?: string;
 }

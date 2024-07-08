@@ -12,14 +12,18 @@ interface IMap {
 export class HandleQuery {
   constructor(private _handleSQLDate: HandleSQLDate) {}
   sortFields: ISortField[] = [];
-  execute(params: { filter: any; event?: TableLazyLoadEvent, reset?:boolean }) {
+  execute(params: {
+    filter: any;
+    event?: TableLazyLoadEvent;
+    reset?: boolean;
+  }) {
     let skip: number = 0;
     let page = 0;
     let rows: number = 0;
     const { event, filter, reset } = params;
 
-    if(reset) {
-      this.sortFields = []
+    if (reset) {
+      this.sortFields = [];
     }
     if (event) {
       skip = event?.first as number;
@@ -57,19 +61,23 @@ export class HandleQuery {
         key !== 'startDate' &&
         key !== 'endDate'
       ) {
-        filterData.where[key] = filter[key];
+        if (Array.isArray(filter[key]) && filter[key].length === 0) {
+          delete filterData.where[key];
+        } else {
+          filterData.where[key] = filter[key];
+        }
       } else {
         filterData.where[key] = this._handleSQLDate.execute(
           filter[key].toISOString()
         );
       }
     });
-  return {
-    query:{
-      ...filterData,
-      page: page ? page : 1,
-      limit: rows ? rows : 20,
-    },
-  };
+    return {
+      query: {
+        ...filterData,
+        page: page ? page : 1,
+        limit: rows ? rows : 20,
+      },
+    };
   }
 }

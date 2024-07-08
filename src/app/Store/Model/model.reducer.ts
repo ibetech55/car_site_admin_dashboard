@@ -109,6 +109,7 @@ export const modelReducer = createReducer(
         createdAt: '',
         updatedAt: '',
         yearFounded: 0,
+        bodyType: '',
         make: {
           makeName: '',
         },
