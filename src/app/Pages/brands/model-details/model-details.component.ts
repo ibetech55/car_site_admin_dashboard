@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -7,6 +7,7 @@ import { modelActions } from '../../../Store/Model/model.action';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { IGetModelById } from '../../../Data/Brand/Model/GetModel';
 import { modelSelector } from '../../../Store/Model/model.selector';
+import { EditModelModalComponent } from './components/edit-model-modal/edit-model-modal.component';
 
 @Component({
   selector: 'app-model-details',
@@ -15,6 +16,7 @@ import { modelSelector } from '../../../Store/Model/model.selector';
   providers: [ConfirmationService, MessageService],
 })
 export class ModelDetailsComponent {
+
   constructor(
     private _router: ActivatedRoute,
     private _store: Store<IAppState>,

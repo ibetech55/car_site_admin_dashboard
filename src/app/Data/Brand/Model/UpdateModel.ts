@@ -1,6 +1,7 @@
 export interface IEditModel {
     modelName?: string;
     makeId?: string;
-    yearFounded?: string;
+    yearFounded?: number;
+    bodyType?: string[];
     active?: boolean;
 }

@@ -22,7 +22,8 @@ export const ModelState: IModelModel = {
     },
     createdAt: '',
     updatedAt: '',
-    yearFounded: 0
+    yearFounded: 0,
+    bodyType: ''
   },
   editModelResponse: false,
   editModelError: '',

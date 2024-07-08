@@ -5,23 +5,37 @@
   (onHide)="closeDialog()"
   (onSubmit)="confirmModal()"
 >
-  <p class="error-text medium-text" *ngIf="editError$ | async as editError">{{ editError }}</p>
+  <p class="error-text medium-text" *ngIf="editError$ | async as editError">
+    {{ editError }}
+  </p>
   <form [formGroup]="editModelFormGroup">
-    <app-input label="Model name" name="modelName" [error]="editModelFormGroup.get('errorModelName')?.getRawValue()">
+    <app-input
+      label="Model name"
+      name="modelName"
+      [error]="editModelFormGroup.get('errorModelName')?.getRawValue()"
+    >
       <input
         pInputText
         id="modelName"
         aria-describedby="username-help"
         class="p-inputtext-sm form-input-margin-b"
         formControlName="modelName"
-        [ngClass]="{ errorBorder: editModelFormGroup.get('errorModelNameBorder')?.getRawValue()}"
+        [ngClass]="{
+          errorBorder: editModelFormGroup
+            .get('errorModelNameBorder')
+            ?.getRawValue()
+        }"
       />
     </app-input>
     <div
       *ngIf="makesList$ | async as makesList; else nomakeslsit"
       [ngStyle]="{ marginBottom: '1rem' }"
     >
-      <app-input label="Makes" name="make" [error]="editModelFormGroup.get('errorMake')?.getRawValue()">
+      <app-input
+        label="Makes"
+        name="make"
+        [error]="editModelFormGroup.get('errorMake')?.getRawValue()"
+      >
         <p-dropdown
           name="make"
           [id]="'makeselect'"
@@ -61,6 +75,31 @@
         formControlName="yearFounded"
       />
     </app-input>
+    <div>
+      <app-input
+        label="Body Style"
+        name="bodyType"
+        [error]="editModelFormGroup.get('errorBodyType')?.getRawValue()"
+        *ngIf="modelCategories$ | async as modelCategories"
+      >
+        <p-dropdown
+          [id]="'bodytypeeditmodal'"
+          name="bodyType"
+          [options]="modelCategories"
+          optionLabel="name"
+          optionValue="name"
+          [showClear]="true"
+          [editable]="false"
+          placeholder="Select a Body Style"
+          (onChange)="handleBodyType($event)"
+          formControlName="bodyType"
+        ></p-dropdown>
+        <div class="create-model-form__body-style-list">
+          <app-chip-list [items]="getBodyTypeValues()" (removeItemEmit)="handleRemoveBodyType($event)"></app-chip-list>
+        </div>
+      </app-input>
+    </div>
+
     <app-input label="Status" name="active" [isCheckBox]="true">
       <p-checkbox
         [binary]="true"

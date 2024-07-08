@@ -1,0 +1,18 @@
+.chip-list {
+    font-size: 14px;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.5rem;
+      i{
+        color: red;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        background-color: #cecece;
+      }
+    }
+}

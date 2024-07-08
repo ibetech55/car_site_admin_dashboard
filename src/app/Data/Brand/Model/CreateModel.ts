@@ -10,6 +10,7 @@ export interface ICreateModel {
   makeId: string;
   modelCategoryId: string;
   yearFounded: number;
+  bodyType: string[]
 }
 
 export interface IMultipleModelErrors {

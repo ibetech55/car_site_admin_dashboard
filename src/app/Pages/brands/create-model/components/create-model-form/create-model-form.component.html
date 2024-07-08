@@ -16,10 +16,10 @@
 
 <form [formGroup]="modelFormGroup" (ngSubmit)="handleSubmit()">
   <div formArrayName="modelForms">
-    <p class="error-text medium-text">{{error$ | async}}</p>
+    <p class="error-text medium-text">{{ error$ | async }}</p>
     <div
-      *ngFor="let item of modelForms.controls; let i = index"
-      [formGroupName]="i"
+      *ngFor="let item of modelForms.controls; let formIndex = index"
+      [formGroupName]="formIndex"
       class="create-model-form__content"
     >
       <p-card>
@@ -58,7 +58,7 @@
             *ngIf="makeList$ | async as makeList"
           >
             <p-dropdown
-              [id]="'selectmake' + i.toString()"
+              [id]="'selectmake' + formIndex.toString()"
               name="make"
               [options]="makeList"
               optionLabel="name"
@@ -69,27 +69,37 @@
               formControlName="makeId"
             ></p-dropdown>
           </app-input>
-          <app-input
-            label="Body Style"
-            name="modelCategoryId"
-            [error]="item.value.errorModelCategory"
-            *ngIf="modelCategories$ | async as modelCategories"
-          >
-            <p-dropdown
-              [id]="'modelcategory' + i.toString()"
-              name="modelCategoryId"
-              [options]="modelCategories"
-              optionLabel="name"
-              optionValue="code"
-              [showClear]="true"
-              [editable]="false"
-              placeholder="Select a Body Style"
-              formControlName="modelCategoryId"
-            ></p-dropdown>
-          </app-input>
+          <div class="body-style">
+            <app-input
+              label="Body Style"
+              name="bodyType"
+              [error]="item.value.errorBodyType"
+              *ngIf="modelCategories$ | async as modelCategories"
+            >
+              <p-dropdown
+                [id]="'modelcategory' + formIndex.toString()"
+                name="bodyType"
+                [options]="modelCategories"
+                optionLabel="name"
+                optionValue="name"
+                [showClear]="true"
+                [editable]="false"
+                placeholder="Select a Body Style"
+                (onChange)="handleBodyType($event, formIndex)"
+                formControlName="bodyType"
+              ></p-dropdown>
+            </app-input>
+            <div class="create-model-form__body-style-list">
+              <app-chip-list [items]="item.value.bodyTypeValues" (removeItemEmit)="handleRemoveBodyType(formIndex, $event)"></app-chip-list>
+            </div>
+          </div>
         </div>
         <div class="align-right create-model-form__remove-btn">
-          <app-button label="Remove" color="danger" (click)="Removeitem(i)">
+          <app-button
+            label="Remove"
+            color="danger"
+            (click)="Removeitem(formIndex)"
+          >
           </app-button>
         </div>
       </p-card>
@@ -105,4 +115,3 @@
   </div>
 </form>
 <p-toast></p-toast>
-
