@@ -157,10 +157,13 @@ export class ViewModelsComponent {
       event,
     });
     this.query = query;
-    if (this.init && Object.keys(this.filterData).length === 0) {
+    if (this.init) {
       query.orderBy = {};
       query.orderBy['modelName'] = 'asc';
       this.init = false;
+    }
+    if(Object.keys(query.orderBy).length === 0){
+      query.orderBy['modelName'] = 'asc';
     }
     this._store.dispatch(
       modelActions.getModels({

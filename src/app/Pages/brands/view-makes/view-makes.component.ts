@@ -131,6 +131,9 @@ export class ViewMakesComponent {
       query.orderBy['makeName'] = 'asc';
       this.init = false;
     }
+    if(Object.keys(query.orderBy).length === 0){
+      query.orderBy['makeName'] = 'asc';
+    }
     this._store.dispatch(
       makeActions.loadMakes({
         filter: {

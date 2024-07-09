@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivePipe } from './active.pipe/active.pipe';
 import { FormatDatePipe } from './format.date/format.date.pipe';
 import { DeepCopyPipe } from './deep.copy.pipe/deep.copy.pipe';
+import { StringSeperatorPipe } from './string-seperator.pipe';
 
 
 
@@ -10,7 +11,8 @@ import { DeepCopyPipe } from './deep.copy.pipe/deep.copy.pipe';
   declarations: [
     ActivePipe,
     FormatDatePipe,
-    DeepCopyPipe
+    DeepCopyPipe,
+    StringSeperatorPipe
   ],
   imports: [
     CommonModule
@@ -18,7 +20,8 @@ import { DeepCopyPipe } from './deep.copy.pipe/deep.copy.pipe';
   exports:[
     ActivePipe,
     FormatDatePipe,
-    DeepCopyPipe
+    DeepCopyPipe,
+    StringSeperatorPipe
   ]
 })
 export class PipesModule { }

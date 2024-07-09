@@ -7,12 +7,16 @@
             {{ modelData.modelName }}
           </p>
           <p>
-            <span class="dark-label bold-text">Status:</span>
-            {{ modelData.active | active }}
-          </p>
-          <p>
             <span class="dark-label bold-text">Make Name:</span>
             {{ modelData.make.makeName }}
+          </p>
+          <p>
+            <span class="dark-label bold-text">Body Style:</span>
+            {{ modelData.bodyType | stringSeperator }}
+          </p>
+          <p>
+            <span class="dark-label bold-text">Status:</span>
+            {{ modelData.active | active }}
           </p>
           <p *ngIf="modelData.yearFounded">
             <span class="dark-label bold-text">Year Founded: </span>

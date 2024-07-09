@@ -106,3 +106,11 @@ span.p-button-label, span.p-button-icon{
     padding: 0.4375rem 0.4375rem;
   }
 }
+
+/* Custom class for opening the dropdown upwards */
+.dropdown-up .p-dropdown-panel {
+  transform: translateY(-100%);
+  bottom: 100%;
+  top: auto !important;
+}
+

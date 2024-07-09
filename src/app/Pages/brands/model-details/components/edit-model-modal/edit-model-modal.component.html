@@ -4,6 +4,7 @@
   title="Edit Model"
   (onHide)="closeDialog()"
   (onSubmit)="confirmModal()"
+  class="edit-model-modal"
 >
   <p class="error-text medium-text" *ngIf="editError$ | async as editError">
     {{ editError }}
@@ -93,8 +94,9 @@
           placeholder="Select a Body Style"
           (onChange)="handleBodyType($event)"
           formControlName="bodyType"
+          [ngClass]="{'dropdown-up': true}"
         ></p-dropdown>
-        <div class="create-model-form__body-style-list">
+        <div class="edit-model-modal__body-type-list">
           <app-chip-list [items]="getBodyTypeValues()" (removeItemEmit)="handleRemoveBodyType($event)"></app-chip-list>
         </div>
       </app-input>
