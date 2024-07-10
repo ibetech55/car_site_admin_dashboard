@@ -141,7 +141,7 @@ export class ViewModelsComponent {
     this.filterData = {
       bodyType: []
     };
-    this.bodyTypeText.text = 'fffff';
+    this.bodyTypeText.text = '';
 
     this._handleResetPagination.execute(
       this._renderer,

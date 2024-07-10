@@ -56,7 +56,6 @@ export class HandleQuery {
 
     Object.keys(filter).map((key) => {
       if (
-        filter[key] &&
         filterData.where &&
         key !== 'startDate' &&
         key !== 'endDate'

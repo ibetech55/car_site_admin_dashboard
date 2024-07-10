@@ -3,6 +3,7 @@ export interface IGetModelByMakeId {
   modelName: string;
   makeId: string;
   active: boolean;
+  bodyType:string;
   makes: {
     makeName: string;
   };

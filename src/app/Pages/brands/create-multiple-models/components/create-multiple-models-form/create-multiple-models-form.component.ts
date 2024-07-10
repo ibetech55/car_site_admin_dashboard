@@ -28,7 +28,7 @@ export class CreateMultipleModelsFormComponent {
     modelCategoryError: '',
     columnError: '',
   };
-   _createMultipleModelsResponseSub = new Subscription;
+  _createMultipleModelsResponseSub = new Subscription();
   private _errorMultipleModelsResponseSub!: Subscription;
 
   constructor(
@@ -47,9 +47,12 @@ export class CreateMultipleModelsFormComponent {
     this.fileSelected = undefined;
     this.errorText = '';
     this.errors = {};
+    this.loadingChange.emit(false);
   }
 
   removeErrors() {
+    this.loadingChange.emit(false);
+
     setTimeout(() => {
       this.errorText = '';
       this.errors = {};
@@ -76,7 +79,6 @@ export class CreateMultipleModelsFormComponent {
             });
             this.clearForm();
             this._createMultipleModelsResponseSub.unsubscribe();
-
           }
         });
 
@@ -90,13 +92,13 @@ export class CreateMultipleModelsFormComponent {
             this.errors.columnError = data.columnError;
             this.removeErrors();
           }
+
           this._errorMultipleModelsResponseSub.unsubscribe();
         });
     } else {
       this.errorText = 'Please select an .xlsx file';
       this.removeErrors();
     }
-    this.loadingChange.emit(false);
   }
 
   downloadTemplate() {
@@ -112,6 +114,6 @@ export class CreateMultipleModelsFormComponent {
   }
 
   ngOnInit() {
-    this.templateSub.unsubscribe();
+    this.templateSub?.unsubscribe();
   }
 }
